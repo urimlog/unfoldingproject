@@ -954,7 +954,12 @@ async function updateFinal() {
     <p style="font-size:14px;color:var(--text-tertiary);">동사를 분석하는 중이에요...</p>
   </div>`;
 
-  const analysis = await analyzeWithClaude(allVerbs, tendencyKeywords, direction);
+  let analysis = null;
+  try {
+    analysis = await analyzeWithClaude(allVerbs, tendencyKeywords, direction);
+  } catch(e) {
+    console.warn('분석 API 실패, 기본 추천으로 대체:', e);
+  }
 
   const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
   const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
@@ -1210,11 +1215,27 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 async function downloadSummary() {
   const btn = document.getElementById('btn-summary');
   const orig = btn.innerHTML;
-  btn.textContent = '분석 중...'; btn.disabled = true;
+  btn.textContent = '저장 중...'; btn.disabled = true;
 
   try {
-    const data = await collectData();
-    btn.textContent = '저장 중...';
+    // API 재호출 없이 캐시된 분석 결과 사용
+    const tendencyKws = [...new Set(Object.values(answers).map(a=>a.keyword))];
+    const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
+    const items22 = [...new Set([...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean))];
+    const direction = document.getElementById('direction-input').value.trim();
+    const recs = getRecommendations();
+    const sigData = buildSignalData(allVerbs);
+    const data = {
+      tendencyKws,
+      selected: [...new Set(selected)],
+      allVerbs,
+      items22,
+      direction,
+      recs,
+      sigData,
+      analysis: analysisCache,
+      date: getDateStr()
+    };
 
     const wrap = document.getElementById('result-card');
     wrap.innerHTML = buildResultCardHTML(data);
