@@ -1075,7 +1075,7 @@ function getRecommendations() {
   if (pool.length === 0)
     pool.push({label:"탐색 진행 중", title:"아직 더 많은 신호가 필요해요", desc:"동사와 하고 싶은 것, 이키가이를 더 채워보세요. 정보가 쌓일수록 방향이 선명해집니다."});
 
-  return pool.slice(0, 3);
+  return pool.slice(0, 6);
 }
 
 function analyzeVerbs(verbs) {
@@ -1277,21 +1277,60 @@ function updateFinal() {
   if (matches.length > 0) {
     html += `<div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;">
       <p style="font-size:11px;letter-spacing:0.08em;color:var(--text-tertiary);text-transform:uppercase;margin-bottom:0.75rem;">동사 × 하고 싶은 것 — 일치하는 지점</p>
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.6;">동사로 고른 것과 하고 싶은 것 사이에서 겹치는 지점을 찾았어요. 이 교차점이 가장 강한 신호예요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.6;">동사로 고른 것과 하고 싶은 것 사이에서 겹치는 지점이에요. 이 교차점이 가장 강한 신호예요.</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
         ${matches.map(m => `
-          <div style="display:flex;align-items:center;gap:0.4rem;background:var(--accent-light);border-radius:var(--radius-md);padding:0.5rem 0.75rem;">
-            <span style="font-size:11px;color:var(--accent-dark);font-weight:500;">◎</span>
+          <div style="display:flex;align-items:center;gap:0.4rem;background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius-md);padding:0.45rem 0.75rem;">
+            <span style="font-size:11px;color:var(--accent);font-weight:600;">◎</span>
             <span style="font-size:13px;color:var(--text-primary);font-weight:500;">${m.item}</span>
-            <span style="font-size:11px;color:var(--accent-dark);">← ${m.verb}</span>
+            <span style="font-size:11px;color:var(--text-tertiary);">← ${m.verb}</span>
           </div>`).join('')}
       </div>
     </div>`;
+  } else if (wishItems && wishItems.length === 0) {
+    html += `<div style="background:var(--bg);border:0.5px dashed var(--border-mid);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;">
+      <p style="font-size:13px;color:var(--text-tertiary);text-align:center;">파트 08에서 하고 싶은 것을 채우면<br>동사와 겹치는 지점을 찾아드려요</p>
+    </div>`;
   }
 
-  const recs = getRecommendations();
+  // 추천 — 3개를 다양한 각도로 (같은 방향 중복 방지)
+  const allRecs = getRecommendations();
+  // 첫 번째: 가장 잘 맞는 것
+  // 두 번째: 다른 카테고리에서
+  // 세 번째: 수익/활동 방식이 다른 것
+  const diversified = [];
+  const usedLabels = new Set();
+  // 창작/기록/탐구 계열 분리
+  const groups = {
+    창작: ['창작 집중형','비주얼 스토리텔러형','창작 + 연결형','언어·서사형','프로듀서·기획형'],
+    기록: ['기록·아카이브형','탐험·기록형','비평·평론형'],
+    연결: ['관계·영향형','교육·워크숍형','퍼포먼스·강연형','리더십·조직형','돌봄·치유형'],
+    전략: ['전략·기획형','탐구·연구형','구현·개발형','창업·실행형','전략·분석형'],
+    라이프: ['자연·생태형','수공예·공예형','푸드·요리형','뷰티·스타일링형','스포츠·피트니스형','브랜드·커머스형']
+  };
+
+  // 첫 번째 추천 그대로
+  if (allRecs[0]) { diversified.push(allRecs[0]); usedLabels.add(allRecs[0].label); }
+
+  // 두 번째: 다른 그룹에서 선택
+  if (allRecs.length > 1) {
+    const firstGroup = Object.keys(groups).find(g => groups[g].includes(allRecs[0]?.label));
+    const second = allRecs.find(r => {
+      const g = Object.keys(groups).find(gr => groups[gr].includes(r.label));
+      return !usedLabels.has(r.label) && g !== firstGroup;
+    }) || allRecs.find(r => !usedLabels.has(r.label));
+    if (second) { diversified.push(second); usedLabels.add(second.label); }
+  }
+
+  // 세 번째: 남은 것 중 다른 그룹 또는 라이프스타일 계열
+  const allRecsExtended = getRecommendations();
+  const third = allRecsExtended.find(r => !usedLabels.has(r.label));
+  if (third) diversified.push(third);
+
   html += `<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향</p>`;
-  recs.forEach(r => { html += `<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`; });
+  (diversified.length > 0 ? diversified : allRecs).forEach(r => {
+    html += `<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`;
+  });
   html += '</div>';
 
   finalArea.innerHTML = html;
