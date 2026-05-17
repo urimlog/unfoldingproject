@@ -502,55 +502,67 @@ body {
 
   <hr class="divider">
 
-  <!-- Part 07 -->
+  <!-- Part 07 이키가이 입력 -->
   <div class="section">
     <p class="section-label">Part 07</p>
-    <h2 class="section-title">요즘 가장 관심있는 주제</h2>
-    <p class="section-desc">지금 이 순간 끌리는 것, 자꾸 찾아보게 되는 것, 마음이 가는 것을 적어보세요. 거창하지 않아도 괜찮아요.</p>
-    <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <div style="display:flex;align-items:center;gap:0.75rem;border-bottom:0.5px solid var(--border-mid);padding:0.65rem 0.25rem;">
-        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;">1</span>
-        <input class="num-input" id="interest-1" placeholder="예) 사진, 독립 출판, 브랜딩, 요리, 심리학..." style="font-size:14px;" />
+    <h2 class="section-title">이키가이 — 나를 움직이는 4가지</h2>
+    <p class="section-desc">이키가이(生き甲斐)는 "살아가는 이유"를 뜻해요. 아래 4가지를 솔직하게 적어보세요. 정답은 없어요.</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#1D9E75;flex-shrink:0;"></div>
+          <p style="font-size:13px;font-weight:500;color:var(--text-primary);">내가 좋아하는 것</p>
+          <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">시키지 않아도 하게 되는 것</p>
+        </div>
+        <textarea id="ik-love" class="test-textarea" placeholder="예) 기록하기, 사진 찍기, 새로운 공간 탐험하기..." style="min-height:60px;"></textarea>
       </div>
-      <div style="display:flex;align-items:center;gap:0.75rem;border-bottom:0.5px solid var(--border-mid);padding:0.65rem 0.25rem;">
-        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;">2</span>
-        <input class="num-input" id="interest-2" placeholder="" style="font-size:14px;" />
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#3C3489;flex-shrink:0;"></div>
+          <p style="font-size:13px;font-weight:500;color:var(--text-primary);">내가 잘하는 것</p>
+          <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">남들이 나에게 자주 부탁하는 것</p>
+        </div>
+        <textarea id="ik-good" class="test-textarea" placeholder="예) 글 정리하기, 분위기 파악하기, 디자인 감각..." style="min-height:60px;"></textarea>
       </div>
-      <div style="display:flex;align-items:center;gap:0.75rem;border-bottom:0.5px solid var(--border-mid);padding:0.65rem 0.25rem;">
-        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;">3</span>
-        <input class="num-input" id="interest-3" placeholder="" style="font-size:14px;" />
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#185FA5;flex-shrink:0;"></div>
+          <p style="font-size:13px;font-weight:500;color:var(--text-primary);">세상이 필요로 하는 것</p>
+          <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">내가 기여할 수 있는 것</p>
+        </div>
+        <textarea id="ik-world" class="test-textarea" placeholder="예) 사람들이 자신을 표현하도록 돕기, 공간을 더 아름답게..." style="min-height:60px;"></textarea>
+      </div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#854F0B;flex-shrink:0;"></div>
+          <p style="font-size:13px;font-weight:500;color:var(--text-primary);">돈이 될 수 있는 것</p>
+          <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">수익으로 연결 가능한 것</p>
+        </div>
+        <textarea id="ik-money" class="test-textarea" placeholder="예) 사진 촬영 의뢰, 글쓰기 강의, 브랜딩 컨설팅..." style="min-height:60px;"></textarea>
       </div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <!-- Part 08 -->
+  <!-- Part 08 이키가이 다이어그램 -->
   <div class="section">
     <p class="section-label">Part 08</p>
-    <h2 class="section-title">내가 하고 싶은 것 적기</h2>
-    <p class="section-desc">내가 좋아하는 것 = 흥미. 생각나는 대로 자유롭게 적어보세요.</p>
-    <div class="numbered-grid">
-      <div class="num-col" id="col1"></div>
-      <div class="num-col" id="col2"></div>
+    <h2 class="section-title">이키가이 — 나의 균형 지도</h2>
+    <p class="section-desc">위에 적은 4가지가 겹치는 지점에 이키가이가 있어요. 입력할수록 선명해져요.</p>
+    <div id="ikigai-diagram"><div class="summary-empty">파트 07을 채우면 여기에 이키가이 지도가 그려집니다</div></div>
+
+    <div style="margin-top:1.5rem;">
+      <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:0.75rem;">아직 탐색이 필요한 영역</p>
+      <div id="ikigai-balance"><div class="summary-empty" style="font-size:13px;">파트 07을 채우면 균형 체크 결과가 나타납니다</div></div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <!-- Part 09 -->
+  <!-- Part 09 최종 정리 -->
   <div class="section">
     <p class="section-label">Part 09</p>
-    <h2 class="section-title">내가 추구하는 것 — 나만의 방향</h2>
-    <p class="section-desc">내가 궁극적으로 추구하는 가치, 삶의 방향, 되고 싶은 모습을 자유롭게 적어보세요.</p>
-    <textarea class="direction-textarea" id="direction-input" placeholder="자유롭게 적어보세요"></textarea>
-  </div>
-
-  <hr class="divider">
-
-  <!-- Part 10 -->
-  <div class="section">
-    <p class="section-label">Part 10</p>
     <h2 class="section-title">5가지 신호 — 최종 정리 & 추천</h2>
     <p class="section-desc">파트 3~8을 완성하면 나에게 어울리는 일의 방향을 추천해드려요.</p>
     <div id="final-area"><div class="final-empty">파트 3~8을 완성하면 최종 정리가 여기에 나타납니다</div></div>
@@ -558,7 +570,17 @@ body {
 
   <hr class="divider">
 
-  <!-- Part 11 -->
+  <!-- Part 10 나만의 방향 -->
+  <div class="section">
+    <p class="section-label">Part 10</p>
+    <h2 class="section-title">내가 추구하는 것 — 나만의 방향</h2>
+    <p class="section-desc">내가 궁극적으로 추구하는 가치, 삶의 방향, 되고 싶은 모습을 자유롭게 적어보세요.</p>
+    <textarea class="direction-textarea" id="direction-input" placeholder="자유롭게 적어보세요"></textarea>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 11 앞으로 시도해볼 것 -->
   <div class="section">
     <p class="section-label">Part 11</p>
     <h2 class="section-title">앞으로 시도해볼 것 3가지</h2>
@@ -1231,8 +1253,94 @@ function updateFinal() {
   html += '</div>';
 
   finalArea.innerHTML = html;
+  updateIkigai();
 }
-document.getElementById('direction-input').addEventListener('input', updateFinal);
+
+function updateIkigai() {
+  const love  = (document.getElementById('ik-love')  ? document.getElementById('ik-love').value  : '').trim();
+  const good  = (document.getElementById('ik-good')  ? document.getElementById('ik-good').value  : '').trim();
+  const world = (document.getElementById('ik-world') ? document.getElementById('ik-world').value : '').trim();
+  const money = (document.getElementById('ik-money') ? document.getElementById('ik-money').value : '').trim();
+
+  const diagramEl = document.getElementById('ikigai-diagram');
+  const balanceEl = document.getElementById('ikigai-balance');
+  if (!diagramEl) return;
+
+  const filled = [love, good, world, money].filter(Boolean).length;
+  const W = 300, H = 300, cx = W/2, cy = H/2;
+  const r = 90, dx = 48, dy = 38;
+
+  const circles = [
+    { label:'좋아하는 것',        val:love,  x:cx,    y:cy-dy,     color:'#1D9E75', bg:'rgba(29,158,117,0.15)' },
+    { label:'잘하는 것',          val:good,  x:cx+dx, y:cy+dy,     color:'#3C3489', bg:'rgba(60,52,137,0.15)'  },
+    { label:'돈이 되는 것',       val:money, x:cx-dx, y:cy+dy,     color:'#854F0B', bg:'rgba(133,79,11,0.15)'  },
+    { label:'세상에 필요한 것',   val:world, x:cx,    y:cy+dy*2.1, color:'#185FA5', bg:'rgba(24,95,165,0.15)'  },
+  ];
+
+  let svgCircles = '';
+  circles.forEach(function(c) {
+    svgCircles += '<circle cx="' + c.x + '" cy="' + c.y + '" r="' + r + '" fill="' + c.bg + '" stroke="' + c.color + '" stroke-width="1.5" opacity="0.9"/>';
+  });
+
+  let svgLabels = '';
+  circles.forEach(function(c) {
+    var preview = c.val ? c.val.slice(0,13) + (c.val.length > 13 ? '…' : '') : '';
+    svgLabels += '<text x="' + c.x + '" y="' + (c.y - 10) + '" text-anchor="middle" font-size="9" font-weight="600" fill="' + c.color + '" font-family="sans-serif">' + c.label + '</text>';
+    if (preview) {
+      svgLabels += '<text x="' + c.x + '" y="' + (c.y + 7) + '" text-anchor="middle" font-size="8" fill="' + c.color + '" opacity="0.85" font-family="sans-serif">' + preview + '</text>';
+    } else {
+      svgLabels += '<text x="' + c.x + '" y="' + (c.y + 7) + '" text-anchor="middle" font-size="7.5" fill="' + c.color + '" opacity="0.35" font-family="sans-serif">채워보세요</text>';
+    }
+  });
+
+  var centerY = cy + 28;
+  var centerLabel = filled === 4
+    ? '<circle cx="' + cx + '" cy="' + centerY + '" r="26" fill="white" stroke="#1D9E75" stroke-width="1.5"/><text x="' + cx + '" y="' + (centerY - 4) + '" text-anchor="middle" font-size="9" font-weight="700" fill="#0F6E56" font-family="sans-serif">이키가이</text><text x="' + cx + '" y="' + (centerY + 10) + '" text-anchor="middle" font-size="7" fill="#5a5a54" font-family="sans-serif">나만의 이유</text>'
+    : '<text x="' + cx + '" y="' + (centerY + 4) + '" text-anchor="middle" font-size="8" fill="#9a9a90" font-family="sans-serif">' + filled + '/4 채워짐</text>';
+
+  diagramEl.innerHTML = '<div style="display:flex;justify-content:center;">'
+    + '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:280px;" xmlns="http://www.w3.org/2000/svg">'
+    + svgCircles + svgLabels + centerLabel
+    + '</svg></div>'
+    + '<p style="font-size:11px;color:var(--text-tertiary);text-align:center;margin-top:0.5rem;">4가지가 겹치는 지점 = 이키가이</p>';
+
+  if (!balanceEl) return;
+
+  var areas = [
+    { key:love,  label:'좋아하는 것', color:'#1D9E75', q:['시키지 않아도 하게 되는 것이 있나요?','어릴 때부터 반복해서 했던 것은?'] },
+    { key:good,  label:'잘하는 것',   color:'#3C3489', q:['남들이 나에게 자주 부탁하는 것은?','힘들이지 않아도 잘 되는 일이 있나요?'] },
+    { key:world, label:'세상이 필요로 하는 것', color:'#185FA5', q:['내가 잘하는 것으로 누구를 도울 수 있을까요?','주변에서 반복적으로 보이는 문제는?'] },
+    { key:money, label:'돈이 되는 것', color:'#854F0B', q:['하고 싶은 것 중 사람들이 돈을 내는 형태가 있나요?','소규모로 먼저 테스트해볼 방법은?'] },
+  ];
+
+  var missing = areas.filter(function(a) { return !a.key; });
+
+  if (missing.length === 0) {
+    balanceEl.innerHTML = '<div style="text-align:center;padding:1rem;background:var(--accent-light);border-radius:var(--radius-md);"><p style="font-size:13px;color:var(--accent-dark);">4가지 영역이 모두 채워졌어요 🌿</p></div>';
+    return;
+  }
+
+  balanceEl.innerHTML = missing.map(function(m) {
+    return '<div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:0.6rem;">'
+      + '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">'
+      + '<div style="width:8px;height:8px;border-radius:50%;background:' + m.color + ';flex-shrink:0;"></div>'
+      + '<p style="font-size:13px;font-weight:500;color:var(--text-primary);">' + m.label + ' — 아직 비어있어요</p>'
+      + '</div>'
+      + '<div style="display:flex;flex-direction:column;gap:0.35rem;">'
+      + m.q.map(function(q) {
+          return '<div style="display:flex;gap:0.4rem;"><span style="font-size:12px;color:' + m.color + ';flex-shrink:0;">Q.</span><p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">' + q + '</p></div>';
+        }).join('')
+      + '</div></div>';
+  }).join('');
+}
+
+// 이키가이 실시간 업데이트
+['ik-love','ik-good','ik-world','ik-money'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateIkigai);
+});
+
+
 
 // ── 날짜 ──
 function getDateStr() {
@@ -1312,11 +1420,22 @@ function buildResultCardHTML(data) {
   let html = `<div style="font-family:'Noto Sans KR',sans-serif;font-weight:300;background:#faf9f7;padding:48px;width:720px;color:#1a1a18;line-height:1.7;">`;
 
   // 헤더
-  html += `<div style="margin-bottom:32px;padding-bottom:20px;border-bottom:0.5px solid rgba(0,0,0,0.12);">
+  html += `<div style="margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid rgba(0,0,0,0.12);">
     <p style="font-size:10px;letter-spacing:0.15em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">나를 찾는 여정</p>
     <p style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:400;color:#1a1a18;margin-bottom:4px;">좋아하는 일을 찾기 위한 워크북</p>
     <p style="font-size:12px;color:#9a9a90;">작성일 ${data.date}</p>
   </div>`;
+
+  // 핵심 키워드
+  const coreKws = extractCoreKeyword();
+  if (coreKws.length > 0) {
+    html += `<div style="text-align:center;padding:20px;margin-bottom:24px;background:#f4f4f2;border-radius:12px;">
+      <p style="font-size:10px;letter-spacing:0.13em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나를 관통하는 핵심 키워드</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+        ${coreKws.map((kw, i) => `<span style="font-size:${i===0?'26px':i===1?'19px':'14px'};font-weight:500;color:#1a1a18;opacity:${i===0?1:i===1?0.65:0.4};">${kw}</span>${i<coreKws.length-1?'<span style="color:#ccc;">·</span>':''}`).join('')}
+      </div>
+    </div>`;
+  }
 
   // 성향 키워드
   if (uniqueKws.length) {
@@ -1334,31 +1453,37 @@ function buildResultCardHTML(data) {
     </div>`;
   }
 
-  // 5가지 신호 — 분석 문장 or 동사 기반 fallback
+  // 5가지 신호 — 분석 문장
   const signals = ['흥미','행복','열정','재능','강점'];
   const SC2 = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
   const TC2 = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
-
-  // 동사 기반 fallback 문장
   const verbAnalysis = analyzeVerbs(uniqueSelected);
-  const fallbackText = {
-    흥미: verbAnalysis.흥미,
-    행복: verbAnalysis.행복,
-    열정: verbAnalysis.열정,
-    재능: verbAnalysis.재능,
-    강점: verbAnalysis.강점,
-  };
 
   html += `<div style="margin-bottom:24px;">
     <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">5가지 신호</p>
     ${signals.map(s => {
-      const text = (data.analysis?.[s]) || fallbackText[s] || '—';
-      return `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+      const text = verbAnalysis[s] || '—';
+      return `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;">
         <div style="min-width:36px;height:36px;border-radius:50%;background:${SC2[s]};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:${TC2[s]};flex-shrink:0;">${s}</div>
-        <p style="font-size:12px;color:#5a5a54;line-height:1.7;padding-top:8px;">${text}</p>
+        <p style="font-size:12px;color:#5a5a54;line-height:1.75;padding-top:8px;">${text}</p>
       </div>`;
     }).join('')}
   </div>`;
+
+  // 동사 × 하고 싶은 것 교차 분석
+  const cardMatches = findCrossMatches();
+  if (cardMatches.length > 0) {
+    html += `<div style="margin-bottom:24px;background:#f4f4f2;border-radius:12px;padding:16px 18px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:10px;">동사 × 하고 싶은 것 — 일치하는 지점</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        ${cardMatches.map(m => `
+          <div style="display:flex;align-items:center;gap:6px;background:#E1F5EE;border-radius:8px;padding:6px 12px;">
+            <span style="font-size:12px;color:#0F6E56;">◎</span>
+            <span style="font-size:12px;color:#1a1a18;font-weight:500;">${m.item}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
 
   // 추천 방향
   const recText = data.analysis?.추천;
@@ -1625,6 +1750,7 @@ function restoreFromLocal() {
 // 모든 input/textarea에 자동저장 이벤트 등록 (동적 생성 포함 → 이벤트 위임)
 document.addEventListener('input', e => {
   if (e.target.matches('input, textarea')) scheduleSave();
+  if (e.target.matches('.num-input')) updateIkigai();
 });
 document.addEventListener('click', e => {
   if (e.target.matches('.verb-chip, .test-opt')) scheduleSave();
