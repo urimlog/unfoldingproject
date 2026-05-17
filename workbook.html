@@ -924,26 +924,62 @@ function getRecommendations() {
 }
 
 
+function analyzeVerbs(verbs) {
+  const has = (...kws) => kws.some(k => verbs.some(v => v.includes(k)));
+
+  // 흥미 — 무엇에 끌리는가
+  let 흥미 = '';
+  if (has('탐험','여행','발견','관찰')) 흥미 = '아직 보지 못한 것, 가보지 않은 곳에 자연스럽게 끌리는 사람이다. 탐색 자체가 목적이 되는 경우가 많다.';
+  else if (has('기록','아카이빙','수집','큐레이션')) 흥미 = '지나치는 것을 그냥 두지 못하고 붙잡아두고 싶어한다. 무언가를 모으고 정리하는 행위 자체에서 즐거움을 찾는다.';
+  else if (has('만들','표현','그리','빚')) 흥미 = '머릿속에 있는 것을 밖으로 꺼내는 행위에 끌린다. 아무것도 없는 곳에서 무언가를 만들어내는 과정이 설레게 느껴진다.';
+  else if (has('글','쓰','이야기','묘사')) 흥미 = '언어와 서사에 자연스럽게 끌린다. 경험과 생각을 글로 풀어낼 때 가장 선명해지는 사람이다.';
+  else if (has('분석','연구','탐구','조사')) 흥미 = '왜 그런지를 알고 싶어하는 사람이다. 표면 너머의 구조와 원리를 파악하는 데서 흥미를 느낀다.';
+  else 흥미 = `선택한 동사들 — ${verbs.slice(0,3).join(', ')} — 이 가리키는 방향에 자연스러운 끌림이 있다.`;
+
+  // 행복 — 어떤 과정이 즐거운가
+  let 행복 = '';
+  if (has('촬영','편집','연출','디자인')) 행복 = '결과물이 눈에 보이는 형태로 완성될 때 가장 충만함을 느낀다. 만드는 과정 내내 에너지가 올라간다.';
+  else if (has('기록','글 쓰','표현')) 행복 = '무언가를 언어나 이미지로 기록하는 과정에서 에너지를 얻는다. 쓰고 담는 행위 자체가 즐거움이다.';
+  else if (has('여행','탐험','발견')) 행복 = '새로운 장소, 새로운 사람, 새로운 경험 속에서 에너지가 차오른다. 이동하고 경험하는 것 자체가 행복이다.';
+  else if (has('성찰','명상','몰입')) 행복 = '깊이 집중하고 내면을 들여다보는 시간에서 회복과 즐거움을 동시에 얻는다. 고요한 몰입이 행복의 조건이다.';
+  else if (has('연결','대화','이야기','인터뷰')) 행복 = '사람과 연결되고 이야기를 나누는 순간에 에너지가 살아난다. 관계와 소통이 일의 즐거움이 된다.';
+  else 행복 = `${verbs.slice(0,3).join(', ')} — 이 행위들을 할 때 시간 가는 줄 모르는 사람이다. 과정 자체가 보상이 된다.`;
+
+  // 열정 — 무엇을 멈추지 못하는가
+  let 열정 = '';
+  if (has('도전','개척','혁신')) 열정 = '아무도 안 해본 것, 새로 만들어야 하는 것에 오히려 불이 붙는다. 어렵고 불확실할수록 더 하고 싶어지는 에너지가 있다.';
+  else if (has('기획','전략','구성')) 열정 = '무언가를 처음부터 설계하고 구조를 잡는 데서 열정이 나온다. 방향이 없는 곳에 방향을 만드는 것이 신이 난다.';
+  else if (has('기록','표현','만들')) 열정 = '결과가 바로 나오지 않아도 만들고 기록하는 것을 멈추지 않는다. 이 반복 안에 열정의 증거가 있다.';
+  else if (has('관찰','탐구','발견')) 열정 = '답을 찾을 때까지 파고드는 끈기가 있다. 모르는 것이 불편함이 아니라 동력이 되는 사람이다.';
+  else 열정 = `${verbs.slice(0,2).join(', ')} — 잘 안 돼도 계속하게 되는 것이 이 방향에 있다. 그 에너지를 믿어도 된다.`;
+
+  // 재능 — 어떤 방식으로 잘하는가
+  let 재능 = '';
+  if (has('편집','구성','정리','분류')) 재능 = '흩어진 것을 모아 의미 있는 형태로 만드는 감각이 있다. 정보와 소재를 다루는 방식이 남다르다.';
+  else if (has('촬영','그리','디자인','배치')) 재능 = '시각적으로 무언가를 포착하고 구성하는 감각이 있다. 보는 눈과 표현하는 손 사이의 거리가 짧다.';
+  else if (has('글 쓰','묘사','이야기')) 재능 = '경험을 언어로 바꾸는 능력이 있다. 같은 것을 봐도 다르게 표현해내는 힘이 재능이다.';
+  else if (has('관찰','탐구','분석','조사')) 재능 = '디테일을 놓치지 않는 눈이 있다. 남들이 지나치는 것에서 의미를 발견하는 능력이 강점이다.';
+  else if (has('성찰','몰입','집중')) 재능 = '깊이 파고드는 집중력이 재능이다. 한 가지를 오래 붙잡고 끝까지 가는 힘을 가지고 있다.';
+  else 재능 = `${verbs.slice(-3).join(', ')} — 이 방식으로 일할 때 다른 사람보다 수월하게, 더 잘 해내는 감각이 있다.`;
+
+  // 강점 — 어떻게 기여하는가
+  let 강점 = '';
+  if (has('기록','아카이빙','큐레이션')) 강점 = '흘러가는 것을 붙잡아 의미 있는 자료로 남기는 사람이다. 이 역할을 할 수 있는 사람이 생각보다 드물다.';
+  else if (has('표현','이야기','글 쓰','촬영')) 강점 = '보이지 않는 것을 보이게 만드는 사람이다. 감각과 경험을 콘텐츠로 전환하는 능력이 주변에 기여한다.';
+  else if (has('연결','대화','공감','소개')) 강점 = '사람과 사람, 아이디어와 아이디어를 잇는 역할을 자연스럽게 해낸다. 이 연결이 가치를 만든다.';
+  else if (has('도전','개척','실행')) 강점 = '먼저 해보고 길을 여는 사람이다. 이 용기가 주변에 영감과 방향을 준다.';
+  else if (has('성찰','명상','몰입')) 강점 = '깊이 생각하고 본질을 짚어내는 사람이다. 빠른 세상에서 느리게 깊이 보는 능력이 강점이 된다.';
+  else 강점 = `선택한 동사들이 모이는 지점 — ${verbs.slice(0,3).join(', ')} — 에서 나만의 방식으로 주변에 기여할 수 있다.`;
+
+  return { 흥미, 행복, 열정, 재능, 강점 };
+}
+
 function updateFinal() {
   const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
   if (Object.keys(answers).length < 5 && selected.length < 3) return;
 
-  const tendencyKeywords = [...new Set(Object.values(answers).map(a=>a.keyword))];
   const finalArea = document.getElementById('final-area');
-
-  // 동사 기반 즉시 분석 (API 없이)
-  const verbStr = selected.slice(0,4).join(', ');
-  const verbStr2 = selected.slice(0,3).join(', ');
-  const verbStr3 = selected.slice(-3).join(', ');
-  const allVerbStr = selected.join(', ');
-
-  const analysis = {
-    흥미: selected.length ? `${verbStr} 등의 행위에 자연스럽게 끌리고, 시키지 않아도 하게 되는 영역이다.` : '',
-    행복: selected.length ? `${verbStr2} 하는 과정 자체에서 즐거움을 느끼며, 결과보다 행위 자체가 동력이 된다.` : '',
-    열정: selected.length ? `잘 안 돼도 ${verbStr2} 하는 것을 멈추지 않는다. 이 에너지가 방향을 만든다.` : '',
-    재능: selected.length ? `${verbStr3} 하는 방식에서 남들과 다른 감각과 속도를 가지고 있다.` : '',
-    강점: selected.length ? `${allVerbStr} — 이 동사들이 모이는 지점에 나만의 강점이 있다.` : '',
-  };
+  const analysis = analyzeVerbs(selected);
 
   const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
   const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
@@ -959,14 +995,13 @@ function updateFinal() {
   let html = '<div class="final-signal-row">';
   signals.forEach(signal => {
     const bg = SC[signal]; const tc = TC[signal];
-    const text = analysis[signal] || '';
     html += `<div class="final-signal-item">
       <div class="final-signal-header">
         <div class="final-signal-icon" style="background:${bg};color:${tc};">✦</div>
         <span class="final-signal-name">${signal}</span>
         <span class="final-signal-hint">${descs[signal]}</span>
       </div>
-      <p style="font-size:14px;color:var(--text-secondary);line-height:1.8;margin-top:0.25rem;">${text}</p>
+      <p style="font-size:14px;color:var(--text-secondary);line-height:1.8;margin-top:0.25rem;">${analysis[signal]}</p>
     </div>`;
   });
   html += '</div>';
@@ -1086,12 +1121,13 @@ function buildResultCardHTML(data) {
   const TC2 = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
 
   // 동사 기반 fallback 문장
+  const verbAnalysis = analyzeVerbs(uniqueSelected);
   const fallbackText = {
-    흥미: uniqueSelected.length ? `${uniqueSelected.slice(0,3).join(', ')} 등의 행위에 자연스럽게 끌리는 사람이다.` : '',
-    행복: uniqueSelected.length ? `${uniqueSelected.slice(0,3).join(', ')} 하는 과정에서 즐거움과 에너지를 얻는다.` : '',
-    열정: uniqueSelected.length ? `잘 안 돼도 계속하게 되는 것은 ${uniqueSelected.slice(0,2).join(', ')} 이다.` : '',
-    재능: uniqueSelected.length ? `${uniqueSelected.slice(-3).join(', ')} 하는 방식으로 남보다 수월하게 해내는 강점이 있다.` : '',
-    강점: uniqueSelected.length ? `${uniqueSelected.slice(0,2).join(', ')} 하며 나만의 방식으로 주변에 기여한다.` : '',
+    흥미: verbAnalysis.흥미,
+    행복: verbAnalysis.행복,
+    열정: verbAnalysis.열정,
+    재능: verbAnalysis.재능,
+    강점: verbAnalysis.강점,
   };
 
   html += `<div style="margin-bottom:24px;">
