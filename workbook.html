@@ -23,6 +23,35 @@
   --radius-lg: 16px;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141412;
+    --surface: #1e1e1c;
+    --border: rgba(255,255,255,0.08);
+    --border-mid: rgba(255,255,255,0.14);
+    --text-primary: #f0ede8;
+    --text-secondary: #b0ada6;
+    --text-tertiary: #6e6b65;
+    --accent: #2DC98F;
+    --accent-light: #0f2e22;
+    --accent-dark: #5ee8b0;
+  }
+  .export-bar {
+    background: rgba(20,20,18,0.92) !important;
+  }
+  .test-opt { background: #1e1e1c; }
+  .test-opt.selected { background: #2DC98F; border-color: #2DC98F; color: #141412; }
+  .verb-chip { background: #1e1e1c; }
+  .verb-chip.selected { background: #2DC98F; border-color: #2DC98F; color: #141412; }
+  .test-textarea, .direction-textarea, .num-input, .sv-related-input {
+    color: var(--text-primary);
+    background: #141412;
+  }
+  .modal { background: #1e1e1c; }
+  .overall-card { background: #141412; }
+  .tag.strong { background: #2DC98F; color: #141412; }
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -894,72 +923,27 @@ function getRecommendations() {
   return recs.slice(0,3);
 }
 
-let analysisCache = null;
-let analysisCacheKey = '';
 
-async function analyzeWithClaude(verbs, tendencyKws, direction) {
-  const cacheKey = JSON.stringify({ verbs, tendencyKws, direction });
-  if (analysisCache && analysisCacheKey === cacheKey) return analysisCache;
-
-  const prompt = `다음은 어떤 사람이 "가슴 뛰는 동사"로 선택한 것들과 성향 키워드, 나만의 방향이에요.
-
-선택한 동사: ${verbs.join(', ')}
-성향 키워드: ${tendencyKws.join(', ')}
-나만의 방향: ${direction || '(미작성)'}
-
-이 데이터를 바탕으로 아래 5가지 항목을 각각 2~3문장의 한국어 문장으로 분석해줘.
-딱딱하지 않고 따뜻하고 통찰 있는 문체로 써줘. "나는" "당신은" 같은 주어 없이 서술형으로만 써줘. 예: "~하는 것에 자연스럽게 끌리는 사람이다."
-
-JSON 형식으로만 응답해. 다른 텍스트 없이:
-{
-  "흥미": "분석 문장",
-  "행복": "분석 문장",
-  "열정": "분석 문장",
-  "재능": "분석 문장",
-  "강점": "분석 문장",
-  "추천": "어울리는 일의 방향을 2~3문장으로 구체적으로 추천해줘. 주어 없이 서술형으로."
-}`;
-
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      messages: [{ role: "user", content: prompt }]
-    })
-  });
-
-  const data = await response.json();
-  const text = data.content?.[0]?.text || '{}';
-  try {
-    const result = JSON.parse(text.replace(/```json|```/g, '').trim());
-    analysisCache = result;
-    analysisCacheKey = cacheKey;
-    return result;
-  } catch(e) {
-    return null;
-  }
-}
-
-async function updateFinal() {
+function updateFinal() {
   const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
   if (Object.keys(answers).length < 5 && selected.length < 3) return;
 
   const tendencyKeywords = [...new Set(Object.values(answers).map(a=>a.keyword))];
-  const direction = document.getElementById('direction-input').value.trim();
   const finalArea = document.getElementById('final-area');
 
-  finalArea.innerHTML = `<div style="text-align:center;padding:2.5rem;background:var(--bg);border-radius:var(--radius-lg);border:0.5px dashed var(--border-mid);">
-    <p style="font-size:14px;color:var(--text-tertiary);">동사를 분석하는 중이에요...</p>
-  </div>`;
+  // 동사 기반 즉시 분석 (API 없이)
+  const verbStr = selected.slice(0,4).join(', ');
+  const verbStr2 = selected.slice(0,3).join(', ');
+  const verbStr3 = selected.slice(-3).join(', ');
+  const allVerbStr = selected.join(', ');
 
-  let analysis = null;
-  try {
-    analysis = await analyzeWithClaude(allVerbs, tendencyKeywords, direction);
-  } catch(e) {
-    console.warn('분석 API 실패, 기본 추천으로 대체:', e);
-  }
+  const analysis = {
+    흥미: selected.length ? `${verbStr} 등의 행위에 자연스럽게 끌리고, 시키지 않아도 하게 되는 영역이다.` : '',
+    행복: selected.length ? `${verbStr2} 하는 과정 자체에서 즐거움을 느끼며, 결과보다 행위 자체가 동력이 된다.` : '',
+    열정: selected.length ? `잘 안 돼도 ${verbStr2} 하는 것을 멈추지 않는다. 이 에너지가 방향을 만든다.` : '',
+    재능: selected.length ? `${verbStr3} 하는 방식에서 남들과 다른 감각과 속도를 가지고 있다.` : '',
+    강점: selected.length ? `${allVerbStr} — 이 동사들이 모이는 지점에 나만의 강점이 있다.` : '',
+  };
 
   const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
   const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
@@ -975,7 +959,7 @@ async function updateFinal() {
   let html = '<div class="final-signal-row">';
   signals.forEach(signal => {
     const bg = SC[signal]; const tc = TC[signal];
-    const text = analysis?.[signal] || '동사를 더 선택하면 분석이 더 정확해져요.';
+    const text = analysis[signal] || '';
     html += `<div class="final-signal-item">
       <div class="final-signal-header">
         <div class="final-signal-icon" style="background:${bg};color:${tc};">✦</div>
@@ -987,26 +971,14 @@ async function updateFinal() {
   });
   html += '</div>';
 
-  if (analysis?.추천) {
-    html += `<div class="recommend-wrap">
-      <p class="recommend-label-head">나에게 어울리는 일의 방향</p>
-      <div class="recommend-card">
-        <p class="recommend-desc" style="font-size:14px;line-height:1.8;">${analysis.추천}</p>
-      </div>
-    </div>`;
-  } else {
-    const recs = getRecommendations();
-    html += `<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향 추천</p>`;
-    recs.forEach(r => { html += `<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`; });
-    html += '</div>';
-  }
+  const recs = getRecommendations();
+  html += `<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향</p>`;
+  recs.forEach(r => { html += `<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`; });
+  html += '</div>';
 
   finalArea.innerHTML = html;
 }
-document.getElementById('direction-input').addEventListener('input', () => {
-  analysisCache = null;
-  updateFinal();
-});
+document.getElementById('direction-input').addEventListener('input', updateFinal);
 
 // ── 날짜 ──
 function getDateStr() {
@@ -1015,15 +987,14 @@ function getDateStr() {
 }
 
 // ── 현재 내용 수집 ──
-async function collectData() {
+function collectData() {
   const tendencyKws = [...new Set(Object.values(answers).map(a=>a.keyword))];
   const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
   const items22 = [...new Set([...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean))];
   const direction = document.getElementById('direction-input').value.trim();
   const recs = getRecommendations();
-  const analysis = await analyzeWithClaude(allVerbs, tendencyKws, direction);
   const sigData = buildSignalData(allVerbs);
-  return { tendencyKws, selected: [...new Set(selected)], allVerbs, items22, direction, recs, sigData, analysis, date: getDateStr() };
+  return { tendencyKws, selected: [...new Set(selected)], allVerbs, items22, direction, recs, sigData, analysis: null, date: getDateStr() };
 }
 
 // ── HTML 다운로드 (입력값 직접 굽기) ──
@@ -1154,16 +1125,6 @@ function buildResultCardHTML(data) {
         </div>`).join('')}
     </div>`;
   }
-    html += `<div style="margin-bottom:24px;">
-      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
-      ${data.recs.map(r=>`
-        <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:14px 18px;margin-bottom:8px;">
-          <p style="font-size:10px;color:#0F6E56;font-weight:500;letter-spacing:0.04em;margin-bottom:3px;">${r.label}</p>
-          <p style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:4px;">${r.title}</p>
-          <p style="font-size:12px;color:#5a5a54;line-height:1.6;">${r.desc}</p>
-        </div>`).join('')}
-    </div>`;
-  }
 
   // 나만의 방향
   if (data.direction) {
@@ -1238,25 +1199,7 @@ async function downloadSummary() {
   btn.textContent = '저장 중...'; btn.disabled = true;
 
   try {
-    // API 재호출 없이 캐시된 분석 결과 사용
-    const tendencyKws = [...new Set(Object.values(answers).map(a=>a.keyword))];
-    const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
-    const items22 = [...new Set([...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean))];
-    const direction = document.getElementById('direction-input').value.trim();
-    const recs = getRecommendations();
-    const sigData = buildSignalData(allVerbs);
-    const data = {
-      tendencyKws,
-      selected: [...new Set(selected)],
-      allVerbs,
-      items22,
-      direction,
-      recs,
-      sigData,
-      analysis: analysisCache,
-      date: getDateStr()
-    };
-
+    const data = collectData();
     const wrap = document.getElementById('result-card');
     wrap.innerHTML = buildResultCardHTML(data);
     wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:720px;';
@@ -1274,7 +1217,6 @@ async function downloadSummary() {
     a.download = `나를찾는여정_결과_${new Date().toISOString().slice(0,10)}.png`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(a.href), 3000);
-
     wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
   } catch(e) {
     console.error(e);
