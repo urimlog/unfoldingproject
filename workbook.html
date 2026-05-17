@@ -1210,16 +1210,19 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 async function downloadSummary() {
   const btn = document.getElementById('btn-summary');
   const orig = btn.innerHTML;
-  btn.textContent = '저장 중...'; btn.disabled = true;
-
-  const data = collectData();
-  const wrap = document.getElementById('result-card');
-  wrap.innerHTML = buildResultCardHTML(data);
-  wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:720px;';
+  btn.textContent = '분석 중...'; btn.disabled = true;
 
   try {
+    const data = await collectData();
+    btn.textContent = '저장 중...';
+
+    const wrap = document.getElementById('result-card');
+    wrap.innerHTML = buildResultCardHTML(data);
+    wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:720px;';
+
     await document.fonts.ready;
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 400));
+
     const canvas = await html2canvas(wrap.firstElementChild, {
       scale: 2, useCORS: true, allowTaint: true,
       backgroundColor: '#faf9f7', logging: false,
@@ -1230,12 +1233,13 @@ async function downloadSummary() {
     a.download = `나를찾는여정_결과_${new Date().toISOString().slice(0,10)}.png`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+
+    wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
   } catch(e) {
     console.error(e);
     alert('이미지 생성 중 오류가 발생했어요.');
   }
 
-  wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
   btn.innerHTML = orig; btn.disabled = false;
 }
 
