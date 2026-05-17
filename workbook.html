@@ -1139,7 +1139,6 @@ function buildResultCardHTML(data) {
         </div>`).join('')}
     </div>`;
   }
-  }
 
   // 나만의 방향
   if (data.direction) {
@@ -1208,7 +1207,7 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 }
 
 // ── 최종 정리 저장 (요약 카드 캡처) ──
-async async function downloadSummary() {
+async function downloadSummary() {
   const btn = document.getElementById('btn-summary');
   const orig = btn.innerHTML;
   btn.textContent = '저장 중...'; btn.disabled = true;
