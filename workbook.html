@@ -532,28 +532,37 @@ body {
   <!-- Part 11 -->
   <div class="section">
     <p class="section-label">Part 11</p>
-    <h2 class="section-title">앞으로 이것을 위해 해볼 것 3가지</h2>
+    <h2 class="section-title">앞으로 시도해볼 것 3가지</h2>
     <p class="section-desc">크지 않아도 괜찮아요. 지금 당장 시작할 수 있는 작은 행동부터 적어보세요.</p>
     <div style="display:flex;flex-direction:column;gap:0.75rem;">
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start;">
-        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;padding-top:2px;">1</span>
-        <div style="flex:1;">
-          <input class="num-input" id="action-1" placeholder="예) 관심 있는 분야 책 한 권 읽기" style="font-size:14px;width:100%;margin-bottom:0.4rem;" />
-          <input class="num-input" id="action-1-when" placeholder="언제? 예) 이번 주 안에" style="font-size:12px;width:100%;color:var(--text-tertiary);" />
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;gap:1rem;align-items:center;margin-bottom:0.6rem;">
+          <span style="font-size:13px;font-weight:500;color:var(--accent);">1</span>
+          <input class="num-input" id="action-1" placeholder="시도해볼 것" style="font-size:14px;width:100%;" />
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;padding-left:1.5rem;">
+          <span style="font-size:12px;color:var(--text-tertiary);white-space:nowrap;">언제?</span>
+          <input class="num-input" id="action-1-when" style="font-size:13px;width:100%;color:var(--text-secondary);" />
         </div>
       </div>
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start;">
-        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;padding-top:2px;">2</span>
-        <div style="flex:1;">
-          <input class="num-input" id="action-2" placeholder="" style="font-size:14px;width:100%;margin-bottom:0.4rem;" />
-          <input class="num-input" id="action-2-when" placeholder="언제?" style="font-size:12px;width:100%;color:var(--text-tertiary);" />
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;gap:1rem;align-items:center;margin-bottom:0.6rem;">
+          <span style="font-size:13px;font-weight:500;color:var(--accent);">2</span>
+          <input class="num-input" id="action-2" placeholder="시도해볼 것" style="font-size:14px;width:100%;" />
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;padding-left:1.5rem;">
+          <span style="font-size:12px;color:var(--text-tertiary);white-space:nowrap;">언제?</span>
+          <input class="num-input" id="action-2-when" style="font-size:13px;width:100%;color:var(--text-secondary);" />
         </div>
       </div>
-      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start;">
-        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;padding-top:2px;">3</span>
-        <div style="flex:1;">
-          <input class="num-input" id="action-3" placeholder="" style="font-size:14px;width:100%;margin-bottom:0.4rem;" />
-          <input class="num-input" id="action-3-when" placeholder="언제?" style="font-size:12px;width:100%;color:var(--text-tertiary);" />
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+        <div style="display:flex;gap:1rem;align-items:center;margin-bottom:0.6rem;">
+          <span style="font-size:13px;font-weight:500;color:var(--accent);">3</span>
+          <input class="num-input" id="action-3" placeholder="시도해볼 것" style="font-size:14px;width:100%;" />
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;padding-left:1.5rem;">
+          <span style="font-size:12px;color:var(--text-tertiary);white-space:nowrap;">언제?</span>
+          <input class="num-input" id="action-3-when" style="font-size:13px;width:100%;color:var(--text-secondary);" />
         </div>
       </div>
     </div>
@@ -832,15 +841,43 @@ function updateAutoSignal() {
 }
 
 const signalMapping = {
-  흥미:{ keywords:["탐험","발견","수집","관찰","질문","조사","탐구","리뷰","분류","큐레이션","여행","아카이빙","기념","보존","복원"], desc:"끌리는 것 — 하고 싶어서 자연스럽게 손이 가는 영역" },
+  흥미:{ keywords:["탐험","발견","수집","관찰","질문","조사","탐구","리뷰","분류","큐레이션","여행","아카이빙","기념","보존","복원","수집하다","관찰하다"], desc:"끌리는 것 — 하고 싶어서 자연스럽게 손이 가는 영역" },
   행복:{ keywords:["만들","기록","표현","완성","꾸미","디자인","연출","편집","글","촬영","그리","빚","출판","전시","스토리","브랜드","배치"], desc:"할 때 좋은 것 — 과정 자체가 즐거운 행위" },
-  열정:{ keywords:["도전","개척","혁신","상상","기획","전략","실행","개선","자동화","몽상","재해석","테스트","운영"], desc:"불타오르는 것 — 잘 안 돼도 계속하게 되는 것" },
-  재능:{ keywords:["분석","설계","구성","최적화","비교","논증","설명","정리","분류","선별","측정","실험","연구","평가","검토","번역","묘사","이야기","발표","강연","설득","피드백"], desc:"잘하는 것 — 남보다 수월하게 되는 것" },
-  강점:{ keywords:["가르치","멘토링","코칭","연결","협력","공감","이끌","소개","조율","봉사","돕","위로","나누","인터뷰","대화","추천","팀","협상","성찰","명상","몰입"], desc:"힘이 되는 것 — 나만의 방식으로 기여하는 것" }
+  열정:{ keywords:["도전","개척","혁신","상상","기획","전략","실행","개선","자동화","몽상","재해석","테스트","운영","여행","탐험"], desc:"불타오르는 것 — 잘 안 돼도 계속하게 되는 것" },
+  재능:{ keywords:["분석","설계","구성","최적화","비교","논증","설명","정리","분류","선별","측정","실험","연구","평가","검토","번역","묘사","발표","강연","설득","피드백","성찰","몰입","관찰","수집","발견","탐구"], desc:"잘하는 것 — 남보다 수월하게 되는 것" },
+  강점:{ keywords:["가르치","멘토링","코칭","연결","협력","공감","이끌","소개","조율","봉사","돕","위로","나누","인터뷰","대화","추천","팀","협상","명상","몰입","성찰","기록","표현","이야기"], desc:"힘이 되는 것 — 나만의 방식으로 기여하는 것" }
 };
 
 const signalColors = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
 const signalTextColors = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+
+// 선택한 동사를 5가지 신호에 배분 (매핑 안 된 것도 골고루 채우기)
+function buildSignalData(allVerbs) {
+  const sigData = {};
+  const used = new Set();
+
+  // 1차: 키워드 매핑
+  Object.entries(signalMapping).forEach(([signal, config]) => {
+    const matched = [...new Set(allVerbs.filter(v =>
+      config.keywords.some(k => v.replace("하다","").includes(k.replace("하다","")))
+    ))];
+    sigData[signal] = { matched, desc: config.desc };
+    matched.forEach(v => used.add(v));
+  });
+
+  // 2차: 매핑 안 된 동사를 비어있는 신호에 순서대로 채우기
+  const unmapped = allVerbs.filter(v => !used.has(v));
+  const signals = Object.keys(sigData);
+  let ui = 0;
+  signals.forEach(signal => {
+    if (sigData[signal].matched.length === 0 && ui < unmapped.length) {
+      sigData[signal].matched.push(unmapped[ui]);
+      ui++;
+    }
+  });
+
+  return sigData;
+}
 
 function getRecommendations() {
   const allVerbs=[...selected,...Object.values(relatedMap).flat().filter(Boolean)];
@@ -857,39 +894,114 @@ function getRecommendations() {
   return recs.slice(0,3);
 }
 
-function updateFinal() {
-  const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
-  if (Object.keys(answers).length<5&&selected.length<3) return;
-  const tendencyKeywords=Object.values(answers).map(a=>a.keyword);
-  const signalData={};
-  Object.entries(signalMapping).forEach(([signal,config])=>{
-    const matched=[...new Set(allVerbs.filter(v=>config.keywords.some(k=>v.replace("하다","").includes(k.replace("하다","")))))];
-    signalData[signal]={matched,desc:config.desc};
+let analysisCache = null;
+let analysisCacheKey = '';
+
+async function analyzeWithClaude(verbs, tendencyKws, direction) {
+  const cacheKey = JSON.stringify({ verbs, tendencyKws, direction });
+  if (analysisCache && analysisCacheKey === cacheKey) return analysisCache;
+
+  const prompt = `다음은 어떤 사람이 "가슴 뛰는 동사"로 선택한 것들과 성향 키워드, 나만의 방향이에요.
+
+선택한 동사: ${verbs.join(', ')}
+성향 키워드: ${tendencyKws.join(', ')}
+나만의 방향: ${direction || '(미작성)'}
+
+이 데이터를 바탕으로 아래 5가지 항목을 각각 2~3문장의 한국어 문장으로 분석해줘.
+딱딱하지 않고 따뜻하고 통찰 있는 문체로 써줘. "당신은" 대신 "나는"으로 써줘.
+
+JSON 형식으로만 응답해. 다른 텍스트 없이:
+{
+  "흥미": "분석 문장",
+  "행복": "분석 문장",
+  "열정": "분석 문장",
+  "재능": "분석 문장",
+  "강점": "분석 문장",
+  "추천": "이 사람에게 어울리는 일의 방향을 2~3문장으로 구체적으로 추천해줘"
+}`;
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }]
+    })
   });
-  let html='<div class="final-signal-row">';
-  Object.entries(signalData).forEach(([signal,data])=>{
-    const bg=signalColors[signal]; const tc=signalTextColors[signal];
-    const tendencyHint=tendencyKeywords.find(k=>{
-      if(signal==='흥미'&&(k.includes('탐험')||k.includes('창작'))) return true;
-      if(signal==='행복'&&(k.includes('창작')||k.includes('완성'))) return true;
-      if(signal==='열정'&&(k.includes('도전')||k.includes('기획')||k.includes('영향'))) return true;
-      if(signal==='재능'&&(k.includes('집중')||k.includes('실행')||k.includes('분석'))) return true;
-      if(signal==='강점'&&(k.includes('연결')||k.includes('협업')||k.includes('기여'))) return true;
-      return false;
-    });
-    // tendencyHint가 matched에 이미 있으면 추가 안 함
-    const showHint = tendencyHint && !data.matched.some(v=>v.includes(tendencyHint.split('·')[0]));
-    const tags = data.matched.slice(0,6);
-    html+=`<div class="final-signal-item"><div class="final-signal-header"><div class="final-signal-icon" style="background:${bg};color:${tc};">✦</div><span class="final-signal-name">${signal}</span><span class="final-signal-hint">${data.desc}</span></div><div class="final-signal-tags">${tags.map(v=>`<span class="fst hl">${v}</span>`).join('')}${showHint?`<span class="fst" style="background:${bg};color:${tc};border-color:transparent;">${tendencyHint}</span>`:''}${tags.length===0&&!showHint?'<span style="font-size:12px;color:var(--text-tertiary);">동사를 더 선택해보세요</span>':''}</div></div>`;
-  });
-  html+='</div>';
-  const recs=getRecommendations();
-  html+=`<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향 추천</p>`;
-  recs.forEach(r=>{html+=`<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`;});
-  html+='</div>';
-  document.getElementById('final-area').innerHTML=html;
+
+  const data = await response.json();
+  const text = data.content?.[0]?.text || '{}';
+  try {
+    const result = JSON.parse(text.replace(/```json|```/g, '').trim());
+    analysisCache = result;
+    analysisCacheKey = cacheKey;
+    return result;
+  } catch(e) {
+    return null;
+  }
 }
-document.getElementById('direction-input').addEventListener('input',updateFinal);
+
+async function updateFinal() {
+  const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
+  if (Object.keys(answers).length < 5 && selected.length < 3) return;
+
+  const tendencyKeywords = [...new Set(Object.values(answers).map(a=>a.keyword))];
+  const direction = document.getElementById('direction-input').value.trim();
+  const finalArea = document.getElementById('final-area');
+
+  finalArea.innerHTML = `<div style="text-align:center;padding:2.5rem;background:var(--bg);border-radius:var(--radius-lg);border:0.5px dashed var(--border-mid);">
+    <p style="font-size:14px;color:var(--text-tertiary);">동사를 분석하는 중이에요...</p>
+  </div>`;
+
+  const analysis = await analyzeWithClaude(allVerbs, tendencyKeywords, direction);
+
+  const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+  const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+  const signals = ['흥미','행복','열정','재능','강점'];
+  const descs = {
+    흥미:"끌리는 것 — 하고 싶어서 자연스럽게 손이 가는 영역",
+    행복:"할 때 좋은 것 — 과정 자체가 즐거운 행위",
+    열정:"불타오르는 것 — 잘 안 돼도 계속하게 되는 것",
+    재능:"잘하는 것 — 남보다 수월하게 되는 것",
+    강점:"힘이 되는 것 — 나만의 방식으로 기여하는 것"
+  };
+
+  let html = '<div class="final-signal-row">';
+  signals.forEach(signal => {
+    const bg = SC[signal]; const tc = TC[signal];
+    const text = analysis?.[signal] || '동사를 더 선택하면 분석이 더 정확해져요.';
+    html += `<div class="final-signal-item">
+      <div class="final-signal-header">
+        <div class="final-signal-icon" style="background:${bg};color:${tc};">✦</div>
+        <span class="final-signal-name">${signal}</span>
+        <span class="final-signal-hint">${descs[signal]}</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-secondary);line-height:1.8;margin-top:0.25rem;">${text}</p>
+    </div>`;
+  });
+  html += '</div>';
+
+  if (analysis?.추천) {
+    html += `<div class="recommend-wrap">
+      <p class="recommend-label-head">나에게 어울리는 일의 방향</p>
+      <div class="recommend-card">
+        <p class="recommend-desc" style="font-size:14px;line-height:1.8;">${analysis.추천}</p>
+      </div>
+    </div>`;
+  } else {
+    const recs = getRecommendations();
+    html += `<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향 추천</p>`;
+    recs.forEach(r => { html += `<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`; });
+    html += '</div>';
+  }
+
+  finalArea.innerHTML = html;
+}
+document.getElementById('direction-input').addEventListener('input', () => {
+  analysisCache = null;
+  updateFinal();
+});
 
 // ── 날짜 ──
 function getDateStr() {
@@ -898,20 +1010,15 @@ function getDateStr() {
 }
 
 // ── 현재 내용 수집 ──
-function collectData() {
+async function collectData() {
   const tendencyKws = [...new Set(Object.values(answers).map(a=>a.keyword))];
   const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
   const items22 = [...new Set([...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean))];
   const direction = document.getElementById('direction-input').value.trim();
   const recs = getRecommendations();
-
-  // signal data — 중복 제거
-  const sigData = {};
-  Object.entries(signalMapping).forEach(([s,c])=>{
-    sigData[s] = [...new Set(allVerbs.filter(v=>c.keywords.some(k=>v.replace("하다","").includes(k.replace("하다","")))))];
-  });
-
-  return { tendencyKws, selected: [...new Set(selected)], allVerbs, items22, direction, recs, sigData, date: getDateStr() };
+  const analysis = await analyzeWithClaude(allVerbs, tendencyKws, direction);
+  const sigData = buildSignalData(allVerbs);
+  return { tendencyKws, selected: [...new Set(selected)], allVerbs, items22, direction, recs, sigData, analysis, date: getDateStr() };
 }
 
 // ── HTML 다운로드 (입력값 직접 굽기) ──
@@ -997,22 +1104,31 @@ function buildResultCardHTML(data) {
     </div>`;
   }
 
-  // 5가지 신호
+  // 5가지 신호 — 분석 문장
+  const signals = ['흥미','행복','열정','재능','강점'];
+  const SC2 = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+  const TC2 = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
   html += `<div style="margin-bottom:24px;">
     <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">5가지 신호</p>
-    <div style="display:flex;gap:8px;">
-      ${Object.entries(data.sigData).map(([s,tags])=>{
-        const unique = [...new Set(tags)].slice(0,3);
-        return `<div style="flex:1;background:${SC[s]};border-radius:10px;padding:12px 8px;text-align:center;">
-          <div style="font-size:13px;font-weight:500;color:${TC[s]};margin-bottom:8px;">${s}</div>
-          <div>${unique.length ? unique.map(t=>`<span style="display:block;font-size:11px;color:${TC[s]};margin:2px 0;">${t}</span>`).join('') : `<span style="font-size:11px;color:${TC[s]};">—</span>`}</div>
-        </div>`;
-      }).join('')}
-    </div>
+    ${signals.map(s => {
+      const text = data.analysis?.[s] || '';
+      return `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+        <div style="min-width:36px;height:36px;border-radius:50%;background:${SC2[s]};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:${TC2[s]};flex-shrink:0;">${s}</div>
+        <p style="font-size:12px;color:#5a5a54;line-height:1.7;padding-top:8px;">${text || '—'}</p>
+      </div>`;
+    }).join('')}
   </div>`;
 
   // 추천 방향
-  if (data.recs.length) {
+  const recText = data.analysis?.추천;
+  if (recText) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
+      <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:16px 18px;">
+        <p style="font-size:13px;color:#5a5a54;line-height:1.8;">${recText}</p>
+      </div>
+    </div>`;
+  } else if (data.recs.length) {
     html += `<div style="margin-bottom:24px;">
       <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
       ${data.recs.map(r=>`
@@ -1022,6 +1138,7 @@ function buildResultCardHTML(data) {
           <p style="font-size:12px;color:#5a5a54;line-height:1.6;">${r.desc}</p>
         </div>`).join('')}
     </div>`;
+  }
   }
 
   // 나만의 방향
@@ -1091,7 +1208,7 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 }
 
 // ── 최종 정리 저장 (요약 카드 캡처) ──
-async function downloadSummary() {
+async async function downloadSummary() {
   const btn = document.getElementById('btn-summary');
   const orig = btn.innerHTML;
   btn.textContent = '저장 중...'; btn.disabled = true;
