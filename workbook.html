@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>좋아하는 일을 찾기 위한 워크북</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --bg: #faf9f7;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --border-mid: rgba(0,0,0,0.13);
+  --text-primary: #1a1a18;
+  --text-secondary: #5a5a54;
+  --text-tertiary: #9a9a90;
+  --accent: #1D9E75;
+  --accent-light: #E1F5EE;
+  --accent-dark: #0F6E56;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4rem 2rem 8rem;
+}
+
+/* Header */
+.header {
+  margin-bottom: 4rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 0.5px solid var(--border-mid);
+}
+.header-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.header-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(26px, 5vw, 36px);
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+.header-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Section */
+.section { margin-bottom: 4rem; }
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+.section-desc {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+}
+
+.divider {
+  border: none;
+  border-top: 0.5px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.card-num { font-size: 11px; color: var(--text-tertiary); margin-bottom: 0.3rem; letter-spacing: 0.05em; }
+.card-title { font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.4rem; }
+.card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+/* Timeline */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 1.25rem; }
+.tl-left { display: flex; flex-direction: column; align-items: center; }
+.tl-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); margin-top: 6px; flex-shrink: 0; }
+.tl-line { width: 1px; flex: 1; background: var(--border); margin: 5px 0; }
+.tl-content { padding-bottom: 1.75rem; flex: 1; }
+.tl-period { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+.tl-main { font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.3rem; }
+.tl-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+/* Test */
+.test-q { margin-bottom: 0; }
+.test-sep { border: none; border-top: 0.5px solid var(--border); margin: 1.5rem 0; }
+.test-q-label { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.test-q-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem; }
+.test-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem; }
+.test-opt {
+  padding: 0.8rem 1rem;
+  border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  background: var(--surface);
+  text-align: center;
+  line-height: 1.5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+.test-opt:hover { border-color: var(--accent); color: var(--accent-dark); background: var(--accent-light); }
+.test-opt.selected { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 400; }
+.test-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  resize: vertical;
+  min-height: 64px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.test-textarea:focus { border-color: var(--accent); }
+
+/* Summary */
+.summary-empty { font-size: 14px; color: var(--text-tertiary); text-align: center; padding: 2.5rem; background: var(--bg); border-radius: var(--radius-lg); border: 0.5px dashed var(--border-mid); }
+.summary-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+.summary-row { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
+.summary-row-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.summary-cat { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; min-width: 60px; }
+.summary-chosen { font-size: 14px; font-weight: 500; color: var(--text-primary); flex: 1; }
+.summary-keyword { font-size: 11px; padding: 0.2rem 0.65rem; border-radius: 20px; background: var(--accent-light); color: var(--accent-dark); white-space: nowrap; }
+.summary-bar-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.summary-bar-label { font-size: 11px; color: var(--text-tertiary); min-width: 70px; text-align: right; }
+.summary-bar-label-r { font-size: 11px; color: var(--text-tertiary); min-width: 70px; }
+.summary-bar-track { flex: 1; height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; position: relative; }
+.summary-bar-fill-a { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s ease; position: absolute; right: 50%; }
+.summary-bar-fill-b { height: 100%; background: #9FE1CB; border-radius: 3px; transition: width 0.5s ease; position: absolute; left: 50%; }
+.summary-bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: var(--border-mid); }
+.summary-direction { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.overall-card { background: var(--bg); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 0.75rem; border: 0.5px solid var(--border); }
+.overall-title { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+.overall-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag { padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 12px; background: var(--surface); border: 0.5px solid var(--border-mid); color: var(--text-secondary); }
+.tag.strong { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Signal */
+.signal-box { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; background: var(--surface); }
+.signal-top { background: var(--bg); border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin-bottom: 0.75rem; text-align: center; }
+.signal-top-label { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+.signal-sub-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+.signal-sub-item { border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; background: var(--bg); }
+.signal-arrow-label { text-align: center; font-size: 11px; color: var(--text-tertiary); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+.signal-sub-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; min-height: 28px; }
+.signal-sub-tag { font-size: 11px; padding: 0.2rem 0.5rem; background: var(--surface); border-radius: 10px; color: var(--text-secondary); border: 0.5px solid var(--border); }
+.signal-empty { font-size: 12px; color: var(--text-tertiary); font-style: italic; }
+
+/* 22개 */
+.numbered-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+.num-col { display: flex; flex-direction: column; }
+.num-item { display: flex; align-items: center; gap: 0.5rem; border-bottom: 0.5px solid var(--border); padding: 0.55rem 0.25rem; }
+.num-label { font-size: 11px; color: var(--text-tertiary); min-width: 22px; }
+.num-input { flex: 1; background: transparent; border: none; outline: none; font-size: 13px; color: var(--text-primary); font-family: 'Noto Sans KR', sans-serif; font-weight: 300; }
+
+/* Verbs */
+.verb-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.verb-chip {
+  padding: 0.3rem 0.75rem;
+  border: 0.5px solid var(--border-mid);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+  background: var(--surface);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+.verb-chip:hover { border-color: var(--accent); color: var(--accent-dark); }
+.verb-chip.selected { background: var(--accent); border-color: var(--accent); color: #fff; }
+.selected-count { font-size: 12px; color: var(--text-tertiary); margin-bottom: 0.75rem; }
+.sv-item { margin-bottom: 1rem; }
+.sv-main { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 0.5px solid var(--border); }
+.sv-num { font-size: 11px; color: var(--text-tertiary); min-width: 18px; }
+.sv-verb { font-size: 14px; font-weight: 500; color: var(--accent-dark); min-width: 90px; }
+.sv-related { display: flex; gap: 0.5rem; margin-top: 0.4rem; }
+.sv-related-input { flex: 1; background: transparent; border-bottom: 0.5px solid var(--border); outline: none; font-size: 12px; color: var(--text-secondary); font-family: 'Noto Sans KR', sans-serif; font-weight: 300; padding: 0.25rem 0; transition: border-color 0.2s; }
+.sv-related-input:focus { border-color: var(--accent); }
+
+/* Auto signal */
+.auto-top-val { font-size: 16px; font-weight: 500; color: var(--text-primary); min-height: 24px; text-align: center; }
+
+/* Direction */
+.direction-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.direction-textarea:focus { border-color: var(--accent); }
+
+/* Final */
+.final-empty { font-size: 14px; color: var(--text-tertiary); text-align: center; padding: 2.5rem; background: var(--bg); border-radius: var(--radius-lg); border: 0.5px dashed var(--border-mid); }
+.final-signal-row { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+.final-signal-item { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; background: var(--surface); }
+.final-signal-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.final-signal-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.final-signal-name { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+.final-signal-hint { font-size: 12px; color: var(--text-tertiary); margin-left: auto; }
+.final-signal-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.fst { font-size: 12px; padding: 0.2rem 0.6rem; border-radius: 10px; color: var(--text-secondary); background: var(--bg); border: 0.5px solid var(--border); }
+.fst.hl { background: var(--accent-light); color: var(--accent-dark); border-color: transparent; }
+.recommend-wrap { background: var(--bg); border-radius: var(--radius-lg); padding: 1.25rem; border: 0.5px solid var(--border); }
+.recommend-label-head { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; margin-bottom: 1rem; }
+.recommend-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+.recommend-card:last-child { margin-bottom: 0; }
+.recommend-label { font-size: 11px; color: var(--accent-dark); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+.recommend-title-text { font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.4rem; }
+.recommend-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+/* Footer */
+.footer { margin-top: 5rem; padding-top: 2rem; border-top: 0.5px solid var(--border); text-align: center; }
+.footer p { font-size: 12px; color: var(--text-tertiary); }
+
+@media (max-width: 560px) {
+  .page { padding: 2.5rem 1.25rem 5rem; }
+  .test-options { grid-template-columns: 1fr; }
+  .signal-sub-grid { grid-template-columns: 1fr; }
+  .numbered-grid { grid-template-columns: 1fr; }
+  .summary-bar-label, .summary-bar-label-r { min-width: 50px; font-size: 10px; }
+}
+
+/* Export bar */
+.export-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(250,249,247,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 0.5px solid var(--border-mid);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 100;
+  flex-wrap: wrap;
+}
+.export-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  border: 0.5px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+.export-btn:hover { border-color: var(--accent); color: var(--accent-dark); background: var(--accent-light); }
+.export-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.export-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+.export-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Mail modal */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+}
+.modal-title { font-family: 'Noto Serif KR', serif; font-size: 18px; font-weight: 400; color: var(--text-primary); margin-bottom: 0.4rem; }
+.modal-desc { font-size: 13px; color: var(--text-tertiary); margin-bottom: 1.5rem; line-height: 1.6; }
+.modal-input {
+  width: 100%;
+  background: var(--bg);
+  border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  outline: none;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.modal-input:focus { border-color: var(--accent); }
+.modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+.modal-cancel { padding: 0.6rem 1.2rem; border-radius: 20px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; border: 0.5px solid var(--border-mid); background: transparent; color: var(--text-secondary); transition: all 0.2s; }
+.modal-cancel:hover { background: var(--bg); }
+.modal-send { padding: 0.6rem 1.4rem; border-radius: 20px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; border: none; background: var(--accent); color: #fff; font-weight: 400; transition: all 0.2s; }
+.modal-send:hover { background: var(--accent-dark); }
+
+/* Result card for image export */
+.result-card-wrap {
+  position: fixed; left: -9999px; top: 0;
+  width: 720px;
+  background: var(--bg);
+  font-family: 'Noto Sans KR', sans-serif;
+  padding: 3rem;
+}
+.rc-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 0.5px solid var(--border-mid); }
+.rc-eyebrow { font-size: 10px; letter-spacing: 0.15em; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 0.5rem; }
+.rc-title { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 400; color: var(--text-primary); margin-bottom: 0.3rem; }
+.rc-date { font-size: 12px; color: var(--text-tertiary); }
+.rc-section { margin-bottom: 1.75rem; }
+.rc-section-label { font-size: 10px; letter-spacing: 0.12em; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 0.4rem; }
+.rc-section-title { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 400; color: var(--text-primary); margin-bottom: 0.75rem; }
+.rc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+.rc-tag { padding: 0.25rem 0.65rem; border-radius: 20px; font-size: 12px; background: var(--surface); border: 0.5px solid var(--border-mid); color: var(--text-secondary); }
+.rc-tag.strong { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rc-tag.hl { background: var(--accent-light); color: var(--accent-dark); border-color: transparent; }
+.rc-item { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.5rem; }
+.rc-item-label { font-size: 10px; color: var(--accent-dark); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 0.2rem; }
+.rc-item-title { font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.25rem; }
+.rc-item-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.rc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; }
+.rc-signal { text-align: center; padding: 0.75rem 0.5rem; border-radius: 10px; }
+.rc-signal-name { font-size: 13px; font-weight: 500; margin-bottom: 0.2rem; }
+.rc-signal-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: center; margin-top: 0.4rem; }
+.rc-signal-tag { font-size: 10px; padding: 0.15rem 0.4rem; border-radius: 8px; }
+.rc-footer { margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.rc-footer-text { font-size: 11px; color: var(--text-tertiary); }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <p class="header-eyebrow">나를 찾는 여정</p>
+    <h1 class="header-title">좋아하는 일을<br>찾기 위한 워크북</h1>
+    <p class="header-sub">흥미와 열정의 신호를 따라가는 나만의 탐색</p>
+  </div>
+
+  <!-- Part 01 -->
+  <div class="section">
+    <p class="section-label">Part 01</p>
+    <h2 class="section-title">하고 싶은 일을 찾기 위한 기본 원칙</h2>
+    <div class="card"><p class="card-num">원칙 1</p><p class="card-title">판단하지 말고 먼저 느껴라</p><p class="card-desc">"이게 직업이 될까?", "돈이 될까?"를 먼저 따지면 진짜 흥미가 보이지 않는다. 현실적 판단은 나중에 하고, 지금은 내가 무엇을 할 때 시간 가는 줄 모르는지에 집중한다.</p></div>
+    <div class="card"><p class="card-num">원칙 2</p><p class="card-title">과거의 패턴 안에 답이 있다</p><p class="card-desc">어릴 때부터 반복적으로 끌렸던 것, 남들이 시키지 않아도 스스로 했던 것에 중요한 단서가 있다. 하고 싶은 일은 갑자기 나타나지 않는다. 이미 오래전부터 신호를 보내고 있었다.</p></div>
+    <div class="card"><p class="card-num">원칙 3</p><p class="card-title">작게 시작해 몸으로 확인하라</p><p class="card-desc">흥미는 생각만으로는 확인되지 않는다. 직접 해보는 경험이 쌓일수록 진짜 열정인지 단순한 호기심인지가 드러난다. 완벽한 조건을 기다리지 말고, 지금 할 수 있는 가장 작은 행동부터 시작한다.</p></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 02 -->
+  <div class="section">
+    <p class="section-label">Part 02</p>
+    <h2 class="section-title">하고 싶은 일이 형성되는 시기</h2>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><p class="tl-period">유아~초등 저학년 (4–8세)</p><p class="tl-main">놀이에서 나오는 최초의 흥미</p><p class="tl-sub">특정 놀이를 반복하거나 어떤 역할을 맡는 것을 좋아하는 패턴이 생긴다. 이 시기의 "그냥 좋아서 하는 것"이 훗날 직업적 방향의 씨앗이 된다.</p></div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><p class="tl-period">초등 고학년~중학교 (10–14세)</p><p class="tl-main">비교와 탐색을 통한 흥미의 구체화</p><p class="tl-sub">또래와 비교하며 "나는 이걸 더 잘하고 더 좋아한다"는 감각이 생긴다. 학교 과목, 취미, 동아리 등을 통해 흥미가 점점 구체화된다.</p></div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-content"><p class="tl-period">고등학교~대학 초반 (15–20세)</p><p class="tl-main">외부 자극과 롤모델의 영향</p><p class="tl-sub">책, 영화, 멘토의 영향을 크게 받는다. "나도 저렇게 살고 싶다"는 강한 감정이 하고 싶은 일의 방향을 만드는 결정적 계기가 된다.</p></div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div></div><div class="tl-content"><p class="tl-period">성인 이후 (20대~)</p><p class="tl-main">경험 축적과 재발견</p><p class="tl-sub">여러 경험을 쌓으면서 "이건 아니다"를 반복하다가 진짜 좋아하는 것을 재발견하는 시기.</p></div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 03 -->
+  <div class="section">
+    <p class="section-label">Part 03</p>
+    <h2 class="section-title">나의 성향 테스트</h2>
+    <p class="section-desc">각 질문에서 나에게 더 가까운 쪽을 선택하고, 구체적인 경험이나 예시를 적어보세요.</p>
+    <div id="test-container"></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 04 -->
+  <div class="section">
+    <p class="section-label">Part 04</p>
+    <h2 class="section-title">나의 성향 방향 정리</h2>
+    <p class="section-desc">테스트 답변을 바탕으로 내가 더 선호하는 방향이 자동으로 정리됩니다.</p>
+    <div id="summary-area"><div class="summary-empty">위 테스트를 완성하면 여기에 나의 성향이 정리됩니다</div></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 05 -->
+  <div class="section">
+    <p class="section-label">Part 05</p>
+    <h2 class="section-title">가슴 뛰는 동사 찾기</h2>
+    <p class="section-desc">10개를 골라보세요. 고른 동사 아래에 연관 동사도 적어보세요.</p>
+    <p class="selected-count" id="verb-count">0 / 10개 선택됨</p>
+    <div class="verb-grid" id="verb-grid"></div>
+    <div id="selected-verbs-section" style="display:none;margin-top:1.5rem;">
+      <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:0.75rem;letter-spacing:0.03em;">내가 고른 동사 + 연관 동사</p>
+      <div id="selected-verbs-list"></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 06 -->
+  <div class="section">
+    <p class="section-label">Part 06</p>
+    <h2 class="section-title">나의 흥미 신호 — 동사 총합</h2>
+    <p class="section-desc">동사와 연관 동사를 입력하면 자동으로 채워집니다.</p>
+    <div id="auto-signal-wrap">
+      <div class="summary-empty">동사를 선택하고 연관 동사를 입력하면 여기에 정리됩니다</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 07 -->
+  <div class="section">
+    <p class="section-label">Part 07</p>
+    <h2 class="section-title">요즘 가장 관심있는 주제</h2>
+    <p class="section-desc">지금 이 순간 끌리는 것, 자꾸 찾아보게 되는 것, 마음이 가는 것을 적어보세요. 거창하지 않아도 괜찮아요.</p>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;border-bottom:0.5px solid var(--border-mid);padding:0.65rem 0.25rem;">
+        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;">1</span>
+        <input class="num-input" id="interest-1" placeholder="예) 사진, 독립 출판, 브랜딩, 요리, 심리학..." style="font-size:14px;" />
+      </div>
+      <div style="display:flex;align-items:center;gap:0.75rem;border-bottom:0.5px solid var(--border-mid);padding:0.65rem 0.25rem;">
+        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;">2</span>
+        <input class="num-input" id="interest-2" placeholder="" style="font-size:14px;" />
+      </div>
+      <div style="display:flex;align-items:center;gap:0.75rem;border-bottom:0.5px solid var(--border-mid);padding:0.65rem 0.25rem;">
+        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;">3</span>
+        <input class="num-input" id="interest-3" placeholder="" style="font-size:14px;" />
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 08 -->
+  <div class="section">
+    <p class="section-label">Part 08</p>
+    <h2 class="section-title">내가 하고 싶은 것 적기</h2>
+    <p class="section-desc">내가 좋아하는 것 = 흥미. 생각나는 대로 자유롭게 적어보세요.</p>
+    <div class="numbered-grid">
+      <div class="num-col" id="col1"></div>
+      <div class="num-col" id="col2"></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 09 -->
+  <div class="section">
+    <p class="section-label">Part 09</p>
+    <h2 class="section-title">내가 추구하는 것 — 나만의 방향</h2>
+    <p class="section-desc">내가 궁극적으로 추구하는 가치, 삶의 방향, 되고 싶은 모습을 자유롭게 적어보세요.</p>
+    <textarea class="direction-textarea" id="direction-input" placeholder="자유롭게 적어보세요"></textarea>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 10 -->
+  <div class="section">
+    <p class="section-label">Part 10</p>
+    <h2 class="section-title">5가지 신호 — 최종 정리 & 추천</h2>
+    <p class="section-desc">파트 3~8을 완성하면 나에게 어울리는 일의 방향을 추천해드려요.</p>
+    <div id="final-area"><div class="final-empty">파트 3~8을 완성하면 최종 정리가 여기에 나타납니다</div></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Part 11 -->
+  <div class="section">
+    <p class="section-label">Part 11</p>
+    <h2 class="section-title">앞으로 이것을 위해 해볼 것 3가지</h2>
+    <p class="section-desc">크지 않아도 괜찮아요. 지금 당장 시작할 수 있는 작은 행동부터 적어보세요.</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;padding-top:2px;">1</span>
+        <div style="flex:1;">
+          <input class="num-input" id="action-1" placeholder="예) 관심 있는 분야 책 한 권 읽기" style="font-size:14px;width:100%;margin-bottom:0.4rem;" />
+          <input class="num-input" id="action-1-when" placeholder="언제? 예) 이번 주 안에" style="font-size:12px;width:100%;color:var(--text-tertiary);" />
+        </div>
+      </div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;padding-top:2px;">2</span>
+        <div style="flex:1;">
+          <input class="num-input" id="action-2" placeholder="" style="font-size:14px;width:100%;margin-bottom:0.4rem;" />
+          <input class="num-input" id="action-2-when" placeholder="언제?" style="font-size:12px;width:100%;color:var(--text-tertiary);" />
+        </div>
+      </div>
+      <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;gap:1rem;align-items:flex-start;">
+        <span style="font-size:13px;font-weight:500;color:var(--accent);min-width:20px;padding-top:2px;">3</span>
+        <div style="flex:1;">
+          <input class="num-input" id="action-3" placeholder="" style="font-size:14px;width:100%;margin-bottom:0.4rem;" />
+          <input class="num-input" id="action-3-when" placeholder="언제?" style="font-size:12px;width:100%;color:var(--text-tertiary);" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>나를 찾는 여정 · 좋아하는 일을 찾기 위한 워크북</p>
+
+    <div style="margin-top:2rem;padding:1.5rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);text-align:center;">
+      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:0.4rem;">워크로그를 기록해보세요.</p>
+      <p style="font-size:14px;color:var(--text-secondary);margin-bottom:1.25rem;">해시태그를 걸면 응원 갈게요! 🌿</p>
+      <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+        <a href="https://www.instagram.com/explore/tags/unfoldingproject/" target="_blank" rel="noopener"
+          style="padding:0.4rem 0.9rem;border-radius:20px;background:var(--accent-light);color:var(--accent-dark);font-size:13px;text-decoration:none;border:0.5px solid transparent;transition:all 0.2s;"
+          onmouseover="this.style.background='#1D9E75';this.style.color='#fff'"
+          onmouseout="this.style.background='var(--accent-light)';this.style.color='var(--accent-dark)'">#unfoldingproject</a>
+        <a href="https://www.instagram.com/explore/tags/좋아하는일찾기/" target="_blank" rel="noopener"
+          style="padding:0.4rem 0.9rem;border-radius:20px;background:var(--accent-light);color:var(--accent-dark);font-size:13px;text-decoration:none;border:0.5px solid transparent;transition:all 0.2s;"
+          onmouseover="this.style.background='#1D9E75';this.style.color='#fff'"
+          onmouseout="this.style.background='var(--accent-light)';this.style.color='var(--accent-dark)'">#좋아하는일찾기</a>
+        <a href="https://www.instagram.com/explore/tags/펼치는삶/" target="_blank" rel="noopener"
+          style="padding:0.4rem 0.9rem;border-radius:20px;background:var(--accent-light);color:var(--accent-dark);font-size:13px;text-decoration:none;border:0.5px solid transparent;transition:all 0.2s;"
+          onmouseover="this.style.background='#1D9E75';this.style.color='#fff'"
+          onmouseout="this.style.background='var(--accent-light)';this.style.color='var(--accent-dark)'">#펼치는삶</a>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;">
+      <span style="font-size:12px;color:var(--text-tertiary);">만든 사람</span>
+      <a href="https://instagram.com/urim_log" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 1rem;border-radius:20px;border:0.5px solid var(--border-mid);background:var(--surface);color:var(--text-secondary);font-size:13px;text-decoration:none;transition:all 0.2s;"
+        onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent-dark)';this.style.background='var(--accent-light)'"
+        onmouseout="this.style.borderColor='var(--border-mid)';this.style.color='var(--text-secondary)';this.style.background='var(--surface)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        @urim_log
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Export bar -->
+<div class="export-bar">
+  <span class="export-label">저장하기</span>
+  <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;margin-right:0.5rem;">저장됨</span>
+  <button class="export-btn" id="btn-full" onclick="downloadFull()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+    전체 저장
+  </button>
+  <button class="export-btn primary" id="btn-summary" onclick="downloadSummary()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    최종 정리 저장
+  </button>
+</div>
+
+<!-- Hidden result card for image export -->
+<div class="result-card-wrap" id="result-card"></div>
+
+<script>
+const questions = [
+  { category:"경험", cat_axis:["새로운 자극","깊이 몰입"], text:"어떤 경험을 할 때 가장 살아있다는 느낌이 드나요?", a:{label:"새로운 것을 처음 경험할 때",keyword:"탐험·도전"}, b:{label:"익숙한 것을 깊이 파고들 때",keyword:"숙련·집중"}, open:"구체적인 경험이나 순간을 적어보세요" },
+  { category:"성취", cat_axis:["결과물 완성","타인에게 영향"], text:"어떤 결과가 나왔을 때 가장 뿌듯함을 느끼나요?", a:{label:"눈에 보이는 결과물이 완성될 때",keyword:"완성·제작"}, b:{label:"누군가에게 변화나 영향을 줬을 때",keyword:"영향·연결"}, open:"가장 기억에 남는 성취 경험을 적어보세요" },
+  { category:"즐거움", cat_axis:["만들고 표현","찾고 배움"], text:"순수하게 즐거워서 시간 가는 줄 모를 때는?", a:{label:"무언가를 만들거나 표현할 때",keyword:"창작·표현"}, b:{label:"정보를 찾고 배우고 정리할 때",keyword:"탐구·학습"}, open:"최근 시간 가는 줄 몰랐던 순간은?" },
+  { category:"편안함", cat_axis:["혼자 조용히","사람과 함께"], text:"어떤 환경에 있을 때 가장 편안하고 집중이 잘 되나요?", a:{label:"조용하고 정돈된 혼자만의 공간",keyword:"독립·내향"}, b:{label:"사람이 있고 활기찬 열린 공간",keyword:"교류·외향"}, open:"나에게 이상적인 작업 환경을 묘사해보세요" },
+  { category:"동기", cat_axis:["내가 정한 것","함께 만든 것"], text:"어떤 일을 할 때 더 오래, 열심히 하게 되나요?", a:{label:"내가 스스로 정하고 시작한 일",keyword:"자기주도·내적동기"}, b:{label:"누군가와 함께 만들어가는 일",keyword:"관계·공동목표"}, open:"가장 오래 몰입했던 일은 어떻게 시작됐나요?" },
+  { category:"작업 스타일", cat_axis:["방향 제시","깊이 실행"], text:"무언가를 시작할 때 어떤 역할이 더 자연스럽나요?", a:{label:"아이디어를 내고 방향을 잡는 것",keyword:"기획·리드"}, b:{label:"방향이 정해지면 깊이 파고드는 것",keyword:"실행·완성"}, open:"내가 자연스럽게 맡게 되는 역할은?" },
+  { category:"편안함", cat_axis:["빠르고 다양","느리고 완성도"], text:"어떤 속도로 일할 때 가장 잘 맞나요?", a:{label:"빠르게 여러 가지를 동시에 진행",keyword:"속도·멀티"}, b:{label:"하나씩 천천히 완성도 있게 마무리",keyword:"집중·완성도"}, open:"내 자연스러운 페이스를 설명해보세요" },
+  { category:"성취", cat_axis:["기여·실용","인정·창의"], text:"어떤 피드백을 받을 때 가장 힘이 되나요?", a:{label:'"이게 정말 도움이 됐어" 라는 말',keyword:"기여·실용"}, b:{label:'"이거 정말 멋지다, 대단하다" 라는 말',keyword:"인정·창의"}, open:"가장 기억에 남는 피드백은?" },
+  { category:"즐거움", cat_axis:["결과","과정"], text:"어떤 순간에 일이 재밌다고 느끼나요?", a:{label:"완성된 결과를 보고 뿌듯할 때",keyword:"결과·완성감"}, b:{label:"해나가는 과정 자체가 흥미로울 때",keyword:"과정·몰입감"}, open:"가장 재밌었던 일의 어떤 순간이 좋았나요?" },
+  { category:"경험", cat_axis:["넓게 경험","깊게 전문화"], text:"앞으로 어떤 방향으로 성장하고 싶나요?", a:{label:"다양한 분야를 넓게 경험하고 싶다",keyword:"다양성·확장"}, b:{label:"한 분야를 깊게 파서 전문가가 되고 싶다",keyword:"전문성·깊이"}, open:"지금 가장 성장하고 싶은 방향은?" }
+];
+
+const catDesc = {
+  "경험":{ a:"새롭고 다양한 경험에서 자극을 받는 탐험형입니다.", b:"익숙한 것을 깊이 파고드는 몰입형입니다.", both:"새로운 탐험과 깊은 몰입 모두에서 에너지를 얻는 균형형입니다." },
+  "성취":{ a:"손에 잡히는 결과물을 완성할 때 가장 큰 보람을 느끼는 제작자형입니다.", b:"사람에게 영향을 미치고 변화를 만들 때 에너지를 얻는 연결자형입니다.", both:"결과물 완성과 타인에 대한 영향 모두에서 성취감을 느끼는 성향입니다." },
+  "즐거움":{ a:"만들고 표현하는 행위와 완성된 결과 모두에서 즐거움을 찾는 창작형입니다.", b:"찾고 배우고 과정 자체에 빠져드는 탐구형입니다.", both:"창작과 탐구, 결과와 과정 모두를 즐기는 복합적인 성향입니다." },
+  "편안함":{ a:"조용하고 독립적인 환경에서 집중력이 높아지는 내향형입니다.", b:"사람과 활기 속에서 에너지를 얻는 외향형입니다.", both:"혼자와 함께 모두에서 편안함을 찾는 양향형입니다." },
+  "동기":{ a:"스스로 정한 목표와 방향에서 가장 큰 동력을 얻는 자기주도형입니다.", b:"함께하는 관계와 공동의 목표에서 에너지를 얻는 공동체형입니다.", both:"내적 동기와 관계적 동기 모두에서 힘을 얻는 유연한 성향입니다." },
+  "작업 스타일":{ a:"방향을 잡고 아이디어를 내며 이끄는 기획형입니다.", b:"정해진 방향 안에서 깊이 파고드는 실행형입니다.", both:"기획과 실행 모두에서 강점을 발휘하는 유연한 스타일입니다." }
+};
+
+const answers = {};
+const container = document.getElementById('test-container');
+
+questions.forEach((q, i) => {
+  const div = document.createElement('div');
+  div.className = 'test-q';
+  div.innerHTML = `<p class="test-q-label">Q${i+1} · ${q.category}</p><p class="test-q-text">${q.text}</p><div class="test-options"><div class="test-opt" data-q="${i}" data-side="a">${q.a.label}</div><div class="test-opt" data-q="${i}" data-side="b">${q.b.label}</div></div><div><textarea class="test-textarea" placeholder="${q.open}"></textarea></div>`;
+  container.appendChild(div);
+  if (i < questions.length - 1) { const hr = document.createElement('hr'); hr.className = 'test-sep'; container.appendChild(hr); }
+});
+
+container.querySelectorAll('.test-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const qi = parseInt(opt.dataset.q);
+    container.querySelectorAll(`.test-opt[data-q="${qi}"]`).forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    answers[qi] = { side: opt.dataset.side, keyword: questions[qi][opt.dataset.side].keyword };
+    updateSummary(); updateFinal();
+  });
+});
+
+function updateSummary() {
+  const area = document.getElementById('summary-area');
+  const byCategory = {};
+  questions.forEach((q, i) => {
+    if (!answers[i]) return;
+    if (!byCategory[q.category]) byCategory[q.category] = { a:0, b:0, keywords:[], catAxis:q.cat_axis };
+    byCategory[q.category][answers[i].side]++;
+    byCategory[q.category].keywords.push(answers[i].keyword);
+  });
+  const cats = Object.keys(byCategory);
+  if (cats.length === 0) return;
+
+  // 카테고리별 카드 — aKws/bKws 분리 추적
+  const byCat2 = {};
+  questions.forEach((q, i) => {
+    if (!answers[i]) return;
+    if (!byCat2[q.category]) byCat2[q.category] = { a:0, b:0, aKws:[], bKws:[], catAxis:q.cat_axis };
+    byCat2[q.category][answers[i].side]++;
+    byCat2[q.category][answers[i].side+'Kws'].push(answers[i].keyword);
+  });
+
+  let html = '<div class="summary-grid">';
+  Object.entries(byCat2).forEach(([cat, d]) => {
+    const total = d.a + d.b;
+    const aR = Math.round((d.a/total)*100); const bR = 100-aR;
+    const dom = d.a > d.b ? 'a' : d.b > d.a ? 'b' : 'both';
+    const aLabel = d.catAxis[0]; const bLabel = d.catAxis[1];
+    html += `<div class="summary-row">
+      <div class="summary-row-top">
+        <span class="summary-cat">${cat}</span>
+        <span class="summary-chosen">${dom==='a'?aLabel:dom==='b'?bLabel:aLabel+' · '+bLabel}</span>
+      </div>
+      <div class="summary-bar-wrap">
+        <span class="summary-bar-label">${aLabel}</span>
+        <div class="summary-bar-track"><div class="summary-bar-center"></div><div class="summary-bar-fill-a" style="width:${Math.round(aR/2)}%"></div><div class="summary-bar-fill-b" style="width:${Math.round(bR/2)}%"></div></div>
+        <span class="summary-bar-label-r">${bLabel}</span>
+      </div>
+      <p class="summary-direction">${catDesc[cat]?.[dom]||''}</p>
+    </div>`;
+  });
+  html += '</div>';
+
+  // 키워드 분류: 주로 해당 vs 부분 해당
+  const strongKws = [], weakKws = [];
+  Object.values(byCat2).forEach(d => {
+    const total = d.a + d.b;
+    const dom = d.a > d.b ? 'a' : d.b > d.a ? 'b' : 'both';
+    if (dom === 'both') {
+      [...d.aKws, ...d.bKws].forEach(k => { if (!weakKws.includes(k)) weakKws.push(k); });
+    } else {
+      const ratio = dom === 'a' ? d.a/total : d.b/total;
+      const domKws = dom === 'a' ? d.aKws : d.bKws;
+      const minorKws = dom === 'a' ? d.bKws : d.aKws;
+      domKws.forEach(k => {
+        if (ratio >= 0.7) { if (!strongKws.includes(k)) strongKws.push(k); }
+        else { if (!weakKws.includes(k)) weakKws.push(k); }
+      });
+      minorKws.forEach(k => { if (!weakKws.includes(k) && !strongKws.includes(k)) weakKws.push(k); });
+    }
+  });
+
+  html += `<div class="overall-card"><p class="overall-title">나의 성향 키워드</p>`;
+  if (strongKws.length) {
+    html += `<p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;letter-spacing:0.04em;">주로 해당돼요</p>
+    <div class="overall-tags" style="margin-bottom:0.75rem;">${strongKws.map(k=>`<span class="tag strong">${k}</span>`).join('')}</div>`;
+  }
+  if (weakKws.length) {
+    html += `<p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;letter-spacing:0.04em;">부분적으로 해당돼요</p>
+    <div class="overall-tags">${weakKws.map(k=>`<span class="tag">${k}</span>`).join('')}</div>`;
+  }
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+for (let i=1;i<=10;i++) { const item=document.createElement('div'); item.className='num-item'; item.innerHTML=`<span class="num-label">${i}.</span><input class="num-input" />`; document.getElementById(i<=5?'col1':'col2').appendChild(item); }
+
+const verbs = [
+  "만들다","기록하다","표현하다","편집하다","연출하다","디자인하다","촬영하다","글 쓰다","그리다","빚다",
+  "기획하다","전략짜다","구성하다","설계하다","분석하다","연구하다","탐구하다","조사하다","측정하다","실험하다",
+  "가르치다","멘토링하다","코칭하다","상담하다","공감하다","위로하다","돕다","봉사하다","연결하다","이끌다",
+  "탐험하다","여행하다","발견하다","수집하다","큐레이션하다","아카이빙하다","관찰하다","기념하다","보존하다","복원하다",
+  "이야기하다","설득하다","발표하다","강연하다","인터뷰하다","번역하다","논증하다","묘사하다","질문하다","대화하다",
+  "도전하다","개척하다","혁신하다","실행하다","완성하다","개선하다","최적화하다","자동화하다","테스트하다","운영하다",
+  "상상하다","몽상하다","재해석하다","스토리 만들다","브랜드 짓다","전시하다","공연하다","연주하다","노래하다","춤추다",
+  "요리하다","재배하다","기르다","배치하다","꾸미다","수리하다","조립하다","세팅하다","설치하다","개발하다",
+  "정리하다","분류하다","선별하다","추천하다","소개하다","평가하다","검토하다","비교하다","리뷰하다","피드백하다",
+  "협력하다","조율하다","팀 꾸리다","나누다","출판하다","판매하다","협상하다","성찰하다","명상하다","몰입하다"
+];
+
+let selected = []; let relatedMap = {};
+
+const verbGrid = document.getElementById('verb-grid');
+verbs.forEach(v => {
+  const chip = document.createElement('div'); chip.className='verb-chip'; chip.textContent=v;
+  chip.addEventListener('click', () => {
+    if (chip.classList.contains('selected')) { chip.classList.remove('selected'); selected=selected.filter(s=>s!==v); delete relatedMap[v]; }
+    else { if (selected.length>=10) return; chip.classList.add('selected'); selected.push(v); relatedMap[v]=['','','']; }
+    updateCount(); renderSelectedList(); updateAutoSignal(); updateFinal();
+  });
+  verbGrid.appendChild(chip);
+});
+
+function updateCount() { document.getElementById('verb-count').textContent=selected.length+' / 10개 선택됨'; }
+
+function renderSelectedList() {
+  const sec=document.getElementById('selected-verbs-section'); const list=document.getElementById('selected-verbs-list');
+  if (selected.length===0) { sec.style.display='none'; return; }
+  sec.style.display='block'; list.innerHTML='';
+  selected.forEach((v,i) => {
+    const item=document.createElement('div'); item.className='sv-item';
+    const rel=relatedMap[v]||['','',''];
+    item.innerHTML=`<div class="sv-main"><span class="sv-num">${i+1}</span><span class="sv-verb">${v}</span></div><div class="sv-related"><input class="sv-related-input" placeholder="연관 동사 1" value="${rel[0]}" data-verb="${v}" data-idx="0" /><input class="sv-related-input" placeholder="연관 동사 2" value="${rel[1]}" data-verb="${v}" data-idx="1" /><input class="sv-related-input" placeholder="연관 동사 3" value="${rel[2]}" data-verb="${v}" data-idx="2" /></div>`;
+    list.appendChild(item);
+  });
+  list.querySelectorAll('.sv-related-input').forEach(inp => {
+    inp.addEventListener('input', () => {
+      if (!relatedMap[inp.dataset.verb]) relatedMap[inp.dataset.verb]=['','',''];
+      relatedMap[inp.dataset.verb][parseInt(inp.dataset.idx)]=inp.value.trim();
+      updateAutoSignal(); updateFinal();
+    });
+  });
+}
+
+function updateAutoSignal() {
+  const wrap = document.getElementById('auto-signal-wrap');
+  if (selected.length === 0) {
+    wrap.innerHTML = '<div class="summary-empty">동사를 선택하고 연관 동사를 입력하면 여기에 정리됩니다</div>';
+    return;
+  }
+
+  // 연관 동사 빈도 계산
+  const freq = {};
+  Object.values(relatedMap).forEach(arr => arr.forEach(r => {
+    const t = r.trim(); if (!t) return;
+    freq[t] = (freq[t]||0) + 1;
+  }));
+  const allRelated = Object.keys(freq);
+  const top3 = [...allRelated].sort((a,b) => freq[b]-freq[a]).slice(0,3).filter(k => freq[k] >= 2);
+
+  let html = `<div style="margin-bottom:1rem;">
+    <p style="font-size:11px;color:var(--text-tertiary);letter-spacing:0.05em;margin-bottom:0.6rem;">내가 선택한 동사</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+      ${selected.map(v=>`<span class="verb-chip selected" style="cursor:default;">${v}</span>`).join('')}
+    </div>
+  </div>`;
+
+  if (allRelated.length > 0) {
+    html += `<div style="margin-bottom:1rem;">
+      <p style="font-size:11px;color:var(--text-tertiary);letter-spacing:0.05em;margin-bottom:0.6rem;">연관 동사 <span style="color:var(--accent);font-weight:500;">(겹치는 것 강조)</span></p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+        ${allRelated.map(r => freq[r] >= 2
+          ? `<span style="padding:0.3rem 0.75rem;border-radius:20px;font-size:12px;background:var(--accent-light);color:var(--accent-dark);border:1.5px solid var(--accent);font-weight:500;">${r} ×${freq[r]}</span>`
+          : `<span style="padding:0.3rem 0.75rem;border-radius:20px;font-size:12px;background:var(--surface);color:var(--text-secondary);border:0.5px solid var(--border-mid);">${r}</span>`
+        ).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (top3.length > 0) {
+    html += `<div style="background:var(--bg);border-radius:var(--radius-md);padding:1rem 1.25rem;border:0.5px solid var(--border);">
+      <p style="font-size:11px;color:var(--text-tertiary);letter-spacing:0.05em;margin-bottom:0.75rem;">가장 많이 겹치는 동사</p>
+      <div style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:center;">
+        ${top3.map((k,i)=>`
+          <div style="display:flex;align-items:center;gap:0.4rem;">
+            <span style="font-size:11px;color:var(--accent);font-weight:500;">${i+1}</span>
+            <span style="font-size:15px;font-weight:500;color:var(--text-primary);">${k}</span>
+            <span style="font-size:11px;color:var(--text-tertiary);">×${freq[k]}</span>
+          </div>`).join('<span style="color:var(--border-mid);">·</span>')}
+      </div>
+    </div>`;
+  }
+
+  wrap.innerHTML = html;
+}
+
+const signalMapping = {
+  흥미:{ keywords:["탐험","발견","수집","관찰","질문","조사","탐구","리뷰","분류","큐레이션"], desc:"끌리는 것 — 하고 싶어서 자연스럽게 손이 가는 영역" },
+  행복:{ keywords:["만들다","기록","표현","완성","꾸미다","디자인","연출","편집","사진","영상","글"], desc:"할 때 좋은 것 — 과정 자체가 즐거운 행위" },
+  열정:{ keywords:["도전","개척","혁신","상상","기획","스토리","브랜드","영향","변화","깨우"], desc:"불타오르는 것 — 잘 안 돼도 계속하게 되는 것" },
+  재능:{ keywords:["분석","설계","구현","정리","구성","전략","최적화","비교","논증","설명"], desc:"잘하는 것 — 남보다 수월하게 되는 것" },
+  강점:{ keywords:["가르치다","멘토링","코칭","연결","협력","공감","이끌다","소개","조율","봉사"], desc:"힘이 되는 것 — 나만의 방식으로 기여하는 것" }
+};
+
+const signalColors = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+const signalTextColors = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+
+function getRecommendations() {
+  const allVerbs=[...selected,...Object.values(relatedMap).flat().filter(Boolean)];
+  const creative=allVerbs.some(v=>["만들다","찍다","그리다","표현하다","연출하다","편집하다","디자인하다","사진 찍다","영상 찍다","글 쓰다","공간 꾸미다","촬영하다","감독하다","스토리 만들다","브랜드 짓다","책 만들다","전시하다","아카이빙하다"].some(k=>v.includes(k.replace("하다",""))));
+  const people=allVerbs.some(v=>["가르치다","상담하다","공감하다","연결하다","협력하다","멘토링하다","코칭하다","인터뷰하다","사람 만나다","강연하다","소개하다","봉사하다"].some(k=>v.includes(k.replace("하다",""))));
+  const analytical=allVerbs.some(v=>["분석하다","연구하다","설계하다","전략짜다","최적화하다","비교하다","조사하다","탐구하다"].some(k=>v.includes(k.replace("하다",""))));
+  const leading=allVerbs.some(v=>["기획하다","이끌다","개척하다","프로젝트 끌다","팀 꾸리다","도전하다","혁신하다"].some(k=>v.includes(k.replace("하다",""))));
+  const recs=[];
+  if (creative&&people) recs.push({label:"창작 + 사람 연결형",title:"콘텐츠 크리에이터 / 브랜드 디렉터",desc:"만들고 표현하는 것을 좋아하면서 사람과 연결되는 일에 에너지를 얻는 유형입니다. 자신만의 시각으로 콘텐츠를 만들고, 그것이 누군가에게 닿는 것에서 보람을 느낍니다."});
+  if (creative&&!people) recs.push({label:"창작 집중형",title:"작가 / 사진작가 / 영상 감독",desc:"혼자 깊이 파고드는 창작 작업에서 가장 큰 즐거움을 찾는 유형입니다. 결과물 자체의 완성도에 집착하며, 자신만의 세계관을 구축하는 일에 잘 맞습니다."});
+  if (people&&!creative) recs.push({label:"관계·영향 중심형",title:"교육자 / 커뮤니티 기획자 / 코치",desc:"사람과 연결되고, 누군가에게 영향을 미치는 것에서 가장 큰 에너지를 얻는 유형입니다. 가르치거나 이끄는 역할에서 자연스러운 강점을 발휘합니다."});
+  if (analytical&&leading) recs.push({label:"전략·기획형",title:"프로덕트 기획자 / 프로젝트 디렉터",desc:"문제를 분석하고 전략을 세우며 실행까지 이끄는 것을 좋아하는 유형입니다. 구조를 만들고 방향을 잡는 역할에서 탁월한 강점을 발휘합니다."});
+  if (recs.length===0) recs.push({label:"탐색 진행 중",title:"아직 더 많은 신호가 필요해요",desc:"동사를 더 선택하고 연관 동사도 채워보세요. 선택이 쌓일수록 방향이 선명해집니다."});
+  return recs.slice(0,3);
+}
+
+function updateFinal() {
+  const allVerbs=[...selected,...Object.values(relatedMap).flat().filter(Boolean)];
+  if (Object.keys(answers).length<5&&selected.length<3) return;
+  const tendencyKeywords=Object.values(answers).map(a=>a.keyword);
+  const signalData={};
+  Object.entries(signalMapping).forEach(([signal,config])=>{
+    const matched=allVerbs.filter(v=>config.keywords.some(k=>v.replace("하다","").includes(k.replace("하다",""))));
+    signalData[signal]={matched,desc:config.desc};
+  });
+  let html='<div class="final-signal-row">';
+  Object.entries(signalData).forEach(([signal,data])=>{
+    const bg=signalColors[signal]; const tc=signalTextColors[signal];
+    const tendencyHint=tendencyKeywords.find(k=>{
+      if(signal==='흥미'&&(k.includes('탐험')||k.includes('창작'))) return true;
+      if(signal==='행복'&&(k.includes('창작')||k.includes('완성'))) return true;
+      if(signal==='열정'&&(k.includes('도전')||k.includes('기획')||k.includes('영향'))) return true;
+      if(signal==='재능'&&(k.includes('집중')||k.includes('실행')||k.includes('분석'))) return true;
+      if(signal==='강점'&&(k.includes('연결')||k.includes('협업')||k.includes('기여'))) return true;
+      return false;
+    });
+    html+=`<div class="final-signal-item"><div class="final-signal-header"><div class="final-signal-icon" style="background:${bg};color:${tc};">✦</div><span class="final-signal-name">${signal}</span><span class="final-signal-hint">${data.desc}</span></div><div class="final-signal-tags">${data.matched.slice(0,6).map(v=>`<span class="fst hl">${v}</span>`).join('')}${tendencyHint?`<span class="fst" style="background:${bg};color:${tc};border-color:transparent;">${tendencyHint}</span>`:''}${data.matched.length===0&&!tendencyHint?'<span style="font-size:12px;color:var(--text-tertiary);">동사를 더 선택해보세요</span>':''}</div></div>`;
+  });
+  html+='</div>';
+  const recs=getRecommendations();
+  html+=`<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향 추천</p>`;
+  recs.forEach(r=>{html+=`<div class="recommend-card"><p class="recommend-label">${r.label}</p><p class="recommend-title-text">${r.title}</p><p class="recommend-desc">${r.desc}</p></div>`;});
+  html+='</div>';
+  document.getElementById('final-area').innerHTML=html;
+}
+document.getElementById('direction-input').addEventListener('input',updateFinal);
+
+// ── 날짜 ──
+function getDateStr() {
+  const d = new Date();
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+}
+
+// ── 현재 내용 수집 ──
+function collectData() {
+  const tendencyKws = Object.values(answers).map(a=>a.keyword);
+  const allVerbs = [...selected, ...Object.values(relatedMap).flat().filter(Boolean)];
+  const items22 = [...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean);
+  const direction = document.getElementById('direction-input').value.trim();
+  const recs = getRecommendations();
+
+  // signal data
+  const sigData = {};
+  Object.entries(signalMapping).forEach(([s,c])=>{
+    sigData[s] = allVerbs.filter(v=>c.keywords.some(k=>v.replace("하다","").includes(k.replace("하다",""))));
+  });
+
+  return { tendencyKws, selected, allVerbs, items22, direction, recs, sigData, date: getDateStr() };
+}
+
+// ── HTML 다운로드 (입력값 직접 굽기) ──
+function downloadHTML() {
+  // 현재 input/textarea 값을 복제본에 attribute로 굽기
+  const clone = document.documentElement.cloneNode(true);
+
+  // inputs
+  const origInputs = document.querySelectorAll('input');
+  const cloneInputs = clone.querySelectorAll('input');
+  origInputs.forEach((el, i) => {
+    if (!cloneInputs[i]) return;
+    cloneInputs[i].setAttribute('value', el.value);
+    if (el.checked) cloneInputs[i].setAttribute('checked', '');
+  });
+
+  // textareas
+  const origTAs = document.querySelectorAll('textarea');
+  const cloneTAs = clone.querySelectorAll('textarea');
+  origTAs.forEach((el, i) => {
+    if (!cloneTAs[i]) return;
+    cloneTAs[i].textContent = el.value;
+  });
+
+  // 선택된 verb chips
+  document.querySelectorAll('.verb-chip.selected').forEach(chip => {
+    clone.querySelectorAll('.verb-chip').forEach(c => {
+      if (c.textContent.trim() === chip.textContent.trim()) c.classList.add('selected');
+    });
+  });
+
+  // 선택된 test opts
+  document.querySelectorAll('.test-opt.selected').forEach(opt => {
+    const q = opt.dataset.q, side = opt.dataset.side;
+    const m = clone.querySelector(`.test-opt[data-q="${q}"][data-side="${side}"]`);
+    if (m) m.classList.add('selected');
+  });
+
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `나를찾는여정_${new Date().toISOString().slice(0,10)}.html`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+}
+
+// ── 이미지 저장 (인라인 스타일로 CSS 변수 없이 직접 렌더) ──
+function buildResultCardHTML(data) {
+  const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+  const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+
+  const tag = (text, bg, color, border) =>
+    `<span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;background:${bg};color:${color};border:0.5px solid ${border||bg};margin:2px;font-family:sans-serif;">${text}</span>`;
+
+  let html = `<div style="font-family:'Noto Sans KR',sans-serif;font-weight:300;background:#faf9f7;padding:48px;width:720px;color:#1a1a18;line-height:1.7;">`;
+
+  // 헤더
+  html += `<div style="margin-bottom:32px;padding-bottom:20px;border-bottom:0.5px solid rgba(0,0,0,0.12);">
+    <p style="font-size:10px;letter-spacing:0.15em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">나를 찾는 여정</p>
+    <p style="font-family:'Noto Serif KR',serif;font-size:28px;font-weight:400;color:#1a1a18;margin-bottom:4px;">좋아하는 일을 찾기 위한 워크북</p>
+    <p style="font-size:12px;color:#9a9a90;">작성일 ${data.date}</p>
+  </div>`;
+
+  if (data.tendencyKws.length) {
+    html += `<div style="margin-bottom:28px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:6px;">나의 성향 키워드</p>
+      <div>${data.tendencyKws.map(k=>tag(k,'#1D9E75','#fff','#1D9E75')).join('')}</div>
+    </div>`;
+  }
+
+  if (data.items22.length) {
+    html += `<div style="margin-bottom:28px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:6px;">내가 좋아하는 것</p>
+      <div>${data.items22.map(k=>tag(k,'#fff','#5a5a54','rgba(0,0,0,0.1)')).join('')}</div>
+    </div>`;
+  }
+
+  if (data.selected.length) {
+    html += `<div style="margin-bottom:28px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:6px;">가슴 뛰는 동사</p>
+      <div>${data.selected.map(v=>tag(v,'#E1F5EE','#0F6E56','transparent')).join('')}${data.allVerbs.filter(v=>!data.selected.includes(v)).map(v=>tag(v,'#fff','#5a5a54','rgba(0,0,0,0.1)')).join('')}</div>
+    </div>`;
+  }
+
+  // 5가지 신호
+  html += `<div style="margin-bottom:28px;">
+    <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">5가지 신호 — 총합</p>
+    <div style="display:flex;gap:8px;">
+      ${Object.entries(data.sigData).map(([s,tags])=>`
+        <div style="flex:1;background:${SC[s]};border-radius:10px;padding:12px 8px;text-align:center;">
+          <div style="font-size:13px;font-weight:500;color:${TC[s]};margin-bottom:8px;">${s}</div>
+          <div>${tags.slice(0,3).map(t=>`<span style="display:block;font-size:11px;color:${TC[s]};margin:2px 0;">${t}</span>`).join('')}${!tags.length?`<span style="font-size:11px;color:${TC[s]};">—</span>`:''}</div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+
+  if (data.recs.length) {
+    html += `<div style="margin-bottom:28px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
+      ${data.recs.map(r=>`
+        <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:14px 18px;margin-bottom:8px;">
+          <p style="font-size:10px;color:#0F6E56;font-weight:500;letter-spacing:0.04em;margin-bottom:3px;">${r.label}</p>
+          <p style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:4px;">${r.title}</p>
+          <p style="font-size:12px;color:#5a5a54;line-height:1.6;">${r.desc}</p>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  if (data.direction) {
+    html += `<div style="margin-bottom:28px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">나만의 방향</p>
+      <p style="font-size:13px;color:#5a5a54;line-height:1.7;">${data.direction}</p>
+    </div>`;
+  }
+
+  html += `<div style="margin-top:32px;padding-top:12px;border-top:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;">
+    <span style="font-size:11px;color:#9a9a90;">나를 찾는 여정 · 좋아하는 일을 찾기 위한 워크북</span>
+    <span style="font-size:11px;color:#9a9a90;">${data.date}</span>
+  </div>`;
+
+  html += '</div>';
+  return html;
+}
+
+// ── 전체 저장 (전체 페이지 캡처) ──
+async function downloadFull() {
+  const btn = document.getElementById('btn-full');
+  const orig = btn.innerHTML;
+  btn.textContent = '저장 중...'; btn.disabled = true;
+  const bar = document.querySelector('.export-bar');
+  bar.style.display = 'none';
+
+  try {
+    await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 200));
+    const canvas = await html2canvas(document.body, {
+      scale: 2, useCORS: true, allowTaint: true,
+      backgroundColor: '#faf9f7', logging: false,
+      windowWidth: document.body.scrollWidth,
+      width: document.body.scrollWidth,
+      height: document.body.scrollHeight,
+      scrollX: 0, scrollY: 0,
+    });
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `나를찾는여정_전체_${new Date().toISOString().slice(0,10)}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  } catch(e) {
+    console.error(e);
+    alert('이미지 생성 중 오류가 발생했어요.');
+  }
+
+  bar.style.display = 'flex';
+  btn.innerHTML = orig; btn.disabled = false;
+}
+
+// ── 최종 정리 저장 (요약 카드 캡처) ──
+async function downloadSummary() {
+  const btn = document.getElementById('btn-summary');
+  const orig = btn.innerHTML;
+  btn.textContent = '저장 중...'; btn.disabled = true;
+
+  const data = collectData();
+  const wrap = document.getElementById('result-card');
+  wrap.innerHTML = buildResultCardHTML(data);
+  wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:720px;';
+
+  try {
+    await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 300));
+    const canvas = await html2canvas(wrap.firstElementChild, {
+      scale: 2, useCORS: true, allowTaint: true,
+      backgroundColor: '#faf9f7', logging: false,
+      width: 720, windowWidth: 720,
+    });
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `나를찾는여정_결과_${new Date().toISOString().slice(0,10)}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  } catch(e) {
+    console.error(e);
+    alert('이미지 생성 중 오류가 발생했어요.');
+  }
+
+  wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  btn.innerHTML = orig; btn.disabled = false;
+}
+
+// ── 메일 ──
+function openMailModal() { document.getElementById('mail-modal').style.display='flex'; document.getElementById('mail-input').focus(); }
+function closeMailModal(e) {
+  if (!e || e.target === document.getElementById('mail-modal')) document.getElementById('mail-modal').style.display='none';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('mail-modal').style.display='none'; });
+
+function sendMail() {
+  const email = document.getElementById('mail-input').value.trim();
+  if (!email) { document.getElementById('mail-input').focus(); return; }
+
+  const data = collectData();
+  const subject = encodeURIComponent(`나를 찾는 여정 — 좋아하는 일 워크북 결과 (${data.date})`);
+
+  let body = `좋아하는 일을 찾기 위한 워크북\n작성일: ${data.date}\n\n`;
+  body += `${'─'.repeat(40)}\n\n`;
+
+  if (data.tendencyKws.length) {
+    body += `[ 나의 성향 키워드 ]\n${data.tendencyKws.join('  /  ')}\n\n`;
+  }
+  if (data.items22.length) {
+    body += `[ 내가 좋아하는 것 ]\n${data.items22.map((v,i)=>`${i+1}. ${v}`).join('\n')}\n\n`;
+  }
+  if (data.selected.length) {
+    body += `[ 가슴 뛰는 동사 ]\n${data.selected.join('  /  ')}\n\n`;
+    const related = Object.values(relatedMap).flat().filter(Boolean);
+    if (related.length) body += `[ 연관 동사 ]\n${related.join('  /  ')}\n\n`;
+  }
+
+  body += `[ 5가지 신호 ]\n`;
+  Object.entries(data.sigData).forEach(([s,tags])=>{
+    body += `${s}: ${tags.length ? tags.join(', ') : '—'}\n`;
+  });
+  body += '\n';
+
+  if (data.recs.length) {
+    body += `[ 나에게 어울리는 일의 방향 ]\n`;
+    data.recs.forEach(r=>{ body += `▸ ${r.title} (${r.label})\n  ${r.desc}\n\n`; });
+  }
+  if (data.direction) {
+    body += `[ 나만의 방향 ]\n${data.direction}\n\n`;
+  }
+
+  body += `${'─'.repeat(40)}\n나를 찾는 여정 워크북`;
+
+  window.location.href = `mailto:${email}?subject=${subject}&body=${encodeURIComponent(body)}`;
+  document.getElementById('mail-modal').style.display='none';
+}
+
+// ── 자동 저장 ──
+const SAVE_KEY = 'workbook_autosave';
+let saveTimer = null;
+
+function saveToLocal() {
+  try {
+    const data = {
+      answers,
+      selected,
+      relatedMap,
+      textareas: [...document.querySelectorAll('textarea')].map(el => el.value),
+      inputs: [...document.querySelectorAll('input:not([type=email])')].map(el => ({ id: el.id || '', value: el.value })),
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+    showSaveStatus('저장됨');
+  } catch(e) { console.warn('자동저장 실패', e); }
+}
+
+function showSaveStatus(msg) {
+  const el = document.getElementById('save-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.opacity = '1';
+  setTimeout(() => { el.style.opacity = '0'; }, 2000);
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToLocal, 800);
+}
+
+function restoreFromLocal() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    // 테스트 답변 복원
+    if (data.answers) {
+      Object.assign(answers, data.answers);
+      Object.entries(data.answers).forEach(([qi, val]) => {
+        const opt = document.querySelector(`.test-opt[data-q="${qi}"][data-side="${val.side}"]`);
+        if (opt) opt.classList.add('selected');
+      });
+      updateSummary();
+    }
+
+    // 동사 복원
+    if (data.selected && data.relatedMap) {
+      data.selected.forEach(v => {
+        selected.push(v);
+        relatedMap[v] = data.relatedMap[v] || ['','',''];
+        const chip = [...document.querySelectorAll('.verb-chip')].find(c => c.textContent === v);
+        if (chip) chip.classList.add('selected');
+      });
+      updateCount();
+      renderSelectedList();
+      updateAutoSignal();
+      updateFinal();
+    }
+
+    // textarea 복원
+    if (data.textareas) {
+      const tas = document.querySelectorAll('textarea');
+      data.textareas.forEach((val, i) => { if (tas[i]) tas[i].value = val; });
+    }
+
+    // input 복원 (id 기반 우선, 순서 기반 fallback)
+    if (data.inputs) {
+      data.inputs.forEach(({ id, value }) => {
+        if (!value) return;
+        if (id) {
+          const el = document.getElementById(id);
+          if (el) { el.value = value; return; }
+        }
+      });
+      // num-input (번호 칸) 순서 복원
+      const numInputs = document.querySelectorAll('.num-input');
+      let ni = 0;
+      data.inputs.forEach(({ id, value }) => {
+        if (id || !value) return;
+        if (numInputs[ni]) numInputs[ni].value = value;
+        ni++;
+      });
+    }
+
+    const t = new Date(data.savedAt);
+    showSaveStatus(`${t.getMonth()+1}/${t.getDate()} ${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')} 복원됨`);
+  } catch(e) { console.warn('복원 실패', e); }
+}
+
+// 모든 input/textarea에 자동저장 이벤트 등록 (동적 생성 포함 → 이벤트 위임)
+document.addEventListener('input', e => {
+  if (e.target.matches('input, textarea')) scheduleSave();
+});
+document.addEventListener('click', e => {
+  if (e.target.matches('.verb-chip, .test-opt')) scheduleSave();
+});
+
+// 페이지 로드 시 복원
+window.addEventListener('load', () => {
+  setTimeout(restoreFromLocal, 100);
+});
+
+</script>
+</body>
+</html>
