@@ -1191,28 +1191,29 @@ function findCrossMatches() {
 function extractCoreKeyword() {
   const wishItems = [...document.querySelectorAll('.num-input')]
     .map(el => el.value.trim()).filter(Boolean);
-  const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
-  const allText = [...wishItems, ...allVerbs].join(' ');
+  const allText = [...wishItems, ...selected].join(' ');
 
-  // 불용어 제거
-  const stopwords = ['하다','것','이','가','을','를','의','에','는','은','도','로','으로','에서','과','와','하고','이고','한','그','수','있다','없다','되다','않다'];
+  const stopwords = new Set(['하다','것','이','가','을','를','의','에','는','은','도','로','으로','에서','과','와','하고','이고','한','그','수','있다','없다','되다','않다','위한','통해','위해','있는','없는','같은','많은']);
 
-  // 단어 빈도 계산
   const freq = {};
-  const words = allText.replace(/[^\wㄱ-힣\s]/g, ' ').split(/\s+/).filter(w => {
-    const root = w.replace('하다','').replace('다','');
-    return root.length >= 2 && !stopwords.includes(w) && !stopwords.includes(root);
-  });
 
-  words.forEach(w => {
-    const root = w.replace('하다','').replace('다','');
-    freq[root] = (freq[root] || 0) + 1;
-  });
-
-  // 동사에서 뽑은 것 가중치 추가
+  // 동사는 원형 그대로 키로 사용 (어근 자르지 않음)
   selected.forEach(v => {
-    const root = v.replace('하다','').replace('다','');
-    if (freq[root]) freq[root] += 2;
+    if (!stopwords.has(v)) {
+      freq[v] = (freq[v] || 0) + 3; // 선택 동사 가중치
+    }
+  });
+
+  // 하고 싶은 것 텍스트에서 명사/키워드 추출
+  wishItems.forEach(item => {
+    const words = item.replace(/[^\wㄱ-힣\s]/g, ' ').split(/\s+/).filter(w => {
+      return w.length >= 2 && !stopwords.has(w) && !stopwords.has(w.replace('하다',''));
+    });
+    words.forEach(w => {
+      // "하다"로 끝나는 단어만 어간 처리, 나머지는 그대로
+      const key = w.endsWith('하다') ? w.replace('하다','') : w;
+      if (key.length >= 2) freq[key] = (freq[key] || 0) + 1;
+    });
   });
 
   const sorted = Object.entries(freq).sort((a,b) => b[1]-a[1]);
@@ -1515,7 +1516,7 @@ updateIkigai();
 
 // ── 날짜 ──
 function getDateStr() {
-  const d = new Date();
+  const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
   return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
 }
 
@@ -1570,7 +1571,7 @@ function downloadHTML() {
   const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `나를찾는여정_${new Date().toISOString().slice(0,10)}.html`;
+  a.download = `나를찾는여정_${new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})).toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'')}.html`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 3000);
 }
@@ -1720,7 +1721,7 @@ async function downloadFull() {
     });
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
-    a.download = `나를찾는여정_전체_${new Date().toISOString().slice(0,10)}.png`;
+    a.download = `나를찾는여정_전체_${new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})).toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'')}.png`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(a.href), 3000);
   } catch(e) {
@@ -1765,7 +1766,7 @@ async function downloadSummary() {
     });
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png');
-    a.download = `나를찾는여정_결과_${new Date().toISOString().slice(0,10)}.png`;
+    a.download = `나를찾는여정_결과_${new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})).toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'')}.png`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(a.href), 3000);
     wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
