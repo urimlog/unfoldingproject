@@ -502,6 +502,19 @@ body {
 
   <hr class="divider">
 
+  <!-- Part 06-2 하고 싶은 것 -->
+  <div class="section">
+    <p class="section-label">Part 06-2</p>
+    <h2 class="section-title">내가 하고 싶은 것 적기</h2>
+    <p class="section-desc">앞서 찾은 동사를 활용해서 내가 하고 싶은 것을 적어보세요. 예) 기록하다 → 여행을 기록한 책 만들기</p>
+    <div class="numbered-grid">
+      <div class="num-col" id="col1"></div>
+      <div class="num-col" id="col2"></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
   <!-- Part 07 이키가이 입력 -->
   <div class="section">
     <p class="section-label">Part 07</p>
@@ -548,14 +561,9 @@ body {
   <!-- Part 08 이키가이 다이어그램 -->
   <div class="section">
     <p class="section-label">Part 08</p>
-    <h2 class="section-title">이키가이 — 나의 균형 지도</h2>
-    <p class="section-desc">위에 적은 4가지가 겹치는 지점에 이키가이가 있어요. 입력할수록 선명해져요.</p>
-    <div id="ikigai-diagram"><div class="summary-empty">파트 07을 채우면 여기에 이키가이 지도가 그려집니다</div></div>
-
-    <div style="margin-top:1.5rem;">
-      <p style="font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:0.75rem;">아직 탐색이 필요한 영역</p>
-      <div id="ikigai-balance"><div class="summary-empty" style="font-size:13px;">파트 07을 채우면 균형 체크 결과가 나타납니다</div></div>
-    </div>
+    <h2 class="section-title">이키가이 — 균형 지도</h2>
+    <p class="section-desc">4가지가 겹치는 지점에 이키가이가 있어요. 위에서 적은 내용을 대입해보세요.</p>
+    <div id="ikigai-diagram"></div>
   </div>
 
   <hr class="divider">
@@ -931,50 +939,75 @@ function buildSignalData(allVerbs) {
 }
 
 function getRecommendations() {
-  const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
-  const has = (...kws) => kws.some(k => allVerbs.some(v => v.replace('하다','').includes(k.replace('하다',''))));
+  // ── 전체 데이터 수집 ──
+  const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
+  const wishItems = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
+  const interests = ['interest-1','interest-2','interest-3'].map(id => {
+    const el = document.getElementById(id); return el ? el.value.trim() : '';
+  }).filter(Boolean);
+  const ikLove  = (document.getElementById('ik-love')  ? document.getElementById('ik-love').value  : '').trim();
+  const ikGood  = (document.getElementById('ik-good')  ? document.getElementById('ik-good').value  : '').trim();
+  const ikWorld = (document.getElementById('ik-world') ? document.getElementById('ik-world').value : '').trim();
+  const ikMoney = (document.getElementById('ik-money') ? document.getElementById('ik-money').value : '').trim();
+  const direction = (document.getElementById('direction-input') ? document.getElementById('direction-input').value : '').trim();
 
-  const visual     = has('촬영','편집','그리','연출','전시','사진','영상','일러스트','포토');
-  const writing    = has('글 쓰','묘사','소설','시나리오','에세이','번역','카피','원고');
-  const record     = has('기록','아카이빙','수집','큐레이션','보존','복원','정리','분류');
-  const creative   = has('만들','표현','디자인','스토리 만들','출판') || visual || writing;
-  const people     = has('가르치','멘토링','코칭','상담','공감','위로','봉사','돕','인터뷰','대화','소개','연결');
-  const analytical = has('분석','연구','탐구','조사','실험','측정','비교','논증','데이터','통계');
-  const leading    = has('기획','전략','이끌','개척','혁신','도전','실행','운영','팀 꾸리','프로젝트');
-  const build      = has('개발','구현','설치','세팅','조립','자동화','테스트','최적화','시스템','코딩');
-  const explore    = has('탐험','여행','발견','관찰');
-  const perform    = has('공연','노래','연주','춤추','발표','강연');
-  const care       = has('보살피','치료','위로','공감','돕','봉사','상담');
-  const commerce   = has('판매','협상','추천','큐레이션') || has('브랜드 짓');
-  const craft      = has('빚','조립','수리','배치','꾸미','재배','기르');
-  const review     = has('리뷰','평가','비교','검토','피드백','평론');
-  const produce    = has('기획','연출','구성','프로젝트','전시','스토리 만들');
-  const teach      = has('가르치','멘토링','코칭','강연','설명','발표') && !leading;
-  const food       = has('요리','재배','기르') && !leading;
-  const beauty     = has('꾸미','배치','표현') && !leading && !analytical;
-  const music      = has('연주','노래','작곡','편곡','녹음','공연');
-  const move       = has('춤추','훈련','트레이닝','운동');
-  const space      = has('설계','배치','꾸미','건축','조경','공간');
-  const social     = has('봉사','변화','영향','조율','협력','이끌','나누') && !creative;
-  const health     = has('치료','보살피','측정','분석','훈련') && !leading;
-  const digital    = has('개발','자동화','구현','테스트','최적화') && !creative;
-  const reflect    = has('성찰','명상','탐구','질문','묘사');
-  const broadcast  = has('이야기','강연','인터뷰','설득','촬영','편집') && !leading;
-  const nature     = has('재배','기르','보존','복원','관찰') && !leading;
-  const handcraft  = has('빚','꾸미','만들','조립','재배') && !leading && !analytical;
+  // 모든 텍스트 통합
+  const allText = [...allVerbs, ...wishItems, ...interests, ikLove, ikGood, ikWorld, ikMoney, direction].join(' ');
+
+  // ── 통합 신호 감지 함수 ──
+  const hasVerb = (...kws) => kws.some(k => allVerbs.some(v => v.replace('하다','').includes(k)));
+  const hasText = (...kws) => kws.some(k => allText.includes(k));
+  const hasTendency = (...kws) => kws.some(k => Object.values(answers).some(a => a.keyword && a.keyword.includes(k)));
+
+  // ── 카테고리 신호 (동사 + 텍스트 통합) ──
+  const visual     = hasVerb('촬영','편집','그리','연출','사진','영상','일러스트') || hasText('사진','영상','촬영','영화','그림','일러스트','디자인');
+  const writing    = hasVerb('글 쓰','묘사','소설','시나리오','번역','카피') || hasText('글쓰기','소설','에세이','블로그','작가','글','원고','시나리오');
+  const record     = hasVerb('기록','아카이빙','수집','큐레이션','정리') || hasText('기록','아카이브','수집','정리','큐레이션','독립출판','책 만들');
+  const visual_or_writing = visual || writing;
+  const creative   = hasVerb('만들','표현','디자인','출판') || visual_or_writing || hasText('창작','만들기','제작','브랜딩','콘텐츠');
+  const people     = hasVerb('가르치','멘토링','코칭','상담','공감','돕','연결','인터뷰') || hasText('교육','강의','멘토','상담','코칭','사람','커뮤니티','관계');
+  const analytical = hasVerb('분석','연구','탐구','조사','실험','측정','논증') || hasText('분석','연구','데이터','전략','기획','리서치','논문');
+  const leading    = hasVerb('기획','전략','이끌','개척','혁신','실행','운영') || hasText('창업','스타트업','기획','프로젝트','팀','리더','사업');
+  const build      = hasVerb('개발','구현','자동화','테스트','최적화') || hasText('개발','코딩','프로그래밍','앱','웹','기술','IT');
+  const explore    = hasVerb('탐험','여행','발견','관찰') || hasText('여행','탐험','탐방','세계','해외','독립','자유');
+  const perform    = hasVerb('공연','노래','연주','발표','강연') || hasText('공연','무대','강연','방송','유튜브','팟캐스트','음악');
+  const care       = hasVerb('치료','위로','공감','돕','봉사','상담') || hasText('치료','치유','돌봄','의료','심리','복지','봉사');
+  const commerce   = hasVerb('판매','협상','추천','큐레이션') || hasText('판매','마케팅','브랜드','쇼핑','MD','커머스','비즈니스');
+  const craft      = hasVerb('빚','조립','꾸미','재배','기르') || hasText('공예','도예','수공','핸드메이드','가드닝','플로리스트');
+  const review     = hasVerb('리뷰','평가','검토','피드백') || hasText('리뷰','평론','비평','칼럼','추천','북리뷰','영화');
+  const food       = hasVerb('요리','재배','기르') || hasText('요리','음식','카페','베이킹','셰프','식문화','레시피');
+  const nature     = hasVerb('재배','보존','관찰') || hasText('자연','식물','생태','환경','농업','정원','동물');
+  const music      = hasVerb('연주','노래','작곡') || hasText('음악','악기','작곡','밴드','뮤지션','노래');
+  const move       = hasVerb('춤추','훈련') || hasText('운동','피트니스','요가','필라테스','스포츠','트레이닝');
+  const beauty     = hasText('헤어','네일','뷰티','메이크업','스타일링','패션','의상');
+  const social     = hasText('사회','환경','NGO','활동가','변화','공익','봉사','비영리');
+  const health     = hasText('의료','건강','치료','상담','심리','영양','재활','간호');
+  const digital    = hasText('게임','VR','AR','디지털','인터랙티브','메타버스','UX');
+  const finance    = hasText('투자','금융','경제','재무','주식','창업자금','비즈니스모델');
+  const philosophy = hasText('철학','명상','인문','성찰','종교','영성','마음');
+  const space      = hasText('건축','공간','인테리어','설계','조경','무대');
+
+  // 성향 보정
+  const introvert  = hasTendency('독립','내향','집중');
+  const extrovert  = hasTendency('교류','외향','연결','관계');
+  const doer       = hasTendency('기획','리드','실행','도전');
+  const maker      = hasTendency('창작','표현','완성','제작');
+  const thinker    = hasTendency('탐구','분석','집중','완성도');
+
+  // 이키가이 보정 — money 힌트 활용
+  const moneyHints = ikMoney.toLowerCase();
+  const wantsFreelance = moneyHints.includes('프리랜서') || moneyHints.includes('독립') || direction.includes('프리랜서') || direction.includes('독립');
+  const wantsTeach = moneyHints.includes('강의') || moneyHints.includes('클래스') || moneyHints.includes('교육');
 
   const pool = [];
 
+  // ── 추천 풀 (신호 조합 기반) ──
   if (leading && build)
-    pool.push({label:"창업·실행형", title:"창업가 / 테크 스타트업 리더 / CTO", desc:"아이디어를 실제로 만들고 팀을 이끌어 세상에 내놓는 사람입니다. 도전과 실행이 반복되는 환경에서 가장 생동감을 느끼는 유형입니다."});
-  if (leading && people && !build)
-    pool.push({label:"리더십·조직형", title:"팀 리더 / 소셜 앙트러프러너 / 조직 기획자", desc:"사람을 모으고 방향을 만드는 것에 자연스럽게 끌리는 유형입니다. 혼자 잘하는 것보다 함께 더 잘 되게 만드는 것이 이 사람의 강점입니다."});
-  if (leading && !people && !build && !creative)
-    pool.push({label:"전략·기획형", title:"프로덕트 기획자 / 브랜드 전략가 / 사업개발 디렉터", desc:"방향이 없는 곳에 방향을 만들고 실행까지 이끄는 사람입니다. 큰 그림을 그리고 구체적인 계획으로 연결하는 능력이 강점입니다."});
-  if (leading && analytical)
-    pool.push({label:"전략·분석형", title:"UX 리서처 / 데이터 전략가 / 경영 컨설턴트", desc:"문제를 분석하고 전략을 세우며 실행까지 이끄는 것을 좋아하는 유형입니다. 구조를 만들고 방향을 잡는 역할에서 강점이 드러납니다."});
-  if (build && analytical && !leading)
-    pool.push({label:"구현·개발형", title:"개발자 / 제품개발자 / 시스템 설계자", desc:"아이디어를 실제로 작동하는 것으로 만드는 능력이 있습니다. 논리적으로 설계하고 구현하는 과정 자체에서 만족을 얻는 유형입니다."});
+    pool.push({label:"창업·실행형", title:"창업가 / 프로덕트 디렉터 / CTO", desc:"아이디어를 실제로 만들고 팀을 이끌어 세상에 내놓는 사람입니다. 도전과 실행이 반복되는 환경에서 가장 생동감을 느끼는 유형입니다."});
+  if (leading && people)
+    pool.push({label:"리더십·조직형", title:"팀 리더 / 커뮤니티 디렉터 / 사회적 기업가", desc:"사람을 모으고 방향을 만드는 것에 자연스럽게 끌리는 유형입니다. 혼자 잘하는 것보다 함께 더 잘 되게 만드는 것이 이 사람의 강점입니다."});
+  if (leading && analytical && !build)
+    pool.push({label:"전략·기획형", title:"브랜드 전략가 / UX 리서처 / 사업개발 매니저", desc:"방향이 없는 곳에 방향을 만들고 실행까지 이끄는 사람입니다. 큰 그림을 그리고 구체적인 계획으로 연결하는 능력이 강점입니다."});
   if (visual && writing)
     pool.push({label:"비주얼 스토리텔러형", title:"포토그래퍼 / 다큐멘터리 감독 / 콘텐츠 디렉터", desc:"보이는 것과 말하는 것을 동시에 잘 다루는 사람입니다. 이미지와 언어를 엮어 이야기를 만드는 일에서 강점이 드러납니다."});
   if (visual && !writing && !leading)
@@ -987,16 +1020,14 @@ function getRecommendations() {
     pool.push({label:"언어·서사형", title:"소설가 / 에디터 / 카피라이터 / 시나리오 작가", desc:"경험과 상상을 언어로 풀어내는 능력이 탁월합니다. 쓰는 것이 생각하는 방식이기도 한 사람으로, 글 안에서 세계를 만들어냅니다."});
   if (record && creative && !leading)
     pool.push({label:"기록·아카이브형", title:"큐레이터 / 아카이비스트 / 독립출판 편집자", desc:"흘러가는 것을 붙잡아 의미 있는 형태로 남기는 사람입니다. 수집하고 정리하고 엮어내는 과정에서 남다른 감각이 발휘됩니다."});
-  if (produce && !leading)
-    pool.push({label:"프로듀서·기획형", title:"영화·음악 프로듀서 / 전시기획자 / 이벤트 디렉터", desc:"아이디어를 실제 결과물로 만들어내는 전 과정을 조율하는 능력이 있습니다. 창작과 운영을 동시에 할 수 있는 드문 유형입니다."});
   if (visual && record && !leading)
     pool.push({label:"전시·공간형", title:"전시기획자 / 공간 디자이너 / 무대 디자이너", desc:"공간과 시각을 통해 경험을 만드는 일에 감각이 있습니다. 무엇을 어디에 어떻게 배치하느냐가 이 사람의 언어입니다."});
+  if ((leading || creative) && (record || visual))
+    pool.push({label:"프로듀서·기획형", title:"영화·음악 프로듀서 / 전시기획자 / 이벤트 디렉터", desc:"아이디어를 실제 결과물로 만들어내는 전 과정을 조율하는 능력이 있습니다. 창작과 운영을 동시에 할 수 있는 드문 유형입니다."});
   if (people && !creative && !analytical && !leading)
-    pool.push({label:"관계·영향형", title:"교육자 / 라이프 코치 / 커뮤니티 기획자 / 사회복지사", desc:"사람과 연결되고 누군가에게 영향을 미치는 것에서 에너지를 얻습니다. 가르치거나 이끄는 역할에서 자연스러운 강점을 발휘합니다."});
-  if (teach)
+    pool.push({label:"관계·영향형", title:"라이프 코치 / 커뮤니티 기획자 / 사회복지사", desc:"사람과 연결되고 누군가에게 영향을 미치는 것에서 에너지를 얻습니다. 가르치거나 이끄는 역할에서 자연스러운 강점을 발휘합니다."});
+  if (people && (wantsTeach || hasTendency('기여','영향')))
     pool.push({label:"교육·워크숍형", title:"창작 교육자 / 원데이클래스 운영자 / 진로 컨설턴트", desc:"자신이 잘하는 것을 나누고 누군가의 성장을 돕는 데서 보람을 느끼는 유형입니다. 가르치는 것 자체가 창작이 되는 사람입니다."});
-  if (care && people && !leading)
-    pool.push({label:"돌봄·치유형", title:"심리상담사 / 사회복지사 / 원예치료사", desc:"사람이나 생명체의 어려움에 공감하고 실질적으로 돕는 것에서 보람을 느끼는 유형입니다. 관계 안에서 신뢰를 쌓고 변화를 이끄는 역할이 잘 맞습니다."});
   if (analytical && !leading && !creative)
     pool.push({label:"탐구·연구형", title:"리서처 / 데이터 분석가 / 저널리스트 / 인류학자", desc:"왜 그런지를 끝까지 파고드는 사람입니다. 현상 너머의 구조와 패턴을 찾아내는 능력이 연구·분석 분야에서 빛을 발합니다."});
   if (explore && record)
@@ -1005,39 +1036,44 @@ function getRecommendations() {
     pool.push({label:"퍼포먼스·강연형", title:"강연자 / 유튜버 / 퍼실리테이터 / 배우", desc:"무대와 사람 앞에서 에너지가 올라가는 유형입니다. 표현하고 전달하는 행위 자체가 즐거움이 되는 사람입니다."});
   if (music)
     pool.push({label:"음악·사운드형", title:"작곡가 / 사운드 디자이너 / 음악 프로듀서 / 싱어송라이터", desc:"소리와 음악으로 감정을 만들어내는 사람입니다. 청각적인 세계를 구성하고 표현하는 일에서 남다른 감각이 발휘됩니다."});
-  if (broadcast)
-    pool.push({label:"미디어·방송형", title:"라디오 PD / 팟캐스터 / 방송작가 / 유튜브 크리에이터", desc:"말과 이야기로 사람의 귀와 마음을 잡아두는 사람입니다. 콘텐츠를 기획하고 전달하는 전 과정에서 즐거움을 찾는 유형입니다."});
-  if (commerce && !leading)
+  if (perform && !people)
+    pool.push({label:"미디어·방송형", title:"유튜버 / 팟캐스터 / 라디오 PD / 방송작가", desc:"말과 이야기로 사람의 귀와 마음을 잡아두는 사람입니다. 콘텐츠를 기획하고 전달하는 전 과정에서 즐거움을 찾는 유형입니다."});
+  if (commerce && creative)
     pool.push({label:"브랜드·커머스형", title:"MD / 브랜드 마케터 / 편집숍 운영자 / 바이어", desc:"좋은 것을 알아보고 연결하고 전달하는 일에 감각이 있습니다. 취향과 비즈니스가 만나는 지점에서 강점이 발휘됩니다."});
-  if (analytical && commerce)
-    pool.push({label:"금융·투자형", title:"재무 분석가 / 임팩트 투자자 / 경제 칼럼니스트", desc:"숫자와 흐름을 읽고 미래를 판단하는 능력이 있는 사람입니다. 데이터와 직관이 만나는 지점에서 투자와 분석의 강점이 드러납니다."});
-  if (social)
-    pool.push({label:"사회변화·NGO형", title:"사회활동가 / NGO 기획자 / 사회혁신 컨설턴트", desc:"더 나은 세상을 만들고 싶은 마음이 일의 동력이 되는 사람입니다. 사람과 사회 구조를 연결하고 변화를 만드는 일에서 깊은 보람을 느낍니다."});
-  if (reflect && writing)
-    pool.push({label:"철학·인문형", title:"철학 상담사 / 명상 지도자 / 인문학 강연자 / 에세이스트", desc:"삶의 근본적인 질문을 탐구하고 언어로 풀어내는 사람입니다. 깊이 생각하고 의미를 찾는 능력이 강점이 됩니다."});
+  if (care && people && !leading)
+    pool.push({label:"돌봄·치유형", title:"심리상담사 / 사회복지사 / 원예치료사 / 라이프 코치", desc:"사람이나 생명체의 어려움에 공감하고 실질적으로 돕는 것에서 보람을 느끼는 유형입니다. 관계 안에서 신뢰를 쌓고 변화를 이끄는 역할이 잘 맞습니다."});
   if (nature)
-    pool.push({label:"자연·생태형", title:"환경 연구자 / 생태 작가 / 도시농부 / 플로리스트", desc:"살아있는 것들과 함께하고 그 변화를 기록하는 데서 의미를 찾는 사람입니다. 느리고 깊은 관찰이 이 사람의 방식입니다."});
-  if (handcraft)
+    pool.push({label:"자연·생태형", title:"플로리스트 / 환경 연구자 / 생태 작가 / 도시농부", desc:"살아있는 것들과 함께하고 그 변화를 기록하는 데서 의미를 찾는 사람입니다. 느리고 깊은 관찰이 이 사람의 방식입니다."});
+  if (craft)
     pool.push({label:"수공예·공예형", title:"도예가 / 금속공예가 / 가구 제작자 / 텍스타일 디자이너", desc:"손으로 직접 만드는 과정에서 가장 충만한 사람입니다. 재료를 다루고 형태를 빚어내는 행위 자체에 깊이 몰입하는 유형입니다."});
   if (beauty)
     pool.push({label:"뷰티·스타일링형", title:"헤어디자이너 / 네일아티스트 / 메이크업 아티스트 / 패션 스타일리스트", desc:"사람이나 사물을 더 아름답게 만드는 일에서 에너지를 얻습니다. 감각과 손끝의 기술이 만나는 지점에서 강점이 드러납니다."});
-  if (craft && nature)
-    pool.push({label:"가드닝·식물형", title:"플로리스트 / 조경 디자이너 / 반려식물 전문가", desc:"식물과 자연 소재를 다루고 공간을 꾸미는 일에 자연스러운 끌림이 있습니다. 생명을 기르고 형태를 만드는 과정이 이 사람의 즐거움입니다."});
   if (food)
     pool.push({label:"푸드·요리형", title:"셰프 / 푸드 스타일리스트 / 베이커 / 푸드 크리에이터", desc:"요리하고 만들고 담아내는 전 과정을 즐기는 사람입니다. 먹는 것을 통해 경험을 만들고 이야기를 전하는 일이 잘 맞습니다."});
-  if (care && nature)
-    pool.push({label:"반려동물형", title:"반려동물 미용사 / 동물행동 전문가 / 펫시터", desc:"동물과 함께하고 돌보는 일에서 자연스러운 에너지를 얻는 사람입니다. 말 못 하는 존재와 교감하는 감각이 이 사람의 강점입니다."});
   if (move)
-    pool.push({label:"스포츠·피트니스형", title:"퍼스널 트레이너 / 요가·필라테스 강사 / 스포츠 코치", desc:"몸을 통해 변화를 만들고 누군가를 이끄는 일에서 에너지를 얻는 사람입니다. 훈련하고 가르치고 함께 성장하는 과정이 이 사람의 방식입니다."});
-  if (space && !leading)
+    pool.push({label:"스포츠·피트니스형", title:"퍼스널 트레이너 / 요가·필라테스 강사 / 스포츠 코치", desc:"몸을 통해 변화를 만들고 누군가를 이끄는 일에서 에너지를 얻는 사람입니다."});
+  if (space)
     pool.push({label:"건축·공간설계형", title:"건축가 / 인테리어 디자이너 / 도시 기획자", desc:"공간이 사람에게 미치는 영향을 직관적으로 이해하는 사람입니다. 기능과 미감을 동시에 설계하는 일에서 강점이 드러납니다."});
   if (health)
-    pool.push({label:"건강·의료형", title:"영양사 / 물리치료사 / 작업치료사 / 임상심리사", desc:"사람의 몸과 마음을 회복시키는 일에서 의미를 찾는 유형입니다. 과학적 분석과 따뜻한 돌봄이 함께 필요한 영역에서 강점이 빛납니다."});
-  if (digital)
-    pool.push({label:"게임·디지털 크리에이티브형", title:"게임 디자이너 / VR/AR 크리에이터 / 인터랙티브 미디어 작가", desc:"디지털 세계 안에서 경험을 설계하고 창조하는 사람입니다. 기술과 창작의 경계를 넘나들며 새로운 세계를 만드는 일에 끌립니다."});
+    pool.push({label:"건강·의료형", title:"영양사 / 물리치료사 / 임상심리사 / 작업치료사", desc:"사람의 몸과 마음을 회복시키는 일에서 의미를 찾는 유형입니다."});
+  if (social)
+    pool.push({label:"사회변화·NGO형", title:"사회활동가 / NGO 기획자 / 사회혁신 컨설턴트", desc:"더 나은 세상을 만들고 싶은 마음이 일의 동력이 되는 사람입니다. 사람과 사회 구조를 연결하고 변화를 만드는 일에서 깊은 보람을 느낍니다."});
+  if (digital && creative)
+    pool.push({label:"게임·디지털형", title:"게임 디자이너 / VR/AR 크리에이터 / UX 디자이너", desc:"디지털 세계 안에서 경험을 설계하고 창조하는 사람입니다."});
+  if (build && analytical && !leading)
+    pool.push({label:"구현·개발형", title:"개발자 / 제품개발자 / 시스템 설계자", desc:"아이디어를 실제로 작동하는 것으로 만드는 능력이 있습니다. 논리적으로 설계하고 구현하는 과정 자체에서 만족을 얻는 유형입니다."});
+  if (finance)
+    pool.push({label:"금융·투자형", title:"재무 분석가 / 임팩트 투자자 / 경제 칼럼니스트", desc:"숫자와 흐름을 읽고 미래를 판단하는 능력이 있는 사람입니다."});
+  if (philosophy)
+    pool.push({label:"철학·인문형", title:"철학 상담사 / 명상 지도자 / 인문학 강연자 / 에세이스트", desc:"삶의 근본적인 질문을 탐구하고 언어로 풀어내는 사람입니다."});
+
+  // 프리랜서 지향 보정 — 상위 추천에 독립적 형태 추가
+  if (wantsFreelance && pool.length > 0) {
+    pool[0].desc += ' 프리랜서나 독립적인 형태로 일하는 것이 잘 맞을 수 있어요.';
+  }
 
   if (pool.length === 0)
-    pool.push({label:"탐색 진행 중", title:"아직 더 많은 신호가 필요해요", desc:"동사를 더 선택하고 연관 동사도 채워보세요. 선택이 쌓일수록 방향이 선명해집니다."});
+    pool.push({label:"탐색 진행 중", title:"아직 더 많은 신호가 필요해요", desc:"동사와 하고 싶은 것, 이키가이를 더 채워보세요. 정보가 쌓일수록 방향이 선명해집니다."});
 
   return pool.slice(0, 3);
 }
@@ -1256,89 +1292,224 @@ function updateFinal() {
   updateIkigai();
 }
 
-function updateIkigai() {
-  const love  = (document.getElementById('ik-love')  ? document.getElementById('ik-love').value  : '').trim();
-  const good  = (document.getElementById('ik-good')  ? document.getElementById('ik-good').value  : '').trim();
-  const world = (document.getElementById('ik-world') ? document.getElementById('ik-world').value : '').trim();
-  const money = (document.getElementById('ik-money') ? document.getElementById('ik-money').value : '').trim();
+function makeIkigaiSVG(vals, isGuide) {
+  // vals = { love, good, world, money } 또는 null(가이드용)
+  var W = 340, H = 340;
+  var cx = 170, cy = 165;
+  var r = 100, off = 52;
 
-  const diagramEl = document.getElementById('ikigai-diagram');
-  const balanceEl = document.getElementById('ikigai-balance');
-  if (!diagramEl) return;
+  // 4개 원 중심 (상/우/하/좌 — 원본과 동일한 방식)
+  var pos = {
+    love:  { x: cx,       y: cy - off },
+    good:  { x: cx - off, y: cy + off*0.5 },
+    money: { x: cx + off, y: cy + off*0.5 },
+    world: { x: cx,       y: cy + off*2 }
+  };
 
-  const filled = [love, good, world, money].filter(Boolean).length;
-  const W = 300, H = 300, cx = W/2, cy = H/2;
-  const r = 90, dx = 48, dy = 38;
+  var colors = {
+    love:  { fill:'#f5e6d8', stroke:'#c8906a', tc:'#7a4020' },
+    good:  { fill:'#e8dff5', stroke:'#9070c8', tc:'#3a1e7a' },
+    money: { fill:'#d8eef5', stroke:'#60a8cc', tc:'#1a506e' },
+    world: { fill:'#dff5e8', stroke:'#60b880', tc:'#1a5a30' }
+  };
 
-  const circles = [
-    { label:'좋아하는 것',        val:love,  x:cx,    y:cy-dy,     color:'#1D9E75', bg:'rgba(29,158,117,0.15)' },
-    { label:'잘하는 것',          val:good,  x:cx+dx, y:cy+dy,     color:'#3C3489', bg:'rgba(60,52,137,0.15)'  },
-    { label:'돈이 되는 것',       val:money, x:cx-dx, y:cy+dy,     color:'#854F0B', bg:'rgba(133,79,11,0.15)'  },
-    { label:'세상에 필요한 것',   val:world, x:cx,    y:cy+dy*2.1, color:'#185FA5', bg:'rgba(24,95,165,0.15)'  },
-  ];
+  var svg = '';
 
-  let svgCircles = '';
-  circles.forEach(function(c) {
-    svgCircles += '<circle cx="' + c.x + '" cy="' + c.y + '" r="' + r + '" fill="' + c.bg + '" stroke="' + c.color + '" stroke-width="1.5" opacity="0.9"/>';
+  // 원 (투명도 조절로 겹침 표현)
+  var keys = ['love','good','money','world'];
+  keys.forEach(function(k) {
+    var p = pos[k], c = colors[k];
+    svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + r + '"'
+      + ' fill="' + c.fill + '" stroke="' + c.stroke + '" stroke-width="2" opacity="0.85"/>';
   });
 
-  let svgLabels = '';
-  circles.forEach(function(c) {
-    var preview = c.val ? c.val.slice(0,13) + (c.val.length > 13 ? '…' : '') : '';
-    svgLabels += '<text x="' + c.x + '" y="' + (c.y - 10) + '" text-anchor="middle" font-size="9" font-weight="600" fill="' + c.color + '" font-family="sans-serif">' + c.label + '</text>';
-    if (preview) {
-      svgLabels += '<text x="' + c.x + '" y="' + (c.y + 7) + '" text-anchor="middle" font-size="8" fill="' + c.color + '" opacity="0.85" font-family="sans-serif">' + preview + '</text>';
-    } else {
-      svgLabels += '<text x="' + c.x + '" y="' + (c.y + 7) + '" text-anchor="middle" font-size="7.5" fill="' + c.color + '" opacity="0.35" font-family="sans-serif">채워보세요</text>';
-    }
-  });
+  // 중앙 원
+  svg += '<circle cx="' + cx + '" cy="' + (cy + off*0.5) + '" r="28"'
+    + ' fill="white" stroke="#b0906a" stroke-width="2"/>';
 
-  var centerY = cy + 28;
-  var centerLabel = filled === 4
-    ? '<circle cx="' + cx + '" cy="' + centerY + '" r="26" fill="white" stroke="#1D9E75" stroke-width="1.5"/><text x="' + cx + '" y="' + (centerY - 4) + '" text-anchor="middle" font-size="9" font-weight="700" fill="#0F6E56" font-family="sans-serif">이키가이</text><text x="' + cx + '" y="' + (centerY + 10) + '" text-anchor="middle" font-size="7" fill="#5a5a54" font-family="sans-serif">나만의 이유</text>'
-    : '<text x="' + cx + '" y="' + (centerY + 4) + '" text-anchor="middle" font-size="8" fill="#9a9a90" font-family="sans-serif">' + filled + '/4 채워짐</text>';
+  if (isGuide) {
+    // 설명용: 고정 텍스트
+    var labels = {
+      love:  ['자신이', '사랑하는 것'],
+      good:  ['자신이', '잘하는 것'],
+      money: ['대가를', '받을 수 있는 것'],
+      world: ['세상이', '필요로 하는 것']
+    };
+    var intersects = [
+      { x: cx - off*0.5, y: cy - off*0.1, text: '열정' },
+      { x: cx + off*0.5, y: cy - off*0.1, text: '사명' },
+      { x: cx - off*0.5, y: cy + off*1.1, text: '직업' },
+      { x: cx + off*0.5, y: cy + off*1.1, text: '천직' },
+    ];
 
-  diagramEl.innerHTML = '<div style="display:flex;justify-content:center;">'
-    + '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:280px;" xmlns="http://www.w3.org/2000/svg">'
-    + svgCircles + svgLabels + centerLabel
-    + '</svg></div>'
-    + '<p style="font-size:11px;color:var(--text-tertiary);text-align:center;margin-top:0.5rem;">4가지가 겹치는 지점 = 이키가이</p>';
+    keys.forEach(function(k) {
+      var p = pos[k], c = colors[k];
+      var ls = labels[k];
+      svg += '<text x="' + p.x + '" y="' + (p.y - 6) + '" text-anchor="middle" font-size="11.5" font-weight="700" fill="' + c.tc + '" font-family="sans-serif">' + ls[0] + '</text>';
+      svg += '<text x="' + p.x + '" y="' + (p.y + 10) + '" text-anchor="middle" font-size="11.5" font-weight="700" fill="' + c.tc + '" font-family="sans-serif">' + ls[1] + '</text>';
+    });
 
-  if (!balanceEl) return;
+    intersects.forEach(function(it) {
+      svg += '<text x="' + it.x + '" y="' + (it.y + 4) + '" text-anchor="middle" font-size="10.5" font-weight="600" fill="#7a5040" font-family="sans-serif">' + it.text + '</text>';
+    });
 
-  var areas = [
-    { key:love,  label:'좋아하는 것', color:'#1D9E75', q:['시키지 않아도 하게 되는 것이 있나요?','어릴 때부터 반복해서 했던 것은?'] },
-    { key:good,  label:'잘하는 것',   color:'#3C3489', q:['남들이 나에게 자주 부탁하는 것은?','힘들이지 않아도 잘 되는 일이 있나요?'] },
-    { key:world, label:'세상이 필요로 하는 것', color:'#185FA5', q:['내가 잘하는 것으로 누구를 도울 수 있을까요?','주변에서 반복적으로 보이는 문제는?'] },
-    { key:money, label:'돈이 되는 것', color:'#854F0B', q:['하고 싶은 것 중 사람들이 돈을 내는 형태가 있나요?','소규모로 먼저 테스트해볼 방법은?'] },
-  ];
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 - 5) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4020" font-family="sans-serif">이키가이</text>';
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 + 10) + '" text-anchor="middle" font-size="8.5" fill="#9a6a50" font-family="sans-serif">삶의 이유</text>';
 
-  var missing = areas.filter(function(a) { return !a.key; });
+    // 바깥 설명 화살표 텍스트
+    var outer = [
+      { x: 18,  y: 130, text: '만족하지만', align:'start' },
+      { x: 18,  y: 144, text: '쓸모없는 느낌', align:'start' },
+      { x: 18,  y: 240, text: '편안하지만', align:'start' },
+      { x: 18,  y: 254, text: '공허한 느낌', align:'start' },
+      { x: 322, y: 130, text: '기쁘고 충만하지만', align:'end' },
+      { x: 322, y: 144, text: '가난한 느낌', align:'end' },
+      { x: 322, y: 240, text: '흥분되지만', align:'end' },
+      { x: 322, y: 254, text: '불확실한 느낌', align:'end' },
+    ];
+    outer.forEach(function(o) {
+      svg += '<text x="' + o.x + '" y="' + o.y + '" text-anchor="' + o.align + '" font-size="8" fill="#aaa" font-family="sans-serif">' + o.text + '</text>';
+    });
 
-  if (missing.length === 0) {
-    balanceEl.innerHTML = '<div style="text-align:center;padding:1rem;background:var(--accent-light);border-radius:var(--radius-md);"><p style="font-size:13px;color:var(--accent-dark);">4가지 영역이 모두 채워졌어요 🌿</p></div>';
-    return;
+  } else {
+    // 입력 반영용: 사용자 텍스트
+    var data = vals || {};
+    var entries = [
+      { key:'love',  text: data.love  || '' },
+      { key:'good',  text: data.good  || '' },
+      { key:'money', text: data.money || '' },
+      { key:'world', text: data.world || '' },
+    ];
+
+    // 타이틀 — 원 바깥
+    var titlePos = {
+      love:  { x: cx,       y: pos.love.y  - r - 16 },
+      good:  { x: pos.good.x - r - 10, y: pos.good.y  },
+      money: { x: pos.money.x + r + 10, y: pos.money.y },
+      world: { x: cx,       y: pos.world.y + r + 20 },
+    };
+    var titleAlign = { love:'middle', good:'end', money:'start', world:'middle' };
+    var titleLabels = { love:'좋아하는 것', good:'잘하는 것', money:'돈이 되는 것', world:'세상에 필요한 것' };
+
+    keys.forEach(function(k) {
+      var tp = titlePos[k], c = colors[k];
+      // 흰 배경으로 선 위에 깔끔하게
+      var tw = k === 'world' ? 100 : 80;
+      svg += '<rect x="' + (tp.x - tw/2) + '" y="' + (tp.y - 13) + '" width="' + tw + '" height="16" rx="3" fill="white" opacity="0.95"/>';
+      svg += '<text x="' + tp.x + '" y="' + tp.y + '" text-anchor="' + titleAlign[k] + '"'
+        + ' font-size="11" font-weight="700" fill="' + c.tc + '" font-family="sans-serif">' + titleLabels[k] + '</text>';
+    });
+
+    // 내용 텍스트
+    entries.forEach(function(e) {
+      var p = pos[e.key], c = colors[e.key];
+      if (e.text) {
+        var raw = e.text;
+        var lines = [];
+        while (raw.length > 0) {
+          lines.push(raw.slice(0, 9));
+          raw = raw.slice(9);
+          if (lines.length >= 3) {
+            if (raw.length > 0) lines[2] = lines[2].slice(0,7) + '…';
+            break;
+          }
+        }
+        var lh = 15, startY = p.y - ((lines.length - 1) * lh) / 2;
+        lines.forEach(function(line, i) {
+          svg += '<text x="' + p.x + '" y="' + (startY + i * lh) + '"'
+            + ' text-anchor="middle" dominant-baseline="middle"'
+            + ' font-size="11.5" font-weight="500" fill="' + c.tc + '" font-family="sans-serif">' + line + '</text>';
+        });
+      } else {
+        svg += '<text x="' + p.x + '" y="' + p.y + '"'
+          + ' text-anchor="middle" dominant-baseline="middle"'
+          + ' font-size="10" fill="' + c.stroke + '" opacity="0.35" font-family="sans-serif">적어보세요</text>';
+      }
+    });
+
+    // 중앙
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 - 4) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4020" font-family="sans-serif">이키가이</text>';
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 + 11) + '" text-anchor="middle" font-size="8.5" fill="#9a6a50" font-family="sans-serif">나만의 이유</text>';
   }
 
-  balanceEl.innerHTML = missing.map(function(m) {
-    return '<div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:0.6rem;">'
-      + '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">'
-      + '<div style="width:8px;height:8px;border-radius:50%;background:' + m.color + ';flex-shrink:0;"></div>'
-      + '<p style="font-size:13px;font-weight:500;color:var(--text-primary);">' + m.label + ' — 아직 비어있어요</p>'
-      + '</div>'
-      + '<div style="display:flex;flex-direction:column;gap:0.35rem;">'
-      + m.q.map(function(q) {
-          return '<div style="display:flex;gap:0.4rem;"><span style="font-size:12px;color:' + m.color + ';flex-shrink:0;">Q.</span><p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">' + q + '</p></div>';
-        }).join('')
-      + '</div></div>';
-  }).join('');
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:320px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">' + svg + '</svg>';
 }
 
-// 이키가이 실시간 업데이트
-['ik-love','ik-good','ik-world','ik-money'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (el) el.addEventListener('input', updateIkigai);
-});
+function updateIkigai() {
+  var diagramEl = document.getElementById('ikigai-diagram');
+  if (!diagramEl || diagramEl.dataset.rendered) return;
+  diagramEl.dataset.rendered = '1';
+
+  var W = 500, H = 530;
+  var r = 130;
+  var pT = [250, 172];
+  var pL = [172, 289];
+  var pR = [328, 289];
+  var pB = [250, 406];
+  var cx = 250, cy = 289;
+
+  // 2원 교차 영역 중심 (중앙 4중 교차에서 밀어낸 위치)
+  var iP = [199, 212]; // 열정: T∩L
+  var iM = [301, 212]; // 사명: T∩R
+  var iV = [199, 365]; // 직업: L∩B
+  var iT = [301, 365]; // 천직: R∩B
+
+  var stroke = '#1D9E75';
+
+  var s = '<defs>';
+  s += '<clipPath id="cT"><circle cx="'+pT[0]+'" cy="'+pT[1]+'" r="'+r+'"/></clipPath>';
+  s += '<clipPath id="cL"><circle cx="'+pL[0]+'" cy="'+pL[1]+'" r="'+r+'"/></clipPath>';
+  s += '<clipPath id="cR"><circle cx="'+pR[0]+'" cy="'+pR[1]+'" r="'+r+'"/></clipPath>';
+  s += '<clipPath id="cB"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'"/></clipPath>';
+  s += '</defs>';
+
+  // 원 배경
+  ['pT','pL','pR','pB'].forEach(function(k,i) {
+    var p = [pT,pL,pR,pB][i];
+    s += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="rgba(29,158,117,0.06)"/>';
+  });
+
+  // 교차 강조
+  s += '<g clip-path="url(#cT)"><circle cx="'+pL[0]+'" cy="'+pL[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cT)"><circle cx="'+pR[0]+'" cy="'+pR[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cL)"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cR)"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cT)"><g clip-path="url(#cL)"><g clip-path="url(#cR)"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="rgba(29,158,117,0.32)"/></g></g></g>';
+
+  // 테두리
+  s += '<circle cx="'+pT[0]+'" cy="'+pT[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<circle cx="'+pL[0]+'" cy="'+pL[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<circle cx="'+pR[0]+'" cy="'+pR[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+
+  // 중앙 이키가이
+  s += '<circle cx="'+cx+'" cy="'+cy+'" r="42" fill="white" stroke="'+stroke+'" stroke-width="2.5"/>';
+  s += '<text x="'+cx+'" y="'+(cy+4)+'" text-anchor="middle" font-size="15" font-weight="700" fill="#0a4a2e" font-family="sans-serif">이키가이</text>';
+  s += '<text x="'+cx+'" y="'+(cy+20)+'" text-anchor="middle" font-size="9.5" fill="#5a8a70" font-family="sans-serif">삶의 이유</text>';
+
+  // 주제 텍스트 — 각 원 고유 영역
+  s += '<text x="'+pT[0]+'" y="'+(pT[1]-40)+'" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0a4a2e" font-family="sans-serif">자신이 사랑하는 것</text>';
+  s += '<text x="'+(pL[0]-50)+'" y="'+(pL[1]-7)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">자신이</text>';
+  s += '<text x="'+(pL[0]-50)+'" y="'+(pL[1]+12)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">잘하는 것</text>';
+  s += '<text x="'+(pR[0]+50)+'" y="'+(pR[1]-7)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">대가를 받을</text>';
+  s += '<text x="'+(pR[0]+50)+'" y="'+(pR[1]+12)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">수 있는 것</text>';
+  s += '<text x="'+pB[0]+'" y="'+(pB[1]+44)+'" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0a4a2e" font-family="sans-serif">세상이 필요로 하는 것</text>';
+
+  // 교차 영역 텍스트 — 실제 2원 교차 영역 안
+  s += '<text x="'+iP[0]+'" y="'+(iP[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">열정</text>';
+  s += '<text x="'+iM[0]+'" y="'+(iM[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">사명</text>';
+  s += '<text x="'+iV[0]+'" y="'+(iV[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">직업</text>';
+  s += '<text x="'+iT[0]+'" y="'+(iT[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">천직</text>';
+
+  diagramEl.innerHTML =
+    '<div style="display:flex;justify-content:center;">'
+    + '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:360px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">'
+    + s + '</svg></div>';
+}
+
+updateIkigai();
+
+
 
 
 
