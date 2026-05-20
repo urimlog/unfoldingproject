@@ -1198,7 +1198,6 @@ function getRecommendations() {
       score: () => ikScore('투자','금융','재무','경제','핀테크') + intScore('투자','금융','경제','핀테크') + wishScore('투자','금융','핀테크') },
 
   ];
-  ];
 
   // ── 스코어 계산 + 정렬 ──
   types.forEach(t => { t._score = t.score(); });
