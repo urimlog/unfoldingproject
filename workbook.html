@@ -1256,7 +1256,7 @@ function extractCoreKeyword() {
     .map(el => el.value.trim()).filter(Boolean);
   const allText = [...wishItems, ...selected].join(' ');
 
-  const stopwords = new Set(['하다','것','이','가','을','를','의','에','는','은','도','로','으로','에서','과','와','하고','이고','한','그','수','있다','없다','되다','않다','위한','통해','위해','있는','없는','같은','많은']);
+  const stopwords = new Set(['하다','것','이','가','을','를','의','에','는','은','도','로','으로','에서','과','와','하고','이고','한','그','수','있다','없다','되다','않다','위한','통해','위해','있는','없는','같은','많은','싶다','싶어','하고싶다','되고싶다','싶은','더','좀','잘','통한','나의','내가','나를','나만','내','나도','또한','그리고','하지만','그래서','좋다','좋은','좋아']);
 
   const freq = {};
 
@@ -1270,10 +1270,16 @@ function extractCoreKeyword() {
   // 하고 싶은 것 텍스트에서 명사/키워드 추출
   wishItems.forEach(item => {
     const words = item.replace(/[^\wㄱ-힣\s]/g, ' ').split(/\s+/).filter(w => {
-      return w.length >= 2 && !stopwords.has(w) && !stopwords.has(w.replace('하다',''));
+      const root = w.endsWith('하다') ? w.replace('하다','') : w;
+      // 불용어, 2글자 미만, 어미성 단어 제외
+      return root.length >= 2
+        && !stopwords.has(w)
+        && !stopwords.has(root)
+        && !w.match(/싶|싶다|하기|하는|되기|되는|위해|통해|있게|않게|할수|할 수/)
+        && !w.endsWith('싶다')
+        && !w.endsWith('싶어');
     });
     words.forEach(w => {
-      // "하다"로 끝나는 단어만 어간 처리, 나머지는 그대로
       const key = w.endsWith('하다') ? w.replace('하다','') : w;
       if (key.length >= 2) freq[key] = (freq[key] || 0) + 1;
     });
