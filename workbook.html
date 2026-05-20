@@ -1105,32 +1105,41 @@ function getRecommendations() {
   if (pool.length === 0)
     pool.push({label:"탐색 진행 중", title:"아직 더 많은 신호가 필요해요", desc:"동사와 하고 싶은 것, 이키가이를 더 채워보세요. 정보가 쌓일수록 방향이 선명해져요."});
 
-  // ── 다양화 로직: 같은 그룹 3개 방지 ──
+  // ── 다양화 로직: 같은 라벨·같은 그룹 중복 방지 ──
   const groupOf = (label) => {
     if (['창작 집중형','비주얼 스토리텔러형','창작 + 연결형','언어·서사형','기록·아카이브형','프로듀서·기획형','비평·평론형','전시·공간형'].includes(label)) return '창작';
-    if (['리더십·조직형','전략·기획형','창업·실행형','전략·분석형','구현·개발형','탐구·연구형'].includes(label)) return '전략';
-    if (['퍼포먼스·강연형','음악·사운드형','미디어·방송형'].includes(label)) return '퍼포먼스';
+    if (['리더십·조직형','전략·기획형','창업·실행형','전략·분석형','구현·개발형','탐구·연구형','미디어·방송형'].includes(label)) return '전략';
+    if (['퍼포먼스·강연형','음악·사운드형'].includes(label)) return '퍼포먼스';
     if (['수공예·공예형','자연·생태형','푸드·요리형','가드닝·식물형','반려동물형'].includes(label)) return '라이프';
-    if (['관계·영향형','교육·워크숍형','돌봄·치유형','사회변화·NGO형'].includes(label)) return '사람';
+    if (['관계·영향형','교육·워크숍형','사회변화·NGO형'].includes(label)) return '사람';
+    if (['돌봄·치유형','건강·의료형'].includes(label)) return '치유';
     if (['브랜드·커머스형','금융·투자형','건축·공간설계형'].includes(label)) return '비즈니스';
+    if (['뷰티·스타일링형'].includes(label)) return '뷰티';
+    if (['철학·인문형'].includes(label)) return '인문';
     return '기타';
   };
 
   const diversified = [];
+  const usedLabels = new Set();
   const usedGroups = [];
+
   for (const r of pool) {
     if (diversified.length >= 3) break;
+    if (usedLabels.has(r.label)) continue; // 같은 라벨 완전 제거
     const g = groupOf(r.label);
-    // 같은 그룹이 이미 2개면 스킵 (최대 2개까지 허용)
-    if (usedGroups.filter(x => x === g).length >= 2) continue;
+    if (usedGroups.filter(x => x === g).length >= 2) continue; // 같은 그룹 최대 2개
     diversified.push(r);
+    usedLabels.add(r.label);
     usedGroups.push(g);
   }
-  // 그래도 3개 못 채우면 그냥 pool에서
-  while (diversified.length < 3 && diversified.length < pool.length) {
-    const next = pool.find(r => !diversified.includes(r));
-    if (!next) break;
-    diversified.push(next);
+
+  // 부족하면 라벨 중복만 피해서 채움
+  for (const r of pool) {
+    if (diversified.length >= 3) break;
+    if (!usedLabels.has(r.label)) {
+      diversified.push(r);
+      usedLabels.add(r.label);
+    }
   }
 
   return diversified.length > 0 ? diversified : pool.slice(0, 3);
