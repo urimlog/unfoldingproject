@@ -41,7 +41,7 @@
   }
   .test-opt { background: #1e1e1c; }
   .test-opt.selected { background: #2DC98F; border-color: #2DC98F; color: #141412; }
-  .verb-chip { background: #1e1e1c; }
+  .verb-chip { background: #1e1e1c; color: var(--text-secondary); border-color: rgba(255,255,255,0.14); }
   .verb-chip.selected { background: #2DC98F; border-color: #2DC98F; color: #141412; }
   .test-textarea, .direction-textarea, .num-input, .sv-related-input {
     color: var(--text-primary);
@@ -1765,4 +1765,811 @@ function updateFinal() {
   const analysis = analyzeVerbs(selected);
   const coreKeywords = extractCoreKeyword();
 
-  con
+  const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+  const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+  const signals = ['흥미','행복','열정','재능','강점'];
+  const descs = {
+    흥미:"끌리는 것 — 하고 싶어서 자연스럽게 손이 가는 영역",
+    행복:"할 때 좋은 것 — 과정 자체가 즐거운 행위",
+    열정:"불타오르는 것 — 잘 안 돼도 계속하게 되는 것",
+    재능:"잘하는 것 — 남보다 수월하게 되는 것",
+    강점:"힘이 되는 것 — 나만의 방식으로 기여하는 것"
+  };
+
+  let html = '';
+
+  // 핵심 키워드
+  if (coreKeywords.length > 0) {
+    html += `<div style="text-align:center;padding:1.75rem 1rem 1.5rem;margin-bottom:1.25rem;background:var(--bg);border-radius:var(--radius-lg);border:0.5px solid var(--border);">
+      <p style="font-size:10px;letter-spacing:0.13em;color:var(--text-tertiary);text-transform:uppercase;margin-bottom:1rem;">나를 관통하는 핵심 키워드</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;flex-wrap:wrap;">
+        ${coreKeywords.map((kw, i) => `
+          <span style="font-size:${i===0?'28px':i===1?'20px':'15px'};font-weight:500;color:var(--text-primary);letter-spacing:-0.02em;opacity:${i===0?1:i===1?0.65:0.4};">${kw}</span>
+          ${i < coreKeywords.length-1 ? `<span style="font-size:14px;color:var(--border-mid);">·</span>` : ''}`).join('')}
+      </div>
+    </div>`;
+  }
+
+  html += '<div class="final-signal-row">';
+  signals.forEach(signal => {
+    const bg = SC[signal]; const tc = TC[signal];
+    html += `<div class="final-signal-item">
+      <div class="final-signal-header">
+        <div class="final-signal-icon" style="background:${bg};color:${tc};">✦</div>
+        <span class="final-signal-name">${signal}</span>
+        <span class="final-signal-hint">${descs[signal]}</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-secondary);line-height:1.8;margin-top:0.25rem;">${analysis[signal]}</p>
+    </div>`;
+  });
+  html += '</div>';
+
+  // 동사 ↔ 하고 싶은 것 교차 분석
+  const matches = findCrossMatches();
+  if (matches.length > 0) {
+    html += `<div style="background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;">
+      <p style="font-size:11px;letter-spacing:0.08em;color:var(--text-tertiary);text-transform:uppercase;margin-bottom:0.75rem;">동사 × 하고 싶은 것 — 일치하는 지점</p>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.6;">동사로 고른 것과 하고 싶은 것 사이에서 겹치는 지점이에요. 이 교차점이 가장 강한 신호예요.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        ${matches.map(m => `
+          <div style="display:flex;align-items:center;gap:0.4rem;background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius-md);padding:0.45rem 0.75rem;">
+            <span style="font-size:11px;color:var(--accent);font-weight:600;">◎</span>
+            <span style="font-size:13px;color:var(--text-primary);font-weight:500;">${m.item}</span>
+            <span style="font-size:11px;color:var(--text-tertiary);">← ${m.verb}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  } else if (wishItems && wishItems.length === 0) {
+    html += `<div style="background:var(--bg);border:0.5px dashed var(--border-mid);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;">
+      <p style="font-size:13px;color:var(--text-tertiary);text-align:center;">파트 08에서 하고 싶은 것을 채우면<br>동사와 겹치는 지점을 찾아드려요</p>
+    </div>`;
+  }
+
+  // 추천 — getRecommendations()가 이미 다양화 처리함
+  const recs = getRecommendations();
+  html += `<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향</p>`;
+  recs.forEach((r, i) => {
+    const nextSteps = getNextSteps(r.label);
+    const fitLine = getTypeFit(r.label);
+    html += `<div class="recommend-card">
+      <p class="recommend-label">${r.label}</p>
+      <p class="recommend-title-text">${r.title}</p>
+      ${fitLine ? `<p style="font-size:11px;color:var(--accent);margin:0.35rem 0 0.5rem;font-weight:500;">✦ ${fitLine}</p>` : ''}
+      <p class="recommend-desc">${r.desc}</p>
+      ${nextSteps ? `<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:0.5px solid var(--border);">
+        <p style="font-size:10px;letter-spacing:0.08em;color:var(--accent);text-transform:uppercase;margin-bottom:0.4rem;">탐색 시작점</p>
+        <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">${nextSteps}</p>
+      </div>` : ''}
+    </div>`;
+  });
+  html += '</div>';
+
+  finalArea.innerHTML = html;
+
+  // ── Part 10 연결: 추천 탐색 시작점 힌트 칩 생성 ──
+  const hintsWrap = document.getElementById('action-hints');
+  const hintsList = document.getElementById('action-hints-list');
+  if (hintsWrap && hintsList) {
+    const recs = getRecommendations();
+    const allHints = [];
+    recs.forEach(r => {
+      const steps = getNextSteps(r.label);
+      if (steps) {
+        steps.split('→').map(s => s.trim()).forEach(s => {
+          if (s && !allHints.includes(s)) allHints.push(s);
+        });
+      }
+    });
+
+    if (allHints.length > 0) {
+      hintsList.innerHTML = allHints.slice(0, 9).map(hint =>
+        `<button onclick="fillAction('${hint.replace(/'/g, "\\'")}');return false;"
+          style="font-size:12px;color:var(--text-secondary);background:var(--surface);border:0.5px solid var(--border);border-radius:20px;padding:4px 12px;cursor:pointer;white-space:nowrap;transition:all 0.15s;"
+          onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'"
+        >${hint}</button>`
+      ).join('');
+      hintsWrap.style.display = 'block';
+    } else {
+      hintsWrap.style.display = 'none';
+    }
+  }
+  updateIkigai();
+  updateProgress();
+}
+
+function makeIkigaiSVG(vals, isGuide) {
+  // vals = { love, good, world, money } 또는 null(가이드용)
+  var W = 340, H = 340;
+  var cx = 170, cy = 165;
+  var r = 100, off = 52;
+
+  // 4개 원 중심 (상/우/하/좌 — 원본과 동일한 방식)
+  var pos = {
+    love:  { x: cx,       y: cy - off },
+    good:  { x: cx - off, y: cy + off*0.5 },
+    money: { x: cx + off, y: cy + off*0.5 },
+    world: { x: cx,       y: cy + off*2 }
+  };
+
+  var colors = {
+    love:  { fill:'#f5e6d8', stroke:'#c8906a', tc:'#7a4020' },
+    good:  { fill:'#e8dff5', stroke:'#9070c8', tc:'#3a1e7a' },
+    money: { fill:'#d8eef5', stroke:'#60a8cc', tc:'#1a506e' },
+    world: { fill:'#dff5e8', stroke:'#60b880', tc:'#1a5a30' }
+  };
+
+  var svg = '';
+
+  // 원 (투명도 조절로 겹침 표현)
+  var keys = ['love','good','money','world'];
+  keys.forEach(function(k) {
+    var p = pos[k], c = colors[k];
+    svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + r + '"'
+      + ' fill="' + c.fill + '" stroke="' + c.stroke + '" stroke-width="2" opacity="0.85"/>';
+  });
+
+  // 중앙 원
+  svg += '<circle cx="' + cx + '" cy="' + (cy + off*0.5) + '" r="28"'
+    + ' fill="white" stroke="#b0906a" stroke-width="2"/>';
+
+  if (isGuide) {
+    // 설명용: 고정 텍스트
+    var labels = {
+      love:  ['자신이', '사랑하는 것'],
+      good:  ['자신이', '잘하는 것'],
+      money: ['대가를', '받을 수 있는 것'],
+      world: ['세상이', '필요로 하는 것']
+    };
+    var intersects = [
+      { x: cx - off*0.5, y: cy - off*0.1, text: '열정' },
+      { x: cx + off*0.5, y: cy - off*0.1, text: '사명' },
+      { x: cx - off*0.5, y: cy + off*1.1, text: '직업' },
+      { x: cx + off*0.5, y: cy + off*1.1, text: '천직' },
+    ];
+
+    keys.forEach(function(k) {
+      var p = pos[k], c = colors[k];
+      var ls = labels[k];
+      svg += '<text x="' + p.x + '" y="' + (p.y - 6) + '" text-anchor="middle" font-size="11.5" font-weight="700" fill="' + c.tc + '" font-family="sans-serif">' + ls[0] + '</text>';
+      svg += '<text x="' + p.x + '" y="' + (p.y + 10) + '" text-anchor="middle" font-size="11.5" font-weight="700" fill="' + c.tc + '" font-family="sans-serif">' + ls[1] + '</text>';
+    });
+
+    intersects.forEach(function(it) {
+      svg += '<text x="' + it.x + '" y="' + (it.y + 4) + '" text-anchor="middle" font-size="10.5" font-weight="600" fill="#7a5040" font-family="sans-serif">' + it.text + '</text>';
+    });
+
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 - 5) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4020" font-family="sans-serif">이키가이</text>';
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 + 10) + '" text-anchor="middle" font-size="8.5" fill="#9a6a50" font-family="sans-serif">삶의 이유</text>';
+
+    // 바깥 설명 화살표 텍스트
+    var outer = [
+      { x: 18,  y: 130, text: '만족하지만', align:'start' },
+      { x: 18,  y: 144, text: '쓸모없는 느낌', align:'start' },
+      { x: 18,  y: 240, text: '편안하지만', align:'start' },
+      { x: 18,  y: 254, text: '공허한 느낌', align:'start' },
+      { x: 322, y: 130, text: '기쁘고 충만하지만', align:'end' },
+      { x: 322, y: 144, text: '가난한 느낌', align:'end' },
+      { x: 322, y: 240, text: '흥분되지만', align:'end' },
+      { x: 322, y: 254, text: '불확실한 느낌', align:'end' },
+    ];
+    outer.forEach(function(o) {
+      svg += '<text x="' + o.x + '" y="' + o.y + '" text-anchor="' + o.align + '" font-size="8" fill="#aaa" font-family="sans-serif">' + o.text + '</text>';
+    });
+
+  } else {
+    // 입력 반영용: 사용자 텍스트
+    var data = vals || {};
+    var entries = [
+      { key:'love',  text: data.love  || '' },
+      { key:'good',  text: data.good  || '' },
+      { key:'money', text: data.money || '' },
+      { key:'world', text: data.world || '' },
+    ];
+
+    // 타이틀 — 원 바깥
+    var titlePos = {
+      love:  { x: cx,       y: pos.love.y  - r - 16 },
+      good:  { x: pos.good.x - r - 10, y: pos.good.y  },
+      money: { x: pos.money.x + r + 10, y: pos.money.y },
+      world: { x: cx,       y: pos.world.y + r + 20 },
+    };
+    var titleAlign = { love:'middle', good:'end', money:'start', world:'middle' };
+    var titleLabels = { love:'좋아하는 것', good:'잘하는 것', money:'돈이 되는 것', world:'세상에 필요한 것' };
+
+    keys.forEach(function(k) {
+      var tp = titlePos[k], c = colors[k];
+      // 흰 배경으로 선 위에 깔끔하게
+      var tw = k === 'world' ? 100 : 80;
+      svg += '<rect x="' + (tp.x - tw/2) + '" y="' + (tp.y - 13) + '" width="' + tw + '" height="16" rx="3" fill="white" opacity="0.95"/>';
+      svg += '<text x="' + tp.x + '" y="' + tp.y + '" text-anchor="' + titleAlign[k] + '"'
+        + ' font-size="11" font-weight="700" fill="' + c.tc + '" font-family="sans-serif">' + titleLabels[k] + '</text>';
+    });
+
+    // 내용 텍스트
+    entries.forEach(function(e) {
+      var p = pos[e.key], c = colors[e.key];
+      if (e.text) {
+        var raw = e.text;
+        var lines = [];
+        while (raw.length > 0) {
+          lines.push(raw.slice(0, 9));
+          raw = raw.slice(9);
+          if (lines.length >= 3) {
+            if (raw.length > 0) lines[2] = lines[2].slice(0,7) + '…';
+            break;
+          }
+        }
+        var lh = 15, startY = p.y - ((lines.length - 1) * lh) / 2;
+        lines.forEach(function(line, i) {
+          svg += '<text x="' + p.x + '" y="' + (startY + i * lh) + '"'
+            + ' text-anchor="middle" dominant-baseline="middle"'
+            + ' font-size="11.5" font-weight="500" fill="' + c.tc + '" font-family="sans-serif">' + line + '</text>';
+        });
+      } else {
+        svg += '<text x="' + p.x + '" y="' + p.y + '"'
+          + ' text-anchor="middle" dominant-baseline="middle"'
+          + ' font-size="10" fill="' + c.stroke + '" opacity="0.35" font-family="sans-serif">적어보세요</text>';
+      }
+    });
+
+    // 중앙
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 - 4) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4020" font-family="sans-serif">이키가이</text>';
+    svg += '<text x="' + cx + '" y="' + (cy + off*0.5 + 11) + '" text-anchor="middle" font-size="8.5" fill="#9a6a50" font-family="sans-serif">나만의 이유</text>';
+  }
+
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:320px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">' + svg + '</svg>';
+}
+
+function updateIkigai() {
+  var diagramEl = document.getElementById('ikigai-diagram');
+  if (!diagramEl || diagramEl.dataset.rendered) return;
+  diagramEl.dataset.rendered = '1';
+
+  var W = 500, H = 530;
+  var r = 130;
+  var pT = [250, 172];
+  var pL = [172, 289];
+  var pR = [328, 289];
+  var pB = [250, 406];
+  var cx = 250, cy = 289;
+
+  // 2원 교차 영역 중심 (중앙 4중 교차에서 밀어낸 위치)
+  var iP = [199, 212]; // 열정: T∩L
+  var iM = [301, 212]; // 사명: T∩R
+  var iV = [199, 365]; // 직업: L∩B
+  var iT = [301, 365]; // 천직: R∩B
+
+  var stroke = '#1D9E75';
+
+  var s = '<defs>';
+  s += '<clipPath id="cT"><circle cx="'+pT[0]+'" cy="'+pT[1]+'" r="'+r+'"/></clipPath>';
+  s += '<clipPath id="cL"><circle cx="'+pL[0]+'" cy="'+pL[1]+'" r="'+r+'"/></clipPath>';
+  s += '<clipPath id="cR"><circle cx="'+pR[0]+'" cy="'+pR[1]+'" r="'+r+'"/></clipPath>';
+  s += '<clipPath id="cB"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'"/></clipPath>';
+  s += '</defs>';
+
+  // 원 배경
+  ['pT','pL','pR','pB'].forEach(function(k,i) {
+    var p = [pT,pL,pR,pB][i];
+    s += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="rgba(29,158,117,0.06)"/>';
+  });
+
+  // 교차 강조
+  s += '<g clip-path="url(#cT)"><circle cx="'+pL[0]+'" cy="'+pL[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cT)"><circle cx="'+pR[0]+'" cy="'+pR[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cL)"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cR)"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="rgba(29,158,117,0.18)"/></g>';
+  s += '<g clip-path="url(#cT)"><g clip-path="url(#cL)"><g clip-path="url(#cR)"><circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="rgba(29,158,117,0.32)"/></g></g></g>';
+
+  // 테두리
+  s += '<circle cx="'+pT[0]+'" cy="'+pT[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<circle cx="'+pL[0]+'" cy="'+pL[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<circle cx="'+pR[0]+'" cy="'+pR[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<circle cx="'+pB[0]+'" cy="'+pB[1]+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="2"/>';
+
+  // 중앙 이키가이
+  s += '<circle cx="'+cx+'" cy="'+cy+'" r="42" fill="white" stroke="'+stroke+'" stroke-width="2.5"/>';
+  s += '<text x="'+cx+'" y="'+(cy+4)+'" text-anchor="middle" font-size="15" font-weight="700" fill="#0a4a2e" font-family="sans-serif">이키가이</text>';
+  s += '<text x="'+cx+'" y="'+(cy+20)+'" text-anchor="middle" font-size="9.5" fill="#5a8a70" font-family="sans-serif">삶의 이유</text>';
+
+  // 주제 텍스트 — 각 원 고유 영역
+  s += '<text x="'+pT[0]+'" y="'+(pT[1]-40)+'" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0a4a2e" font-family="sans-serif">자신이 사랑하는 것</text>';
+  s += '<text x="'+(pL[0]-50)+'" y="'+(pL[1]-7)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">자신이</text>';
+  s += '<text x="'+(pL[0]-50)+'" y="'+(pL[1]+12)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">잘하는 것</text>';
+  s += '<text x="'+(pR[0]+50)+'" y="'+(pR[1]-7)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">대가를 받을</text>';
+  s += '<text x="'+(pR[0]+50)+'" y="'+(pR[1]+12)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#0a4a2e" font-family="sans-serif">수 있는 것</text>';
+  s += '<text x="'+pB[0]+'" y="'+(pB[1]+44)+'" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0a4a2e" font-family="sans-serif">세상이 필요로 하는 것</text>';
+
+  // 교차 영역 텍스트 — 실제 2원 교차 영역 안
+  s += '<text x="'+iP[0]+'" y="'+(iP[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">열정</text>';
+  s += '<text x="'+iM[0]+'" y="'+(iM[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">사명</text>';
+  s += '<text x="'+iV[0]+'" y="'+(iV[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">직업</text>';
+  s += '<text x="'+iT[0]+'" y="'+(iT[1]+6)+'" text-anchor="middle" font-size="16" font-weight="700" fill="white" font-family="sans-serif">천직</text>';
+
+  diagramEl.innerHTML =
+    '<div style="display:flex;justify-content:center;">'
+    + '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:360px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">'
+    + s + '</svg></div>';
+}
+
+// ── 날짜 ──
+function getDateStr() {
+  const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+}
+
+// ── 현재 내용 수집 ──
+function collectData() {
+  const tendencyKws = [...new Set(Object.values(answers).map(a=>a.keyword))];
+  const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
+  const items22 = [...new Set([...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean))];
+  const direction = document.getElementById('direction-input').value.trim();
+  const recs = getRecommendations();
+  const sigData = buildSignalData(allVerbs);
+  return { tendencyKws, selected: [...new Set(selected)], allVerbs, items22, direction, recs, sigData, analysis: null, date: getDateStr() };
+}
+
+// ── HTML 다운로드 (입력값 직접 굽기) ──
+function downloadHTML() {
+  // 현재 input/textarea 값을 복제본에 attribute로 굽기
+  const clone = document.documentElement.cloneNode(true);
+
+  // inputs
+  const origInputs = document.querySelectorAll('input');
+  const cloneInputs = clone.querySelectorAll('input');
+  origInputs.forEach((el, i) => {
+    if (!cloneInputs[i]) return;
+    cloneInputs[i].setAttribute('value', el.value);
+    if (el.checked) cloneInputs[i].setAttribute('checked', '');
+  });
+
+  // textareas
+  const origTAs = document.querySelectorAll('textarea');
+  const cloneTAs = clone.querySelectorAll('textarea');
+  origTAs.forEach((el, i) => {
+    if (!cloneTAs[i]) return;
+    cloneTAs[i].textContent = el.value;
+  });
+
+  // 선택된 verb chips
+  document.querySelectorAll('.verb-chip.selected').forEach(chip => {
+    clone.querySelectorAll('.verb-chip').forEach(c => {
+      if (c.textContent.trim() === chip.textContent.trim()) c.classList.add('selected');
+    });
+  });
+
+  // 선택된 test opts
+  document.querySelectorAll('.test-opt.selected').forEach(opt => {
+    const q = opt.dataset.q, side = opt.dataset.side;
+    const m = clone.querySelector(`.test-opt[data-q="${q}"][data-side="${side}"]`);
+    if (m) m.classList.add('selected');
+  });
+
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `나를찾는여정_${new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})).toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'')}.html`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+}
+
+// ── 이미지 저장 (인라인 스타일로 CSS 변수 없이 직접 렌더) ──
+function buildResultCardHTML(data) {
+  const SC = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+  const TC = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+
+  const tag = (text, bg, color, border) =>
+    `<span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;background:${bg};color:${color};border:0.5px solid ${border||bg};margin:3px 3px 0 0;font-family:sans-serif;line-height:1.5;">${text}</span>`;
+
+  // 중복 제거
+  const uniqueKws = [...new Set(data.tendencyKws)];
+  const uniqueItems = [...new Set(data.items22)];
+  const uniqueSelected = [...new Set(data.selected)];
+
+  let html = `<div style="font-family:'Noto Sans KR',sans-serif;font-weight:300;background:#faf9f7;padding:48px;width:720px;color:#1a1a18;line-height:1.7;">`;
+
+  // 헤더
+  html += `<div style="margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid rgba(0,0,0,0.12);">
+    <p style="font-size:10px;letter-spacing:0.15em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">나를 찾는 여정</p>
+    <p style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:400;color:#1a1a18;margin-bottom:4px;">좋아하는 일을 찾기 위한 워크북</p>
+    <p style="font-size:12px;color:#9a9a90;">작성일 ${data.date}</p>
+  </div>`;
+
+  // 핵심 키워드
+  const coreKws = extractCoreKeyword();
+  if (coreKws.length > 0) {
+    html += `<div style="text-align:center;padding:20px;margin-bottom:24px;background:#f4f4f2;border-radius:12px;">
+      <p style="font-size:10px;letter-spacing:0.13em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나를 관통하는 핵심 키워드</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+        ${coreKws.map((kw, i) => `<span style="font-size:${i===0?'26px':i===1?'19px':'14px'};font-weight:500;color:#1a1a18;opacity:${i===0?1:i===1?0.65:0.4};">${kw}</span>${i<coreKws.length-1?'<span style="color:#ccc;">·</span>':''}`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // 성향 키워드
+  if (uniqueKws.length) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">나의 성향 키워드</p>
+      <div>${uniqueKws.map(k=>tag(k,'#1D9E75','#fff','#1D9E75')).join('')}</div>
+    </div>`;
+  }
+
+  // 선택한 동사만 (중복 제거, 연관동사 제외)
+  if (uniqueSelected.length) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">좋아하는 동사</p>
+      <div>${uniqueSelected.map(v=>tag(v,'#E1F5EE','#0F6E56','transparent')).join('')}</div>
+    </div>`;
+  }
+
+  // 5가지 신호 — 분석 문장
+  const signals = ['흥미','행복','열정','재능','강점'];
+  const SC2 = { 흥미:"#E1F5EE", 행복:"#E6F1FB", 열정:"#FAEEDA", 재능:"#EEEDFE", 강점:"#FAECE7" };
+  const TC2 = { 흥미:"#0F6E56", 행복:"#185FA5", 열정:"#854F0B", 재능:"#3C3489", 강점:"#993C1D" };
+  const verbAnalysis = analyzeVerbs(uniqueSelected);
+
+  html += `<div style="margin-bottom:24px;">
+    <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">5가지 신호</p>
+    ${signals.map(s => {
+      const text = verbAnalysis[s] || '—';
+      return `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;">
+        <div style="min-width:36px;height:36px;border-radius:50%;background:${SC2[s]};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:${TC2[s]};flex-shrink:0;">${s}</div>
+        <p style="font-size:12px;color:#5a5a54;line-height:1.75;padding-top:8px;">${text}</p>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  // 동사 × 하고 싶은 것 교차 분석
+  const cardMatches = findCrossMatches();
+  if (cardMatches.length > 0) {
+    html += `<div style="margin-bottom:24px;background:#f4f4f2;border-radius:12px;padding:16px 18px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:10px;">동사 × 하고 싶은 것 — 일치하는 지점</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        ${cardMatches.map(m => `
+          <div style="display:flex;align-items:center;gap:6px;background:#E1F5EE;border-radius:8px;padding:6px 12px;">
+            <span style="font-size:12px;color:#0F6E56;">◎</span>
+            <span style="font-size:12px;color:#1a1a18;font-weight:500;">${m.item}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // 추천 방향
+  const recText = data.analysis?.추천;
+  if (recText) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
+      <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:16px 18px;">
+        <p style="font-size:13px;color:#5a5a54;line-height:1.8;">${recText}</p>
+      </div>
+    </div>`;
+  } else if (data.recs && data.recs.length) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
+      ${data.recs.map(r=>`
+        <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:14px 18px;margin-bottom:8px;">
+          <p style="font-size:10px;color:#0F6E56;font-weight:500;letter-spacing:0.04em;margin-bottom:3px;">${r.label}</p>
+          <p style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:4px;">${r.title}</p>
+          <p style="font-size:12px;color:#5a5a54;line-height:1.6;">${r.desc}</p>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  // 타임라인 기억
+  const tlItems = [
+    { label:'유아~초등', val: data.tl_1 },
+    { label:'초등~중학', val: data.tl_2 },
+    { label:'고등~대학', val: data.tl_3 },
+    { label:'성인 이후', val: data.tl_4 },
+  ].filter(t => t.val && t.val.trim());
+  if (tlItems.length > 0) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:10px;">형성 시기의 기억</p>
+      ${tlItems.map(t=>`<div style="display:flex;gap:10px;margin-bottom:8px;">
+        <span style="font-size:10px;color:#1D9E75;white-space:nowrap;padding-top:2px;font-weight:500;">${t.label}</span>
+        <span style="font-size:12px;color:#5a5a54;line-height:1.65;">${t.val}</span>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  // 나만의 방향 (구조화된 3문장 + 한 줄 정리)
+  const dirBeing  = data['dir-being']  || '';
+  const dirHow    = data['dir-how']    || '';
+  const dirFuture = data['dir-future'] || '';
+  const dirMain   = data.direction     || '';
+  const hasDir = dirBeing || dirHow || dirFuture || dirMain;
+  if (hasDir) {
+    html += `<div style="margin-bottom:24px;">
+      <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:10px;">나만의 방향</p>
+      ${dirMain ? `<p style="font-size:13px;color:#1a1a18;font-weight:500;line-height:1.7;margin-bottom:8px;">${dirMain}</p>` : ''}
+      ${dirBeing  ? `<p style="font-size:12px;color:#5a5a54;line-height:1.65;margin-bottom:4px;">어떤 사람 — ${dirBeing}</p>` : ''}
+      ${dirHow    ? `<p style="font-size:12px;color:#5a5a54;line-height:1.65;margin-bottom:4px;">어떤 방식 — ${dirHow}</p>` : ''}
+      ${dirFuture ? `<p style="font-size:12px;color:#5a5a54;line-height:1.65;">10년 뒤 — ${dirFuture}</p>` : ''}
+    </div>`;
+  }
+
+  html += `<div style="margin-top:32px;padding-top:12px;border-top:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;">
+    <span style="font-size:11px;color:#9a9a90;">나를 찾는 여정 · @urim_log</span>
+    <span style="font-size:11px;color:#9a9a90;">${data.date}</span>
+  </div>`;
+
+  html += '</div>';
+  return html;
+}
+
+// ── 전체 저장 (전체 페이지 캡처) — 데스크탑 전용 ──
+async function downloadFull() {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    alert('전체 저장은 PC에서 이용해주세요.\n모바일에서는 최종 정리 저장을 이용해주세요!');
+    return;
+  }
+  const btn = document.getElementById('btn-full');
+  const orig = btn.innerHTML;
+  btn.textContent = '저장 중...'; btn.disabled = true;
+  const bar = document.querySelector('.export-bar');
+  bar.style.display = 'none';
+
+  try {
+    await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 200));
+    const canvas = await html2canvas(document.body, {
+      scale: 2, useCORS: true, allowTaint: true,
+      backgroundColor: '#faf9f7', logging: false,
+      windowWidth: document.body.scrollWidth,
+      width: document.body.scrollWidth,
+      height: document.body.scrollHeight,
+      scrollX: 0, scrollY: 0,
+    });
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `나를찾는여정_전체_${new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})).toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'')}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  } catch(e) {
+    console.error(e);
+    alert('이미지 생성 중 오류가 발생했어요.');
+  }
+
+  bar.style.display = 'flex';
+  btn.innerHTML = orig; btn.disabled = false;
+}
+
+// 모바일에서 전체 저장 버튼 숨기기
+if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btn-full');
+    if (btn) btn.style.display = 'none';
+  });
+  // DOMContentLoaded 이미 지난 경우
+  const btn = document.getElementById('btn-full');
+  if (btn) btn.style.display = 'none';
+}
+
+// ── 최종 정리 저장 (요약 카드 캡처) ──
+// ── Part 10 힌트 칩 → 액션 칸 자동 입력 ──
+function fillAction(text) {
+  const slots = ['action-1', 'action-2', 'action-3'];
+  // 비어있는 첫 번째 칸에 입력
+  for (const id of slots) {
+    const el = document.getElementById(id);
+    if (el && !el.value.trim()) {
+      el.value = text;
+      el.dispatchEvent(new Event('input'));
+      el.focus();
+      // 입력된 칸 잠깐 하이라이트
+      el.style.transition = 'box-shadow 0.3s';
+      el.style.boxShadow = '0 0 0 2px var(--accent)';
+      setTimeout(() => { el.style.boxShadow = ''; }, 800);
+      saveToLocal();
+      return;
+    }
+  }
+  // 모두 차있으면 알림
+  alert('3칸이 모두 채워져 있어요. 직접 수정해보세요!');
+}
+
+async function generateSummaryCanvas() {
+  const data = collectData();
+  const wrap = document.getElementById('result-card');
+  wrap.innerHTML = buildResultCardHTML(data);
+  wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:720px;';
+  await document.fonts.ready;
+  await new Promise(r => setTimeout(r, 400));
+  const canvas = await html2canvas(wrap.firstElementChild, {
+    scale: 2, useCORS: true, allowTaint: true,
+    backgroundColor: '#faf9f7', logging: false,
+    width: 720, windowWidth: 720,
+  });
+  wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  return canvas;
+}
+
+async function downloadSummary() {
+  const btn = document.getElementById('btn-summary');
+  const orig = btn.innerHTML;
+  btn.textContent = '저장 중...'; btn.disabled = true;
+
+  try {
+    const canvas = await generateSummaryCanvas();
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `나를찾는여정_결과_${new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})).toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'')}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  } catch(e) {
+    console.error(e);
+    alert('이미지 생성 중 오류가 발생했어요.');
+  }
+
+  btn.innerHTML = orig; btn.disabled = false;
+}
+
+// ── 메일 ──
+function openMailModal() { document.getElementById('mail-modal').style.display='flex'; document.getElementById('mail-input').focus(); }
+function closeMailModal(e) {
+  if (!e || e.target === document.getElementById('mail-modal')) document.getElementById('mail-modal').style.display='none';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('mail-modal').style.display='none'; });
+
+function sendMail() {
+  const email = document.getElementById('mail-input').value.trim();
+  if (!email) { document.getElementById('mail-input').focus(); return; }
+
+  const data = collectData();
+  const subject = encodeURIComponent(`나를 찾는 여정 — 좋아하는 일 워크북 결과 (${data.date})`);
+
+  let body = `좋아하는 일을 찾기 위한 워크북\n작성일: ${data.date}\n\n`;
+  body += `${'─'.repeat(40)}\n\n`;
+
+  if (data.tendencyKws.length) {
+    body += `[ 나의 성향 키워드 ]\n${data.tendencyKws.join('  /  ')}\n\n`;
+  }
+  if (data.items22.length) {
+    body += `[ 내가 좋아하는 것 ]\n${data.items22.map((v,i)=>`${i+1}. ${v}`).join('\n')}\n\n`;
+  }
+  if (data.selected.length) {
+    body += `[ 좋아하는 동사 ]\n${data.selected.join('  /  ')}\n\n`;
+    const related = Object.values(relatedMap).flat().filter(Boolean);
+    if (related.length) body += `[ 연관 동사 ]\n${related.join('  /  ')}\n\n`;
+  }
+
+  body += `[ 5가지 신호 ]\n`;
+  Object.entries(data.sigData).forEach(([s,tags])=>{
+    body += `${s}: ${tags.length ? tags.join(', ') : '—'}\n`;
+  });
+  body += '\n';
+
+  if (data.recs.length) {
+    body += `[ 나에게 어울리는 일의 방향 ]\n`;
+    data.recs.forEach(r=>{ body += `▸ ${r.title} (${r.label})\n  ${r.desc}\n\n`; });
+  }
+  if (data.direction) {
+    body += `[ 나만의 방향 ]\n${data.direction}\n\n`;
+  }
+
+  body += `${'─'.repeat(40)}\n나를 찾는 여정 워크북`;
+
+  window.location.href = `mailto:${email}?subject=${subject}&body=${encodeURIComponent(body)}`;
+  document.getElementById('mail-modal').style.display='none';
+}
+
+// ── 자동 저장 ──
+const SAVE_KEY = 'workbook_autosave';
+let saveTimer = null;
+
+function saveToLocal() {
+  updateProgress();
+  try {
+    const data = {
+      answers,
+      selected,
+      relatedMap,
+      textareas: [...document.querySelectorAll('textarea')].map(el => el.value),
+      inputs: [...document.querySelectorAll('input:not([type=email])')].map(el => ({ id: el.id || '', value: el.value })),
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+    showSaveStatus('저장됨');
+  } catch(e) { console.warn('자동저장 실패', e); }
+}
+
+function showSaveStatus(msg) {
+  const el = document.getElementById('save-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.opacity = '1';
+  setTimeout(() => { el.style.opacity = '0'; }, 2000);
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToLocal, 800);
+}
+
+function restoreFromLocal() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    // 테스트 답변 복원
+    if (data.answers) {
+      Object.assign(answers, data.answers);
+      Object.entries(data.answers).forEach(([qi, val]) => {
+        const opt = document.querySelector(`.test-opt[data-q="${qi}"][data-side="${val.side}"]`);
+        if (opt) opt.classList.add('selected');
+      });
+      updateSummary();
+    }
+
+    // 동사 복원
+    if (data.selected && data.relatedMap) {
+      data.selected.forEach(v => {
+        selected.push(v);
+        relatedMap[v] = data.relatedMap[v] || ['','',''];
+        const chip = [...document.querySelectorAll('.verb-chip')].find(c => c.textContent === v);
+        if (chip) chip.classList.add('selected');
+      });
+      updateCount();
+      renderSelectedList();
+      updateAutoSignal();
+      updateFinal();
+    }
+
+    // textarea 복원
+    if (data.textareas) {
+      const tas = document.querySelectorAll('textarea');
+      data.textareas.forEach((val, i) => { if (tas[i]) tas[i].value = val; });
+    }
+
+    // input 복원 (id 기반 우선, 순서 기반 fallback)
+    if (data.inputs) {
+      data.inputs.forEach(({ id, value }) => {
+        if (!value) return;
+        if (id) {
+          const el = document.getElementById(id);
+          if (el) { el.value = value; return; }
+        }
+      });
+      // num-input (번호 칸) 순서 복원
+      const numInputs = document.querySelectorAll('.num-input');
+      let ni = 0;
+      data.inputs.forEach(({ id, value }) => {
+        if (id || !value) return;
+        if (numInputs[ni]) numInputs[ni].value = value;
+        ni++;
+      });
+    }
+
+    const t = new Date(data.savedAt);
+    showSaveStatus(`${t.getMonth()+1}/${t.getDate()} ${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')} 복원됨`);
+  } catch(e) { console.warn('복원 실패', e); }
+}
+
+// 모든 input/textarea에 자동저장 이벤트 등록 (동적 생성 포함 → 이벤트 위임)
+document.addEventListener('input', e => {
+  if (e.target.matches('input, textarea')) scheduleSave();
+  if (e.target.matches('.num-input')) updateIkigai();
+});
+document.addEventListener('click', e => {
+  if (e.target.matches('.verb-chip, .test-opt')) scheduleSave();
+});
+
+// 페이지 로드 시 초기화 — 스크립트가 </body> 직전이므로 DOM은 항상 준비됨
+renderVerbGrid();
+updateIkigai();
+updateProgress();
+window.addEventListener('load', () => {
+  restoreFromLocal();
+  // 혹시 동사 그리드가 비었으면 재시도 (사파리 대비)
+  if (document.getElementById('verb-grid') && !document.getElementById('verb-grid').children.length) {
+    renderVerbGrid();
+  }
+});
+
+</script>
+</body>
+</html>
