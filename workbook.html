@@ -39,7 +39,7 @@
   .export-bar {
     background: rgba(20,20,18,0.92) !important;
   }
-  .test-opt { background: #1e1e1c; }
+  .test-opt { background: #1e1e1c; color: var(--text-secondary); border-color: rgba(255,255,255,0.14); }
   .test-opt.selected { background: #2DC98F; border-color: #2DC98F; color: #141412; }
   .verb-chip { background: #1e1e1c; color: var(--text-secondary); border-color: rgba(255,255,255,0.14); }
   .verb-chip.selected { background: #2DC98F; border-color: #2DC98F; color: #141412; }
@@ -893,25 +893,28 @@ const catDesc = {
 };
 
 const answers = {};
-const container = document.getElementById('test-container');
 
-questions.forEach((q, i) => {
-  const div = document.createElement('div');
-  div.className = 'test-q';
-  div.innerHTML = `<p class="test-q-label">Q${i+1} · ${q.category}</p><p class="test-q-text">${q.text}</p><div class="test-options"><div class="test-opt" data-q="${i}" data-side="a">${q.a.label}</div><div class="test-opt" data-q="${i}" data-side="b">${q.b.label}</div></div><div><textarea class="test-textarea" placeholder="${q.open}"></textarea></div>`;
-  container.appendChild(div);
-  if (i < questions.length - 1) { const hr = document.createElement('hr'); hr.className = 'test-sep'; container.appendChild(hr); }
-});
-
-container.querySelectorAll('.test-opt').forEach(opt => {
-  opt.addEventListener('click', () => {
-    const qi = parseInt(opt.dataset.q);
-    container.querySelectorAll(`.test-opt[data-q="${qi}"]`).forEach(o => o.classList.remove('selected'));
-    opt.classList.add('selected');
-    answers[qi] = { side: opt.dataset.side, keyword: questions[qi][opt.dataset.side].keyword };
-    updateSummary(); updateFinal();
+function renderTestQuestions() {
+  const container = document.getElementById('test-container');
+  if (!container) return;
+  container.innerHTML = '';
+  questions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'test-q';
+    div.innerHTML = `<p class="test-q-label">Q${i+1} · ${q.category}</p><p class="test-q-text">${q.text}</p><div class="test-options"><div class="test-opt" data-q="${i}" data-side="a">${q.a.label}</div><div class="test-opt" data-q="${i}" data-side="b">${q.b.label}</div></div><div><textarea class="test-textarea" placeholder="${q.open}"></textarea></div>`;
+    container.appendChild(div);
+    if (i < questions.length - 1) { const hr = document.createElement('hr'); hr.className = 'test-sep'; container.appendChild(hr); }
   });
-});
+  container.querySelectorAll('.test-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = parseInt(opt.dataset.q);
+      container.querySelectorAll(`.test-opt[data-q="${qi}"]`).forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers[qi] = { side: opt.dataset.side, keyword: questions[qi][opt.dataset.side].keyword };
+      updateSummary(); updateFinal();
+    });
+  });
+}
 
 function updateSummary() {
   const area = document.getElementById('summary-area');
@@ -2558,16 +2561,25 @@ document.addEventListener('click', e => {
   if (e.target.matches('.verb-chip, .test-opt')) scheduleSave();
 });
 
-// 페이지 로드 시 초기화 — 스크립트가 </body> 직전이므로 DOM은 항상 준비됨
-renderVerbGrid();
-updateIkigai();
-updateProgress();
+// 페이지 로드 시 초기화
+function initPage() {
+  renderTestQuestions();
+  renderVerbGrid();
+  updateIkigai();
+  updateProgress();
+}
+
+// 스크립트가 </body> 직전이므로 DOM 준비 완료 — 직접 실행
+initPage();
+
 window.addEventListener('load', () => {
   restoreFromLocal();
-  // 혹시 동사 그리드가 비었으면 재시도 (사파리 대비)
-  if (document.getElementById('verb-grid') && !document.getElementById('verb-grid').children.length) {
-    renderVerbGrid();
-  }
+  updateProgress();
+  // 혹시 비었으면 재시도
+  const vg = document.getElementById('verb-grid');
+  const tc = document.getElementById('test-container');
+  if (vg && !vg.children.length) renderVerbGrid();
+  if (tc && !tc.children.length) renderTestQuestions();
 });
 
 </script>
