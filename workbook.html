@@ -71,8 +71,8 @@ body {
 
 /* Header */
 .header {
-  margin-bottom: 4rem;
-  padding-bottom: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
   border-bottom: 0.5px solid var(--border-mid);
 }
 .header-eyebrow {
@@ -287,16 +287,30 @@ body {
 .fst { font-size: 12px; padding: 0.2rem 0.6rem; border-radius: 10px; color: var(--text-secondary); background: var(--bg); border: 0.5px solid var(--border); }
 .fst.hl { background: var(--accent-light); color: var(--accent-dark); border-color: transparent; }
 .recommend-wrap { background: var(--bg); border-radius: var(--radius-lg); padding: 1.25rem; border: 0.5px solid var(--border); }
-.recommend-label-head { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; margin-bottom: 1rem; }
+.recommend-label-head { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.5rem; }
 .recommend-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
 .recommend-card:last-child { margin-bottom: 0; }
-.recommend-label { font-size: 11px; color: var(--accent-dark); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+.recommend-label { display: inline-block; font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.08em; background: var(--accent-light); padding: 3px 10px; border-radius: 20px; margin-bottom: 0.5rem; }
 .recommend-title-text { font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 0.4rem; }
 .recommend-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
 
 /* Footer */
 .footer { margin-top: 5rem; padding-top: 2rem; border-top: 0.5px solid var(--border); text-align: center; }
 .footer p { font-size: 12px; color: var(--text-tertiary); }
+
+@media (min-width: 768px) {
+  .page { padding: 4rem 3rem 8rem; }
+  .header-title { font-size: clamp(22px, 3vw, 30px); }
+  .section-title { font-size: 22px; }
+  .verb-chip { font-size: 13px; padding: 0.4rem 0.9rem; }
+  .test-opt { font-size: 14px; padding: 0.9rem 1.2rem; }
+  #page-tabs button { font-size: 13px; padding: 0.85rem 0.5rem; }
+  #page-tabs button span { font-size: 11px; }
+  #progress-bar-wrap { padding: 8px 24px; }
+  #progress-bar-wrap div[id^="prog-"] { width: 8px; height: 8px; }
+  .export-btn { font-size: 13px; padding: 0.6rem 1.2rem; }
+  .recommend-card { padding: 1.25rem 1.5rem; }
+}
 
 @media (max-width: 560px) {
   .page { padding: 2.5rem 1.25rem 5rem; }
@@ -314,7 +328,7 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 0.5px solid var(--border-mid);
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,16 +466,16 @@ body {
     <p class="header-eyebrow">좋아하는 일을 찾아가는 여정</p>
     <h1 class="header-title">하고 싶은 일 하며<br>살고 싶은 사람들을 위한<br><span style="color:var(--accent);">진로 탐색 워크북</span></h1>
     <p style="font-size:11px;color:var(--text-tertiary);margin-top:0.5rem;letter-spacing:0.05em;">ⓒ URIM</p>
-
   </div>
 
   <!-- UNFOLDING PROJECT 소개 -->
-  <div class="section" style="padding-top:0;">
+  <div class="section" style="padding-top:0.5rem;">
     <div style="border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem 1.5rem;background:var(--surface);">
       <p style="font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:1.25rem;font-weight:500;">UNFOLDING PROJECT</p>
       <p style="font-size:15px;font-weight:400;color:var(--text-primary);line-height:1.9;margin-bottom:1.25rem;">삶은 완성되는 것이 아니라,<br>각자의 속도로 펼쳐져 가는 과정이라고 믿어요.</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.25rem;">Unfolding Project는<br>자기 자신에게 맞는 삶과 일을 탐색하는 사람들을 위한 프로젝트예요.<br>정답을 제시하기보다, 스스로의 감각과 방향을 발견할 수 있도록<br>질문과 기록의 형태를 통해 작은 계기들을 만들어가고 있어요.</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.25rem;">저 또한 아직 제가 어떤 삶을 살아가고 싶은지,<br>어떤 방식으로 일하고 표현하며 살아가야 하는지 계속 고민하고 있어요.<br>이 프로젝트 역시 그런 과정 속에서 함께 만들어지고 있어요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:0.75rem;">Unfolding Project는<br>자기 자신에게 맞는 삶과 일을 탐색하는 사람들을 위한 프로젝트예요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.25rem;">정답을 제시하기보다, 스스로의 감각과 방향을 발견할 수 있도록 질문과 기록의 형태를 통해 작은 계기들을 만들어가고 있어요.</p>
+
       <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.5rem;">누군가에게는 잠시 멈춰 자신을 들여다보는 시간이,<br>또 다른 누군가에게는 새로운 방향을 펼쳐가는 시작이 되기를 바라요.</p>
       <p style="font-size:13px;color:var(--accent-dark);font-weight:500;line-height:1.9;">모든 사람의 펼쳐지는 삶을 응원해요.</p>
     </div>
@@ -555,10 +569,15 @@ body {
 
   <hr class="divider">
 
-  </div><!-- /page-1 -->
-  <div style="text-align:center;padding:0.5rem 0 1rem;display:none;" id="page-1-btn">
+  <div style="text-align:center;padding:1.5rem 1rem 0.5rem;">
     <button data-next-page="2" style="background:var(--accent);color:#fff;border:none;border-radius:var(--radius-lg);padding:0.75rem 2rem;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;">Step 2로 이어가기 →</button>
+    <div style="margin-top:1.25rem;">
+      <p style="font-size:20px;margin-bottom:0.5rem;">🌱</p>
+      <p style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:0.35rem;line-height:1.6;">여기까지 채운 것만으로도<br>이미 많이 알게 됐어요.</p>
+      <p style="font-size:12px;color:var(--text-tertiary);line-height:1.8;">지금 당장 답이 없어도 괜찮아요.<br>워크북은 한 번에 완성되는 게 아니라,<br>살면서 계속 돌아오는 과정이에요.</p>
+    </div>
   </div>
+  </div><!-- /page-1 -->
 
   <div id="page-2" class="workbook-page" style="display:none;">
 
@@ -571,81 +590,105 @@ body {
     <div class="verb-grid" id="verb-grid">
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">창작·표현</span>
       <div class="verb-chip" data-verb="만들다">만들다</div>
-      <div class="verb-chip" data-verb="표현하다">표현하다</div>
-      <div class="verb-chip" data-verb="그리다">그리다</div>
       <div class="verb-chip" data-verb="디자인하다">디자인하다</div>
       <div class="verb-chip" data-verb="편집하다">편집하다</div>
       <div class="verb-chip" data-verb="연출하다">연출하다</div>
       <div class="verb-chip" data-verb="촬영하다">촬영하다</div>
-      <div class="verb-chip" data-verb="글 쓰다">글 쓰다</div>
+      <div class="verb-chip" data-verb="그리다">그리다</div>
       <div class="verb-chip" data-verb="빚다">빚다</div>
       <div class="verb-chip" data-verb="전시하다">전시하다</div>
-      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">기록·탐구</span>
+      <div class="verb-chip" data-verb="글 쓰다">글 쓰다</div>
+      <div class="verb-chip" data-verb="작곡하다">작곡하다</div>
+      <div class="verb-chip" data-verb="안무하다">안무하다</div>
+      <div class="verb-chip" data-verb="연기하다">연기하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">기록·아카이브</span>
       <div class="verb-chip" data-verb="기록하다">기록하다</div>
-      <div class="verb-chip" data-verb="관찰하다">관찰하다</div>
-      <div class="verb-chip" data-verb="탐구하다">탐구하다</div>
-      <div class="verb-chip" data-verb="분석하다">분석하다</div>
-      <div class="verb-chip" data-verb="연구하다">연구하다</div>
-      <div class="verb-chip" data-verb="조사하다">조사하다</div>
       <div class="verb-chip" data-verb="수집하다">수집하다</div>
       <div class="verb-chip" data-verb="아카이빙하다">아카이빙하다</div>
       <div class="verb-chip" data-verb="보존하다">보존하다</div>
       <div class="verb-chip" data-verb="복원하다">복원하다</div>
+      <div class="verb-chip" data-verb="큐레이션하다">큐레이션하다</div>
+      <div class="verb-chip" data-verb="정리하다">정리하다</div>
+      <div class="verb-chip" data-verb="번역하다">번역하다</div>
+      <div class="verb-chip" data-verb="문서화하다">문서화하다</div>
+      <div class="verb-chip" data-verb="스크랩하다">스크랩하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">탐구·분석</span>
+      <div class="verb-chip" data-verb="분석하다">분석하다</div>
+      <div class="verb-chip" data-verb="연구하다">연구하다</div>
+      <div class="verb-chip" data-verb="탐구하다">탐구하다</div>
+      <div class="verb-chip" data-verb="실험하다">실험하다</div>
+      <div class="verb-chip" data-verb="관찰하다">관찰하다</div>
+      <div class="verb-chip" data-verb="검토하다">검토하다</div>
+      <div class="verb-chip" data-verb="비교하다">비교하다</div>
+      <div class="verb-chip" data-verb="시각화하다">시각화하다</div>
+      <div class="verb-chip" data-verb="측정하다">측정하다</div>
+      <div class="verb-chip" data-verb="검증하다">검증하다</div>
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">기획·전략</span>
       <div class="verb-chip" data-verb="기획하다">기획하다</div>
-      <div class="verb-chip" data-verb="설계하다">설계하다</div>
-      <div class="verb-chip" data-verb="구성하다">구성하다</div>
       <div class="verb-chip" data-verb="전략짜다">전략짜다</div>
+      <div class="verb-chip" data-verb="구성하다">구성하다</div>
       <div class="verb-chip" data-verb="실행하다">실행하다</div>
       <div class="verb-chip" data-verb="운영하다">운영하다</div>
-      <div class="verb-chip" data-verb="개선하다">개선하다</div>
-      <div class="verb-chip" data-verb="최적화하다">최적화하다</div>
-      <div class="verb-chip" data-verb="실험하다">실험하다</div>
-      <div class="verb-chip" data-verb="개발하다">개발하다</div>
+      <div class="verb-chip" data-verb="제안하다">제안하다</div>
+      <div class="verb-chip" data-verb="조직하다">조직하다</div>
+      <div class="verb-chip" data-verb="협의하다">협의하다</div>
+      <div class="verb-chip" data-verb="조율하다">조율하다</div>
+      <div class="verb-chip" data-verb="추진하다">추진하다</div>
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">가르침·코칭</span>
       <div class="verb-chip" data-verb="가르치다">가르치다</div>
       <div class="verb-chip" data-verb="코칭하다">코칭하다</div>
       <div class="verb-chip" data-verb="멘토링하다">멘토링하다</div>
       <div class="verb-chip" data-verb="상담하다">상담하다</div>
-      <div class="verb-chip" data-verb="공감하다">공감하다</div>
-      <div class="verb-chip" data-verb="돕다">돕다</div>
-      <div class="verb-chip" data-verb="연결하다">연결하다</div>
+      <div class="verb-chip" data-verb="피드백하다">피드백하다</div>
+      <div class="verb-chip" data-verb="훈련하다">훈련하다</div>
       <div class="verb-chip" data-verb="이끌다">이끌다</div>
-      <div class="verb-chip" data-verb="나누다">나누다</div>
-      <div class="verb-chip" data-verb="봉사하다">봉사하다</div>
-      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">연결·소통</span>
-      <div class="verb-chip" data-verb="이야기하다">이야기하다</div>
       <div class="verb-chip" data-verb="설득하다">설득하다</div>
+      <div class="verb-chip" data-verb="강의하다">강의하다</div>
+      <div class="verb-chip" data-verb="시연하다">시연하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">돌봄·치유</span>
+      <div class="verb-chip" data-verb="돌보다">돌보다</div>
+      <div class="verb-chip" data-verb="치유하다">치유하다</div>
+      <div class="verb-chip" data-verb="공감하다">공감하다</div>
+      <div class="verb-chip" data-verb="위로하다">위로하다</div>
+      <div class="verb-chip" data-verb="돕다">돕다</div>
+      <div class="verb-chip" data-verb="봉사하다">봉사하다</div>
+      <div class="verb-chip" data-verb="간호하다">간호하다</div>
+      <div class="verb-chip" data-verb="회복시키다">회복시키다</div>
+      <div class="verb-chip" data-verb="보살피다">보살피다</div>
+      <div class="verb-chip" data-verb="배려하다">배려하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">연결·소통</span>
+      <div class="verb-chip" data-verb="연결하다">연결하다</div>
+      <div class="verb-chip" data-verb="이야기하다">이야기하다</div>
       <div class="verb-chip" data-verb="발표하다">발표하다</div>
       <div class="verb-chip" data-verb="강연하다">강연하다</div>
-      <div class="verb-chip" data-verb="번역하다">번역하다</div>
-      <div class="verb-chip" data-verb="묘사하다">묘사하다</div>
-      <div class="verb-chip" data-verb="질문하다">질문하다</div>
       <div class="verb-chip" data-verb="인터뷰하다">인터뷰하다</div>
       <div class="verb-chip" data-verb="대화하다">대화하다</div>
-      <div class="verb-chip" data-verb="기고하다">기고하다</div>
+      <div class="verb-chip" data-verb="소개하다">소개하다</div>
+      <div class="verb-chip" data-verb="나누다">나누다</div>
+      <div class="verb-chip" data-verb="협력하다">협력하다</div>
+      <div class="verb-chip" data-verb="네트워킹하다">네트워킹하다</div>
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">탐험·경험</span>
       <div class="verb-chip" data-verb="탐험하다">탐험하다</div>
       <div class="verb-chip" data-verb="여행하다">여행하다</div>
       <div class="verb-chip" data-verb="발견하다">발견하다</div>
       <div class="verb-chip" data-verb="도전하다">도전하다</div>
       <div class="verb-chip" data-verb="개척하다">개척하다</div>
-      <div class="verb-chip" data-verb="경험하다">경험하다</div>
-      <div class="verb-chip" data-verb="탐색하다">탐색하다</div>
-      <div class="verb-chip" data-verb="시도하다">시도하다</div>
       <div class="verb-chip" data-verb="모험하다">모험하다</div>
+      <div class="verb-chip" data-verb="경험하다">경험하다</div>
       <div class="verb-chip" data-verb="걷다">걷다</div>
+      <div class="verb-chip" data-verb="시도하다">시도하다</div>
+      <div class="verb-chip" data-verb="탐방하다">탐방하다</div>
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">퍼포먼스·음악</span>
       <div class="verb-chip" data-verb="공연하다">공연하다</div>
       <div class="verb-chip" data-verb="연주하다">연주하다</div>
       <div class="verb-chip" data-verb="노래하다">노래하다</div>
-      <div class="verb-chip" data-verb="작곡하다">작곡하다</div>
       <div class="verb-chip" data-verb="춤추다">춤추다</div>
       <div class="verb-chip" data-verb="즉흥하다">즉흥하다</div>
-      <div class="verb-chip" data-verb="연기하다">연기하다</div>
-      <div class="verb-chip" data-verb="안무하다">안무하다</div>
-      <div class="verb-chip" data-verb="믹싱하다">믹싱하다</div>
       <div class="verb-chip" data-verb="녹음하다">녹음하다</div>
+      <div class="verb-chip" data-verb="믹싱하다">믹싱하다</div>
+      <div class="verb-chip" data-verb="퍼포먼스하다">퍼포먼스하다</div>
+      <div class="verb-chip" data-verb="편곡하다">편곡하다</div>
+      <div class="verb-chip" data-verb="지휘하다">지휘하다</div>
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">라이프·감각</span>
       <div class="verb-chip" data-verb="요리하다">요리하다</div>
       <div class="verb-chip" data-verb="재배하다">재배하다</div>
@@ -653,32 +696,52 @@ body {
       <div class="verb-chip" data-verb="꾸미다">꾸미다</div>
       <div class="verb-chip" data-verb="배치하다">배치하다</div>
       <div class="verb-chip" data-verb="조향하다">조향하다</div>
-      <div class="verb-chip" data-verb="치유하다">치유하다</div>
-      <div class="verb-chip" data-verb="돌보다">돌보다</div>
-      <div class="verb-chip" data-verb="훈련하다">훈련하다</div>
       <div class="verb-chip" data-verb="명상하다">명상하다</div>
-      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">비즈니스</span>
+      <div class="verb-chip" data-verb="관리하다">관리하다</div>
+      <div class="verb-chip" data-verb="스타일링하다">스타일링하다</div>
+      <div class="verb-chip" data-verb="수선하다">수선하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">비즈니스·커머스</span>
       <div class="verb-chip" data-verb="판매하다">판매하다</div>
-      <div class="verb-chip" data-verb="큐레이션하다">큐레이션하다</div>
       <div class="verb-chip" data-verb="추천하다">추천하다</div>
       <div class="verb-chip" data-verb="협상하다">협상하다</div>
       <div class="verb-chip" data-verb="브랜딩하다">브랜딩하다</div>
-      <div class="verb-chip" data-verb="소개하다">소개하다</div>
-      <div class="verb-chip" data-verb="평가하다">평가하다</div>
-      <div class="verb-chip" data-verb="검토하다">검토하다</div>
-      <div class="verb-chip" data-verb="출판하다">출판하다</div>
-      <div class="verb-chip" data-verb="협력하다">협력하다</div>
-      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">내면·사고</span>
+      <div class="verb-chip" data-verb="런칭하다">런칭하다</div>
+      <div class="verb-chip" data-verb="마케팅하다">마케팅하다</div>
+      <div class="verb-chip" data-verb="창업하다">창업하다</div>
+      <div class="verb-chip" data-verb="유통하다">유통하다</div>
+      <div class="verb-chip" data-verb="구매하다">구매하다</div>
+      <div class="verb-chip" data-verb="투자하다">투자하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">언어·사고</span>
+      <div class="verb-chip" data-verb="통역하다">통역하다</div>
+      <div class="verb-chip" data-verb="해석하다">해석하다</div>
+      <div class="verb-chip" data-verb="읽다">읽다</div>
+      <div class="verb-chip" data-verb="묘사하다">묘사하다</div>
+      <div class="verb-chip" data-verb="공부하다">공부하다</div>
+      <div class="verb-chip" data-verb="인용하다">인용하다</div>
       <div class="verb-chip" data-verb="성찰하다">성찰하다</div>
       <div class="verb-chip" data-verb="상상하다">상상하다</div>
       <div class="verb-chip" data-verb="재해석하다">재해석하다</div>
-      <div class="verb-chip" data-verb="몰입하다">몰입하다</div>
-      <div class="verb-chip" data-verb="읽다">읽다</div>
-      <div class="verb-chip" data-verb="쓰다">쓰다</div>
-      <div class="verb-chip" data-verb="공부하다">공부하다</div>
-      <div class="verb-chip" data-verb="비교하다">비교하다</div>
-      <div class="verb-chip" data-verb="조율하다">조율하다</div>
-      <div class="verb-chip" data-verb="완성하다">완성하다</div>
+      <div class="verb-chip" data-verb="질문하다">질문하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">기술·구현</span>
+      <div class="verb-chip" data-verb="개발하다">개발하다</div>
+      <div class="verb-chip" data-verb="구현하다">구현하다</div>
+      <div class="verb-chip" data-verb="자동화하다">자동화하다</div>
+      <div class="verb-chip" data-verb="출시하다">출시하다</div>
+      <div class="verb-chip" data-verb="테스트하다">테스트하다</div>
+      <div class="verb-chip" data-verb="설계하다">설계하다</div>
+      <div class="verb-chip" data-verb="운용하다">운용하다</div>
+      <div class="verb-chip" data-verb="수정하다">수정하다</div>
+      <div class="verb-chip" data-verb="개선하다">개선하다</div>
+      <div class="verb-chip" data-verb="문제해결하다">문제해결하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">사회·변화</span>
+      <div class="verb-chip" data-verb="변화시키다">변화시키다</div>
+      <div class="verb-chip" data-verb="캠페인하다">캠페인하다</div>
+      <div class="verb-chip" data-verb="기부하다">기부하다</div>
+      <div class="verb-chip" data-verb="활동하다">활동하다</div>
+      <div class="verb-chip" data-verb="지지하다">지지하다</div>
+      <div class="verb-chip" data-verb="모금하다">모금하다</div>
+      <div class="verb-chip" data-verb="기여하다">기여하다</div>
+      <div class="verb-chip" data-verb="연대하다">연대하다</div>
     </div>
     <div id="selected-verbs-section" style="display:none;margin-top:1.5rem;">
       <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:0.5rem;letter-spacing:0.03em;">고른 동사와 연결 지을 수 있는 연관 동사를 작성해보세요. 조금 더 동사가 선명해질 거예요.</p>
@@ -737,7 +800,7 @@ body {
           <p style="font-size:13px;font-weight:500;color:var(--text-primary);">내가 좋아하는 것</p>
           <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">시키지 않아도 하게 되는 것</p>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">💡 아무런 대가 없이도 자연스럽게 하게 되는 것이 있나요?</p>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">아무런 대가 없이도 자연스럽게 하게 되는 것이 있나요?</p>
         <textarea id="ik-love" class="test-textarea" placeholder="예) 음악 듣기, 요리하기, 무언가 만들기, 사람들과 이야기하기..." style="min-height:60px;"></textarea>
       </div>
       <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
@@ -746,7 +809,7 @@ body {
           <p style="font-size:13px;font-weight:500;color:var(--text-primary);">내가 잘하는 것</p>
           <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">남들이 나에게 자주 부탁하는 것</p>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">💡 남들이 나에게 자주 부탁하거나 "너는 이걸 잘하네"라고 하는 게 있나요?</p>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">남들이 나에게 자주 부탁하거나 "너는 이걸 잘하네"라고 하는 게 있나요?</p>
         <textarea id="ik-good" class="test-textarea" placeholder="예) 꼼꼼하게 정리하기, 사람들 설득하기, 분위기 파악하기..." style="min-height:60px;"></textarea>
       </div>
       <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
@@ -755,7 +818,7 @@ body {
           <p style="font-size:13px;font-weight:500;color:var(--text-primary);">세상이 필요로 하는 것</p>
           <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">내가 기여할 수 있는 것</p>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">💡 지금 세상에서 "이런 게 있으면 좋겠다"고 느끼는 게 있나요? 거창하지 않아도 돼요.</p>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">지금 세상에서 "이런 게 있으면 좋겠다"고 느끼는 게 있나요? 거창하지 않아도 돼요.</p>
         <textarea id="ik-world" class="test-textarea" placeholder="예) 더 많은 사람이 건강했으면, 불편한 것들이 개선됐으면..." style="min-height:60px;"></textarea>
       </div>
       <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
@@ -764,7 +827,7 @@ body {
           <p style="font-size:13px;font-weight:500;color:var(--text-primary);">돈이 될 수 있는 것</p>
           <p style="font-size:11px;color:var(--text-tertiary);margin-left:auto;">수익으로 연결 가능한 것</p>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">💡 누군가 내 능력에 돈을 낼 수 있다면? 아직 모르겠다면 "이런 게 되면 좋겠다"고 적어도 괜찮아요.</p>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.5rem;line-height:1.6;">누군가 내 능력에 돈을 낼 수 있다면? 아직 모르겠다면 "이런 게 되면 좋겠다"고 적어도 괜찮아요.</p>
         <textarea id="ik-money" class="test-textarea" placeholder="예) 클래스 운영, 프리랜서 작업, 콘텐츠 제작, 컨설팅..." style="min-height:60px;"></textarea>
       </div>
     </div>
@@ -775,7 +838,7 @@ body {
 
   <hr class="divider">
 
-  <div style="text-align:center;padding:1rem 0 0.5rem;">
+  <div style="text-align:center;padding:1.5rem 1rem 0.5rem;">
     <button data-next-page="3" style="background:var(--accent);color:#fff;border:none;border-radius:var(--radius-lg);padding:0.75rem 2rem;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;">Step 3로 이어가기 →</button>
   </div>
   </div><!-- end page-2 -->
@@ -892,27 +955,16 @@ body {
 
 </div><!-- end page-3 -->
 
-    <div style="text-align:center;padding:2rem 1rem 1rem;">
-    <p style="font-size:22px;margin-bottom:0.75rem;">🌱</p>
-    <p style="font-size:15px;font-weight:500;color:var(--text-primary);margin-bottom:0.5rem;line-height:1.6;">여기까지 채운 것만으로도<br>이미 많이 알게 됐어요.</p>
-    <p style="font-size:13px;color:var(--text-tertiary);line-height:1.8;">지금 당장 답이 없어도 괜찮아요.<br>워크북은 한 번에 완성되는 게 아니라,<br>살면서 계속 돌아오는 과정이에요.</p>
-    <p style="font-size:12px;color:var(--accent);margin-top:1rem;letter-spacing:0.05em;">ⓒ URIM · 좋아하는 일을 찾아가는 여정</p>
-  </div>
-</div><!-- /page-3 -->
+
 
 <!-- Export bar -->
-<div class="export-bar">
+<div class="export-bar" id="export-bar" style="display:none;">
   <span class="export-label">저장·공유</span>
   <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;margin-right:0.5rem;">저장됨</span>
-  <button class="export-btn" id="btn-full" onclick="downloadFull()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-    전체 저장
-  </button>
   <button class="export-btn primary" id="btn-summary" onclick="downloadSummary()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    결과 저장
+    최종 정리 저장
   </button>
-
 </div>
 
 <!-- Hidden result card for image export -->
@@ -1138,8 +1190,75 @@ function renderSelectedList() {
       if (!relatedMap[inp.dataset.verb]) relatedMap[inp.dataset.verb]=['',''];
       relatedMap[inp.dataset.verb][parseInt(inp.dataset.idx)]=inp.value.trim();
       updateAutoSignal(); updateFinal();
+      showVerbSuggest(inp);
+    });
+    inp.addEventListener('blur', () => {
+      setTimeout(() => hideVerbSuggest(), 200);
+    });
+    inp.addEventListener('keydown', e => {
+      const box = document.getElementById('verb-suggest-box');
+      if (!box) return;
+      const items = box.querySelectorAll('.verb-suggest-item');
+      const active = box.querySelector('.verb-suggest-item.active');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = active ? active.nextElementSibling : items[0];
+        if (next) { active && active.classList.remove('active'); next.classList.add('active'); }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = active ? active.previousElementSibling : null;
+        if (prev) { active.classList.remove('active'); prev.classList.add('active'); }
+      } else if (e.key === 'Enter' && active) {
+        e.preventDefault();
+        inp.value = active.textContent;
+        inp.dispatchEvent(new Event('input'));
+        hideVerbSuggest();
+      } else if (e.key === 'Escape') {
+        hideVerbSuggest();
+      }
     });
   });
+}
+
+// ── 연관동사 자동완성 ──
+function showVerbSuggest(inp) {
+  hideVerbSuggest();
+  const q = inp.value.trim();
+  if (!q || q.length < 1) return;
+
+  const matches = verbs.filter(v => v.includes(q) && v !== q).slice(0, 6);
+  if (!matches.length) return;
+
+  const box = document.createElement('div');
+  box.id = 'verb-suggest-box';
+  box.style.cssText = `position:absolute;z-index:9999;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);box-shadow:0 4px 16px rgba(0,0,0,0.12);overflow:hidden;min-width:140px;`;
+
+  matches.forEach(v => {
+    const item = document.createElement('div');
+    item.className = 'verb-suggest-item';
+    item.textContent = v;
+    item.style.cssText = `padding:0.55rem 0.85rem;font-size:13px;color:var(--text-primary);cursor:pointer;transition:background 0.1s;`;
+    item.addEventListener('mouseenter', () => item.style.background = 'var(--accent-light)');
+    item.addEventListener('mouseleave', () => item.style.background = '');
+    item.addEventListener('mousedown', e => {
+      e.preventDefault();
+      inp.value = v;
+      inp.dispatchEvent(new Event('input'));
+      hideVerbSuggest();
+    });
+    box.appendChild(item);
+  });
+
+  // input 위치 기준으로 배치
+  const rect = inp.getBoundingClientRect();
+  box.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+  box.style.left = (rect.left + window.scrollX) + 'px';
+  document.body.appendChild(box);
+}
+
+function hideVerbSuggest() {
+  const box = document.getElementById('verb-suggest-box');
+  if (box) box.remove();
 }
 
 function updateAutoSignal() {
@@ -1167,7 +1286,7 @@ function updateAutoSignal() {
 
   if (allRelated.length > 0) {
     html += `<div style="margin-bottom:1rem;">
-      <p style="font-size:11px;color:var(--text-tertiary);letter-spacing:0.05em;margin-bottom:0.6rem;">연관 동사 <span style="color:var(--accent);font-weight:500;">(겹치는 것 강조)</span></p>
+      <p style="font-size:11px;color:var(--text-tertiary);letter-spacing:0.05em;margin-bottom:0.6rem;">연관 동사</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
         ${allRelated.map(r => freq[r] >= 2
           ? `<span style="padding:0.3rem 0.75rem;border-radius:20px;font-size:12px;background:var(--accent-light);color:var(--accent-dark);border:1.5px solid var(--accent);font-weight:500;">${r} ×${freq[r]}</span>`
@@ -1566,7 +1685,6 @@ function getRecommendations() {
 }
 
 function analyzeVerbs(verbs) {
-  // 전체 데이터 수집
   const wishItems = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
   const interests = ['interest-1','interest-2','interest-3'].map(id => {
     const el = document.getElementById(id); return el ? el.value.trim() : '';
@@ -1576,7 +1694,105 @@ function analyzeVerbs(verbs) {
   const ikWorld = (document.getElementById('ik-world') ? document.getElementById('ik-world').value : '').trim();
   const ikMoney = (document.getElementById('ik-money') ? document.getElementById('ik-money').value : '').trim();
   const direction = (document.getElementById('direction-input') ? document.getElementById('direction-input').value : '').trim();
-  const tendencyKws = Object.values(answers).map(a => a ? a.keyword || '' : '').join(' ');
+  const tendencyKws = Object.values(answers).map(a => a ? a.keyword || '' : '').filter(Boolean);
+
+  const allText = [...verbs, ...wishItems, ...interests, ikLove, ikGood, ikWorld, ikMoney, direction].join(' ');
+  const has = (...kws) => kws.some(k => allText.includes(k));
+  const hasV = (...kws) => kws.some(k => verbs.some(v => v.includes(k)));
+
+  // 짧게 인용용 헬퍼
+  const q = (str, max=18) => str && str.length > 2 ? `"${str.slice(0,max)}${str.length>max?'…':''}"` : '';
+  const topVerbs = verbs.slice(0,3).join(', ');
+  const interestStr = interests.slice(0,2).join(', ');
+
+  // ── 흥미 — 좋아하는 것(ik-love) 기반 ──
+  let 흥미 = '';
+  if (ikLove) {
+    흥미 = `${q(ikLove)}처럼 시키지 않아도 자연스럽게 하게 되는 것이 흥미의 자리예요. `;
+    if (hasV('여행','탐험','발견','관찰','촬영'))
+      흥미 += `${topVerbs} 같은 동사를 고른 것처럼, 직접 가서 보고 담는 탐색 행위 자체가 동력이 되는 유형이에요.`;
+    else if (hasV('기록','아카이빙','수집','큐레이션'))
+      흥미 += `${topVerbs} 같은 동사들이 보여주듯, 흘러가는 것을 모아 의미 있는 형태로 남기는 일에 끌리는 유형이에요.`;
+    else if (hasV('글 쓰','묘사','이야기','표현'))
+      흥미 += `${topVerbs} 같은 동사들이 보여주듯, 경험을 언어로 풀어내는 행위 자체가 흥미의 방향이에요.`;
+    else if (hasV('만들','디자인','그리','빚','편집'))
+      흥미 += `${topVerbs} 같은 동사를 고른 것처럼, 없던 것을 형태로 만들어내는 창작 행위에서 동기를 찾는 유형이에요.`;
+    else
+      흥미 += `${topVerbs} 같은 행위들이 공통적으로 가리키는 방향이 진짜 흥미예요. 그 패턴 안에 방향이 있어요.`;
+  } else {
+    흥미 = `${topVerbs} — 이 동사들을 시키지 않아도 하게 된다면, 그 자체가 흥미의 신호예요. `;
+    흥미 += interestStr ? `${interestStr}에 대한 관심과도 연결되는 방향이에요.` : `워크북을 더 채울수록 패턴이 선명해질 거예요.`;
+  }
+
+  // ── 행복 — 성향테스트(answers) + 이키가이 기반 ──
+  let 행복 = '';
+  const hasResult = tendencyKws.join(' ');
+  const isProcess = hasResult.includes('과정') || hasResult.includes('몰입');
+  const isResult  = hasResult.includes('결과') || hasResult.includes('완성');
+  const isIndep   = hasResult.includes('독립') || hasResult.includes('자기주도');
+
+  if (ikLove) 행복 += `${q(ikLove)} — 이걸 할 때 시간이 빠르게 가고 에너지가 오른다면 그게 행복의 신호예요. `;
+  if (isProcess)
+    행복 += `성향 테스트에서 '과정·몰입'을 고른 것처럼, 결과보다 만들어가는 과정 자체에서 충만함을 느끼는 유형이에요.`;
+  else if (isResult)
+    행복 += `성향 테스트에서 '결과·완성'을 고른 것처럼, 무언가를 끝까지 만들어 완성된 결과물을 볼 때 가장 에너지가 차오르는 유형이에요.`;
+  else if (isIndep)
+    행복 += `자기 페이스와 자율성이 보장될 때 가장 좋은 상태가 되는 유형이에요. 내가 정한 방향으로 움직일 때 일이 가장 즐거워요.`;
+  else if (hasV('여행','탐험','발견'))
+    행복 += `새로운 자극과 변화 속에서 에너지가 올라가는 유형이에요. 이동하고 경험하는 것 자체가 충전이 돼요.`;
+  else
+    행복 += `하는 동안 에너지가 오르는 일이 있다면, 그것이 진짜 행복의 자리예요. 그 감각을 기준으로 방향을 잡으면 지속 가능한 삶이 만들어져요.`;
+
+  // ── 열정 — 하고싶은것(wishItems) + 동사 기반 ──
+  let 열정 = '';
+  const topWish = wishItems[0] || '';
+  if (topWish) 열정 += `${q(topWish, 22)}처럼 자꾸 머릿속에 맴도는 것이 있다면 그게 열정의 자리예요. `;
+  if (hasV('도전','개척','혁신','창업','실행'))
+    열정 += `${topVerbs} 같은 동사를 고른 것처럼, 새로 만들고 도전하는 상황에서 불이 붙는 유형이에요. 불확실함이 동력이 되는 드문 에너지예요.`;
+  else if (hasV('기록','아카이빙','수집','큐레이션','표현','글 쓰'))
+    열정 += `결과가 바로 나오지 않아도 기록하고 표현하는 것을 멈추지 않는 꾸준함이 있어요. 그 지속 자체가 열정의 증거이고, 쌓일수록 개성과 실력이 돼요.`;
+  else if (hasV('분析','연구','탐구','관찰'))
+    열정 += `모르는 것을 끝까지 파고드는 끈기가 이 사람의 열정 방식이에요. 이 집요함이 결국 남들이 모르는 깊이를 만들어요.`;
+  else
+    열정 += `${interestStr || topVerbs} 안에서 잘 안 돼도 계속하게 되는 지점이 열정의 자리예요.`;
+
+  // ── 재능 — 잘하는것(ik-good) + 동사 기반 ──
+  let 재능 = '';
+  if (ikGood) {
+    재능 = `${q(ikGood)} — 남들이 나에게 이걸 부탁하거나 "잘하네"라고 한다면, 이미 재능으로 발휘되고 있는 거예요. `;
+    if (hasV('편집','구성','정리','큐레이션'))
+      재능 += `복잡한 것을 의미있는 순서로 엮는 편집 감각은 콘텐츠·공간·기획 어디서든 핵심 능력이 돼요.`;
+    else if (hasV('촬영','그리','디자인','배치','연출'))
+      재능 += `무엇을 어떻게 보여줄지를 직관적으로 아는 시각 감각은 연습할수록 정교해지고, 보는 눈이 곧 만드는 능력으로 이어져요.`;
+    else if (hasV('글 쓰','묘사','이야기','표현'))
+      재능 += `경험을 언어로 전환하는 능력은 글·영상·말하기 등 다양한 형태로 확장될 수 있어요.`;
+    else
+      재능 += `이 능력이 쌓일수록 대체 불가능한 전문성이 돼요.`;
+  } else {
+    재능 = `${topVerbs} 같은 행위를 반복할수록 남들이 알아봐 주는 감각이 생겨요. `;
+    재능 += `지금은 당연하게 느껴지는 것일수록 남들에게 없는 재능일 가능성이 높아요.`;
+  }
+
+  // ── 강점 — 세상에 기여(ik-world) + ikMoney + direction 기반 ──
+  let 강점 = '';
+  if (ikWorld) {
+    강점 = `${q(ikWorld, 22)} — 세상이 필요로 하는 것과 내가 할 수 있는 것이 만나는 지점에서 강점이 발현돼요. `;
+    if (hasV('표현','이야기','글 쓰','촬영','편집'))
+      강점 += `보이지 않는 것을 보이게 만드는 능력, 감각과 경험을 콘텐츠로 전환하는 힘이 어떤 분야에서도 차별점이 돼요.`;
+    else if (hasV('연결','대화','공감','소개'))
+      강점 += `사람과 아이디어를 잇는 역할을 자연스럽게 해내는 것, 그 연결이 만들어내는 가치는 혼자서는 나올 수 없어요.`;
+    else
+      강점 += `이 방향에서 쌓이는 경험이 시간이 지날수록 대체 불가능한 강점이 돼요.`;
+  } else if (direction) {
+    강점 = `${q(direction, 25)} — 이 방향성 안에서 나만의 방식이 강점으로 발전해요. `;
+    강점 += `지금 선택한 행위들이 그 방향을 이미 가리키고 있어요.`;
+  } else {
+    강점 = `${topVerbs} 같은 행위들이 자연스럽게 발휘되는 나만의 방식이 강점이에요. `;
+    강점 += `이것이 쌓일수록 다른 사람으로 대체되지 않는 고유한 가치가 돼요.`;
+  }
+
+  return { 흥미, 행복, 열정, 재능, 강점 };
+}
 
   // 통합 텍스트
   const allText = [...verbs, ...wishItems, ...interests, ikLove, ikGood, ikWorld, ikMoney, direction, tendencyKws].join(' ');
@@ -1844,7 +2060,7 @@ function getNextSteps(label) {
 
 function updateFinal() {
   const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
-  if (Object.keys(answers).length < 5 && selected.length < 3) return;
+  if (Object.keys(answers).length < 3 && selected.length < 1) return;
 
   const finalArea = document.getElementById('final-area');
   const analysis = analyzeVerbs(selected);
@@ -1914,8 +2130,9 @@ function updateFinal() {
 
   // 추천 — getRecommendations()가 이미 다양화 처리함
   const recs = getRecommendations();
-  html += `<div class="recommend-wrap"><p class="recommend-label-head">나에게 어울리는 일의 방향</p>
-      <p style="font-size:11px;color:var(--text-tertiary);line-height:1.7;margin-bottom:0.75rem;">직업명 그대로를 목표로 삼는 게 아니에요. <em>이 방향에 어떤 행위들이 있는지</em>를 보고, 작게 시도해볼 수 있는 것을 찾아보세요.</p>`;
+  html += `<div class="recommend-wrap">
+      <p class="recommend-label-head">나에게 어울리는 일의 방향</p>
+      <p style="font-size:11px;color:var(--text-tertiary);line-height:1.7;margin-bottom:1rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border);">직업명 그대로를 목표로 삼는 게 아니에요. 이 방향에 어떤 행위들이 있는지를 보고, 작게 시도해볼 수 있는 것을 찾아보세요.</p>`;
   recs.forEach((r, i) => {
     const nextSteps = getNextSteps(r.label);
     const fitLine = getTypeFit(r.label);
@@ -2141,9 +2358,15 @@ function analyzeIkigaiCross() {
   if (!hints.length) { crossEl.style.display='none'; return; }
   crossEl.style.display = 'block';
   crossEl.innerHTML = `
-    <p style="font-size:10px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:0.6rem;">4가지 칸에서 겹치는 키워드</p>
-    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
-      ${hints.map(h=>h.words.map(w=>`<span style="font-size:12px;padding:3px 10px;border-radius:20px;background:${h.color}22;color:${h.color};border:0.5px solid ${h.color}66;font-weight:500;">${w} <span style="font-size:10px;opacity:0.7;">${h.label}</span></span>`).join('')).join('')}
+    <p style="font-size:10px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:0.75rem;">겹치는 키워드 — 교차점</p>
+    <div style="display:flex;flex-direction:column;gap:0.5rem;">
+      ${hints.map(h=>`
+        <div style="display:flex;align-items:flex-start;gap:0.6rem;">
+          <span style="font-size:11px;font-weight:600;color:${h.color};white-space:nowrap;padding-top:2px;min-width:36px;">${h.label}</span>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            ${h.words.map(w=>`<span style="font-size:12px;padding:3px 10px;border-radius:20px;background:${h.color}22;color:${h.color};border:0.5px solid ${h.color}66;font-weight:500;">${w}</span>`).join('')}
+          </div>
+        </div>`).join('')}
     </div>`;
 }
 
@@ -2294,12 +2517,12 @@ function buildResultCardHTML(data) {
   const uniqueItems = [...new Set(data.items22)];
   const uniqueSelected = [...new Set(data.selected)];
 
-  let html = `<div style="font-family:'Noto Sans KR',sans-serif;font-weight:300;background:#faf9f7;padding:48px;width:720px;color:#1a1a18;line-height:1.7;">`;
+  let html = `<div style="font-family:'Noto Sans KR',sans-serif;font-weight:400;background:#faf9f7;padding:48px;width:720px;color:#1a1a18;line-height:1.7;">`;
 
   // 헤더
   html += `<div style="margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid rgba(0,0,0,0.12);">
     <p style="font-size:10px;letter-spacing:0.15em;color:#9a9a90;text-transform:uppercase;margin-bottom:8px;">좋아하는 일을 찾아가는 여정</p>
-    <p style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:400;color:#1a1a18;margin-bottom:4px;">좋아하는 일을 찾기 위한 워크북</p>
+    <p style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:400;color:#1a1a18;margin-bottom:4px;">하고 싶은 일을 하며 사는 삶</p>
     <p style="font-size:12px;color:#9a9a90;">작성일 ${data.date}</p>
   </div>`;
 
@@ -2374,12 +2597,24 @@ function buildResultCardHTML(data) {
   } else if (data.recs && data.recs.length) {
     html += `<div style="margin-bottom:24px;">
       <p style="font-size:10px;letter-spacing:0.12em;color:#9a9a90;text-transform:uppercase;margin-bottom:12px;">나에게 어울리는 일의 방향</p>
-      ${data.recs.map(r=>`
-        <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.08);border-radius:12px;padding:14px 18px;margin-bottom:8px;">
-          <p style="font-size:10px;color:#0F6E56;font-weight:500;letter-spacing:0.04em;margin-bottom:3px;">${r.label}</p>
-          <p style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:4px;">${r.title}</p>
-          <p style="font-size:12px;color:#5a5a54;line-height:1.6;">${r.desc}</p>
-        </div>`).join('')}
+      ${data.recs.map((r,i)=>{
+        const fit = getTypeFit(r.label);
+        const steps = getNextSteps(r.label);
+        const hint = r.personalHint || '';
+        return `<div style="background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:14px;padding:18px 20px;margin-bottom:10px;">
+          <span style="display:inline-block;font-size:10px;color:#1D9E75;font-weight:600;letter-spacing:0.08em;background:#f0fdf7;padding:3px 10px;border-radius:20px;margin-bottom:10px;">${r.label}</span>
+          <p style="font-size:15px;font-weight:500;color:#1a1a18;margin-bottom:6px;line-height:1.5;">${r.title}</p>
+          ${fit ? `<p style="font-size:11px;color:#1D9E75;font-weight:500;margin-bottom:8px;">✦ ${fit}</p>` : ''}
+          <p style="font-size:12px;color:#5a5a54;line-height:1.75;margin-bottom:${hint||steps?'10px':'0'};">${r.desc}</p>
+          ${hint ? `<div style="padding:8px 12px;background:#f0fdf7;border-radius:8px;border-left:2.5px solid #1D9E75;margin-bottom:8px;">
+            <p style="font-size:11px;color:#0F6E56;line-height:1.65;">💬 ${hint}</p>
+          </div>` : ''}
+          ${steps ? `<div style="padding-top:10px;border-top:0.5px solid rgba(0,0,0,0.07);">
+            <p style="font-size:9px;letter-spacing:0.1em;color:#1D9E75;text-transform:uppercase;margin-bottom:4px;">탐색 시작점</p>
+            <p style="font-size:11px;color:#7a7a72;line-height:1.65;">${steps}</p>
+          </div>` : ''}
+        </div>`;
+      }).join('')}
     </div>`;
   }
 
@@ -2425,9 +2660,10 @@ function buildResultCardHTML(data) {
   return html;
 }
 
-// ── 전체 저장 (전체 페이지 캡처) — 데스크탑 전용 ──
+// ── 전체 저장 (레거시 — 현재 미사용) ──
 async function downloadFull() {
   const btn = document.getElementById('btn-full');
+  if (!btn) return;
   const orig = btn.innerHTML;
   btn.textContent = '저장 중...'; btn.disabled = true;
 
@@ -2502,13 +2738,13 @@ async function generateSummaryCanvas() {
   const data = collectData();
   const wrap = document.getElementById('result-card');
   wrap.innerHTML = buildResultCardHTML(data);
-  wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:720px;';
+  wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:' + Math.min(document.body.offsetWidth, 720) + 'px;';
   await document.fonts.ready;
   await new Promise(r => setTimeout(r, 400));
   const canvas = await html2canvas(wrap.firstElementChild, {
-    scale: 2, useCORS: true, allowTaint: true,
+    scale: 3, useCORS: true, allowTaint: true,
     backgroundColor: '#faf9f7', logging: false,
-    width: 720, windowWidth: 720,
+    width: Math.min(document.body.offsetWidth, 720), windowWidth: Math.min(document.body.offsetWidth, 720),
   });
   wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
   return canvas;
@@ -2575,7 +2811,7 @@ function sendMail() {
   const data = collectData();
   const subject = encodeURIComponent(`좋아하는 일을 찾아가는 여정 — 좋아하는 일 워크북 결과 (${data.date})`);
 
-  let body = `좋아하는 일을 찾기 위한 워크북\n작성일: ${data.date}\n\n`;
+  let body = `하고 싶은 일을 하며 사는 삶\n작성일: ${data.date}\n\n`;
   body += `${'─'.repeat(40)}\n\n`;
 
   if (data.tendencyKws.length) {
@@ -2707,6 +2943,7 @@ function restoreFromLocal() {
 document.addEventListener('input', e => {
   if (e.target.matches('input, textarea')) scheduleSave();
   if (e.target.matches('.num-input')) { updateIkigai(); analyzeIkigaiCross(); }
+  if (e.target.matches('#ik-love, #ik-good, #ik-world, #ik-money')) { analyzeIkigaiCross(); }
 });
 document.addEventListener('click', e => {
   if (e.target.matches('.verb-chip, .test-opt')) scheduleSave();
@@ -2719,9 +2956,7 @@ function showPage(n) {
   [1,2,3].forEach(p => {
     const el = document.getElementById('page-'+p);
     const tab = document.getElementById('tab-'+p);
-    const btn = document.getElementById('page-'+p+'-btn');
     if (el) el.style.display = p===n ? 'block' : 'none';
-    if (btn) btn.style.display = p===n ? 'block' : 'none';
     if (tab) {
       tab.style.background = p===n ? 'var(--accent)' : 'transparent';
       tab.style.color = p===n ? '#fff' : 'var(--text-secondary)';
@@ -2732,17 +2967,9 @@ function showPage(n) {
   if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
   saveToLocal();
   updateProgress();
-  // 결과 저장 버튼 텍스트 업데이트
-  const summaryBtn = document.getElementById('btn-summary');
-  if (summaryBtn) {
-    summaryBtn.querySelector && summaryBtn.childNodes.forEach(nd => {
-      if (nd.nodeType === 3) nd.textContent = '';
-    });
-    summaryBtn.innerHTML = summaryBtn.innerHTML.replace(
-      /저장[^\<]*/,
-      n === 3 ? '결과 저장' : `Step${n} 저장`
-    );
-  }
+  // Step 3에서만 저장 버튼 표시
+  const exportBar = document.getElementById('export-bar');
+  if (exportBar) exportBar.style.display = n === 3 ? 'flex' : 'none';
 }
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-next-page]');
@@ -2758,6 +2985,7 @@ function initPage() {
   analyzeIkigaiCross();
   updateProgress();
   showPage(1);
+  window.scrollTo({top: 0, behavior: 'instant'});
 }
 
 // 스크립트가 </body> 직전이므로 DOM 준비 완료 — 직접 실행
