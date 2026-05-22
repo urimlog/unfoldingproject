@@ -2869,32 +2869,37 @@ document.addEventListener('click', e => {
 // ── 3페이지 구성 ──
 let currentPage = 1;
 function showPage(n) {
-  [1,2,3].forEach(p => {
-    const el = document.getElementById('page-'+p);
-    const tab = document.getElementById('tab-'+p);
-    if (el) el.style.display = p===n ? 'block' : 'none';
-    if (tab) {
-      tab.style.background = p===n ? 'var(--accent)' : 'transparent';
-      tab.style.color = p===n ? '#fff' : 'var(--text-secondary)';
-    }
-  });
-  currentPage = n;
-  const tabs = document.getElementById('page-tabs');
-  if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
-  saveToLocal();
-  updateProgress();
-  // Step 3에서만 저장 버튼 표시
-  const exportBar = document.getElementById('export-bar');
-  if (exportBar) exportBar.style.display = n === 3 ? 'flex' : 'none';
-}
-document.addEventListener('click', e => {
-  const nextBtn = e.target.closest('[data-next-page]');
-  if (nextBtn) { showPage(parseInt(nextBtn.dataset.nextPage)); return; }
-  const tabBtn = e.target.closest('[data-go-page]');
-  if (tabBtn) { showPage(parseInt(tabBtn.dataset.goPage)); return; }
-  if (e.target.closest('#btn-summary') || e.target.closest('#btn-summary-click')) {
-    downloadSummary();
+  try {
+    [1,2,3].forEach(p => {
+      const el = document.getElementById('page-'+p);
+      const tab = document.getElementById('tab-'+p);
+      if (el) el.style.display = p===n ? 'block' : 'none';
+      if (tab) {
+        tab.style.background = p===n ? 'var(--accent)' : 'transparent';
+        tab.style.color = p===n ? '#fff' : 'var(--text-secondary)';
+      }
+    });
+    currentPage = n;
+    const tabs = document.getElementById('page-tabs');
+    if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
+    try { saveToLocal(); } catch(e) {}
+    try { updateProgress(); } catch(e) {}
+    const exportBar = document.getElementById('export-bar');
+    if (exportBar) exportBar.style.display = n === 3 ? 'flex' : 'none';
+  } catch(e) {
+    console.error('showPage error:', e);
   }
+}
+document.addEventListener('click', function(e) {
+  try {
+    var nextBtn = e.target.closest('[data-next-page]');
+    if (nextBtn) { showPage(parseInt(nextBtn.getAttribute('data-next-page'))); return; }
+    var tabBtn = e.target.closest('[data-go-page]');
+    if (tabBtn) { showPage(parseInt(tabBtn.getAttribute('data-go-page'))); return; }
+    if (e.target.closest('#btn-summary') || e.target.closest('#btn-summary-click')) {
+      downloadSummary();
+    }
+  } catch(e) { console.error('click error:', e); }
 });
 
 // 페이지 로드 시 초기화
