@@ -487,7 +487,7 @@ body {
       <span style="font-size:16px;flex-shrink:0;margin-top:1px;">⏱</span>
       <div>
         <p style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:0.2rem;">완성까지 약 20–40분 정도 걸려요</p>
-        <p style="font-size:11px;color:var(--text-tertiary);line-height:1.7;">한 번에 다 채우지 않아도 괜찮아요. 자동저장되니까 언제든 이어서 할 수 있어요. 천천히, 내 페이스로.</p>
+        <p style="font-size:11px;color:var(--text-tertiary);line-height:1.7;">한 번에 다 채우지 않아도 괜찮아요. 접속 환경에 따라 내용이 사라질 수 있으니, 각 스텝 하단의 저장 버튼으로 기록을 간직해두세요.</p>
       </div>
     </div>
   </div>
@@ -960,12 +960,16 @@ body {
 
 
 <!-- Export bar -->
-<div class="export-bar" id="export-bar" style="display:none;">
+<div class="export-bar" id="export-bar">
   <span class="export-label">저장·공유</span>
-  <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;margin-right:0.5rem;">저장됨</span>
-  <button class="export-btn primary" id="btn-summary" id="btn-summary-click">
+  <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;margin-right:0.25rem;"></span>
+  <button class="export-btn" id="btn-text-save" data-action="text">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+    텍스트 저장
+  </button>
+  <button class="export-btn primary" id="btn-img-save" data-action="image">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    최종 정리 저장
+    이미지 저장
   </button>
 </div>
 
@@ -2595,6 +2599,118 @@ function buildResultCardHTML(data) {
   return html;
 }
 
+
+// ── 현재 스텝 이미지 저장 ──
+async function saveCurrentPageImage() {
+  const btn = document.getElementById('btn-img-save');
+  if (btn) { btn.textContent = '저장 중...'; btn.disabled = true; }
+  try {
+    const dateStr = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}))
+      .toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'');
+    const bar = document.querySelector('.export-bar');
+    const prog = document.getElementById('progress-bar-wrap');
+    if (bar) bar.style.display = 'none';
+    if (prog) prog.style.display = 'none';
+    await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 200));
+
+    let canvas;
+    if (currentPage === 3) {
+      // Step 3: 결과 카드 전용
+      canvas = await generateSummaryCanvas();
+    } else {
+      // Step 1, 2: .page 전체 캡처 (헤더 + 탭 + 현재 페이지 포함)
+      const pageWrapper = document.querySelector('.page');
+      const bgColor = getComputedStyle(document.body).backgroundColor || '#faf9f7';
+      canvas = await html2canvas(pageWrapper, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: bgColor,
+        logging: false,
+        windowWidth: Math.min(document.body.offsetWidth, 800),
+        width: pageWrapper.offsetWidth,
+      });
+    }
+
+    if (bar) bar.style.display = 'flex';
+    if (prog) prog.style.display = 'flex';
+
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    showSaveStatus('이미지 저장됨');
+  } catch(e) {
+    console.error(e);
+    alert('이미지 생성 중 오류가 발생했어요.');
+    const bar = document.querySelector('.export-bar');
+    const prog = document.getElementById('progress-bar-wrap');
+    if (bar) bar.style.display = 'flex';
+    if (prog) prog.style.display = 'flex';
+  }
+  if (btn) { btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> 이미지 저장'; btn.disabled = false; }
+}
+
+// ── 현재 스텝 텍스트 저장 ──
+function saveCurrentPageText() {
+  const dateStr = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}))
+    .toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'');
+  let text = `좋아하는 일을 찾아가는 여정 — 진로 탐색 워크북\n`;
+  text += `Step ${currentPage} | ${dateStr}\n`;
+  text += `${'─'.repeat(40)}\n\n`;
+
+  if (currentPage === 1) {
+    text += `[ 형성 시기 타임라인 ]\n`;
+    ['tl-1','tl-2','tl-3','tl-4'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      const labels = ['유아~초등','초등~중학','고등~대학','성인 이후'];
+      if (el && el.value.trim()) text += `${labels[i]}: ${el.value.trim()}\n`;
+    });
+    text += `\n`;
+    const kws = [...document.querySelectorAll('.tag.strong, .tag.med')].map(t => t.textContent.trim());
+    if (kws.length) text += `[ 성향 키워드 ]\n${kws.join(' / ')}\n\n`;
+  }
+
+  if (currentPage === 2) {
+    if (selected.length) text += `[ 좋아하는 동사 ]\n${selected.join(' / ')}\n\n`;
+    const related = Object.entries(relatedMap).flatMap(([v,rs]) => rs.filter(Boolean));
+    if (related.length) text += `[ 연관 동사 ]\n${related.join(' / ')}\n\n`;
+    const wishes = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
+    if (wishes.length) text += `[ 하고 싶은 것 ]\n${wishes.map((w,i)=>`${i+1}. ${w}`).join('\n')}\n\n`;
+    ['ik-love','ik-good','ik-world','ik-money'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      const labels = ['내가 좋아하는 것','내가 잘하는 것','세상이 필요로 하는 것','돈이 될 수 있는 것'];
+      if (el && el.value.trim()) text += `[ ${labels[i]} ]\n${el.value.trim()}\n\n`;
+    });
+  }
+
+  if (currentPage === 3) {
+    ['dir-being','dir-how','dir-future'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      const labels = ['어떤 사람으로','어떤 방식으로','10년 뒤 모습'];
+      if (el && el.value.trim()) text += `[ ${labels[i]} ]\n${el.value.trim()}\n\n`;
+    });
+    const dirEl = document.getElementById('direction-input');
+    if (dirEl && dirEl.value.trim()) text += `[ 나만의 방향 ]\n${dirEl.value.trim()}\n\n`;
+    ['action-1','action-2','action-3'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      if (el && el.value.trim()) text += `${i+1}. ${el.value.trim()}\n`;
+    });
+  }
+
+  text += `\n${'─'.repeat(40)}\n좋아하는 일을 찾아가는 여정 · @urim_log`;
+
+  const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.txt`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  showSaveStatus('텍스트 저장됨');
+}
+
 // ── 전체 저장 (레거시 — 현재 미사용) ──
 async function downloadFull() {
   const btn = document.getElementById('btn-full');
@@ -2906,8 +3022,7 @@ function showPage(n) {
     if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
     try { saveToLocal(); } catch(e) {}
     try { updateProgress(); } catch(e) {}
-    const exportBar = document.getElementById('export-bar');
-    if (exportBar) exportBar.style.display = n === 3 ? 'flex' : 'none';
+    // export-bar 항상 표시
   } catch(e) {
     console.error('showPage error:', e);
   }
@@ -2918,10 +3033,13 @@ document.addEventListener('click', function(e) {
     if (nextBtn) { showPage(parseInt(nextBtn.getAttribute('data-next-page'))); return; }
     var tabBtn = e.target.closest('[data-go-page]');
     if (tabBtn) { showPage(parseInt(tabBtn.getAttribute('data-go-page'))); return; }
+    if (e.target.closest('#btn-img-save')) { saveCurrentPageImage(); return; }
+    if (e.target.closest('#btn-text-save')) { saveCurrentPageText(); return; }
+    // 레거시
     if (e.target.closest('#btn-summary') || e.target.closest('#btn-summary-click')) {
-      downloadSummary();
+      saveCurrentPageImage();
     }
-  } catch(e) { console.error('click error:', e); }
+  } catch(err) { console.error('click error:', err); }
 });
 
 // 페이지 로드 시 초기화
