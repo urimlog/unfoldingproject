@@ -488,7 +488,7 @@ body {
       <span style="font-size:16px;flex-shrink:0;margin-top:1px;">⏱</span>
       <div>
         <p style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:0.2rem;">완성까지 약 20–40분 정도 걸려요</p>
-        <p style="font-size:11px;color:var(--text-tertiary);line-height:1.7;">한 번에 다 채우지 않아도 괜찮아요. 접속 환경에 따라 내용이 사라질 수 있으니, 각 스텝 하단의 저장 버튼으로 기록을 간직해두세요.</p>
+        <p style="font-size:11px;color:var(--text-tertiary);line-height:1.7;">한 번에 다 채우지 않아도 괜찮아요. 접속 환경에 따라 내용이 사라질 수 있으니, Step 3 최종 정리에서 텍스트 또는 이미지로 저장해두세요.</p>
       </div>
     </div>
   </div>
@@ -961,15 +961,15 @@ body {
 
 
 <!-- Export bar -->
-<div class="export-bar" id="export-bar">
-  <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;margin-right:0.25rem;"></span>
-  <button class="export-btn" id="btn-text-save" onclick="saveCurrentPageText()" style="font-size:15px;">
+<div class="export-bar" id="export-bar" style="display:none;">
+  <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;flex:1;"></span>
+  <button class="export-btn" id="btn-text-save" onclick="saveCurrentPageText()" style="font-size:15px;display:flex;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
     텍스트 저장
   </button>
-  <button class="export-btn primary" id="btn-img-save" onclick="saveCurrentPageImage()" style="font-size:15px;">
+  <button class="export-btn primary" id="btn-img-save" onclick="saveCurrentPageImage()" style="font-size:15px;display:none;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    이미지 저장
+    최종 정리 저장
   </button>
 </div>
 
@@ -2621,45 +2621,18 @@ function buildResultCardHTML(data) {
 }
 
 
-// ── 현재 스텝 이미지 저장 ──
+// ── 최종 정리 이미지 저장 (Step 3 전용) ──
 async function saveCurrentPageImage() {
   const btn = document.getElementById('btn-img-save');
   if (btn) { btn.textContent = '저장 중...'; btn.disabled = true; }
   try {
     const dateStr = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}))
       .toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'');
-    const bar = document.querySelector('.export-bar');
-    const prog = document.getElementById('progress-bar-wrap');
-    if (bar) bar.style.display = 'none';
-    if (prog) prog.style.display = 'none';
-    await document.fonts.ready;
-    await new Promise(r => setTimeout(r, 200));
 
-    let canvas;
-    if (currentPage === 3) {
-      // Step 3: 결과 카드 전용
-      canvas = await generateSummaryCanvas();
-    } else {
-      // Step 1, 2: .page 전체 캡처 (헤더 + 탭 + 현재 페이지 포함)
-      const pageWrapper = document.querySelector('.page');
-      const bgColor = getComputedStyle(document.body).backgroundColor || '#faf9f7';
-      canvas = await html2canvas(pageWrapper, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: bgColor,
-        logging: false,
-        windowWidth: Math.min(document.body.offsetWidth, 800),
-        width: pageWrapper.offsetWidth,
-      });
-    }
-
-    if (bar) bar.style.display = 'flex';
-    if (prog) prog.style.display = 'flex';
+    // 결과 카드 이미지 생성
+    const canvas = await generateSummaryCanvas();
 
     const dataUrl = canvas.toDataURL('image/png');
-
-    // dataURL → Blob → object URL (iOS Safari 호환)
     const byteStr = atob(dataUrl.split(',')[1]);
     const ab = new ArrayBuffer(byteStr.length);
     const ia = new Uint8Array(ab);
@@ -2669,77 +2642,80 @@ async function saveCurrentPageImage() {
 
     const a = document.createElement('a');
     a.href = blobUrl;
-    a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
+    a.download = `진로탐색워크북_최종정리_${dateStr}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
-    showSaveStatus('이미지 저장됨');
+    showSaveStatus('저장됨');
   } catch(e) {
     console.error(e);
     alert('이미지 생성 중 오류가 발생했어요.');
   } finally {
-    const bar = document.querySelector('.export-bar');
-    const prog = document.getElementById('progress-bar-wrap');
-    if (bar) bar.style.display = 'flex';
-    if (prog) prog.style.display = 'flex';
+    if (btn) {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> 최종 정리 저장';
+      btn.disabled = false;
+    }
   }
-  if (btn) { btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> 이미지 저장'; btn.disabled = false; }
 }
 
 // ── 현재 스텝 텍스트 저장 ──
 function saveCurrentPageText() {
   const dateStr = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}))
     .toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'');
-  let text = `좋아하는 일을 찾아가는 여정 — 진로 탐색 워크북\n`;
-  text += `Step ${currentPage} | ${dateStr}\n`;
+  const g = id => { const e=document.getElementById(id); return e?e.value.trim():''; };
+  let text = `하고 싶은 일을 하며 사는 삶\n좋아하는 일을 찾아가는 여정 — 진로 탐색 워크북\n${dateStr}\n`;
   text += `${'─'.repeat(40)}\n\n`;
 
-  if (currentPage === 1) {
-    text += `[ 형성 시기 타임라인 ]\n`;
-    ['tl-1','tl-2','tl-3','tl-4'].forEach((id,i) => {
-      const el = document.getElementById(id);
-      const labels = ['유아~초등','초등~중학','고등~대학','성인 이후'];
-      if (el && el.value.trim()) text += `${labels[i]}: ${el.value.trim()}\n`;
-    });
-    text += `\n`;
-    const kws = [...document.querySelectorAll('.tag.strong, .tag.med')].map(t => t.textContent.trim());
-    if (kws.length) text += `[ 성향 키워드 ]\n${kws.join(' / ')}\n\n`;
+  // ── Step 1 ──
+  text += `[ STEP 1 · 나를 이해하는 시간 ]\n\n`;
+  const tlLabels = ['유아~초등','초등~중학','고등~대학','성인 이후'];
+  const tlVals = ['tl-1','tl-2','tl-3','tl-4'].map((id,i)=>({l:tlLabels[i],v:g(id)})).filter(x=>x.v);
+  if (tlVals.length) {
+    text += `형성 시기 타임라인\n`;
+    tlVals.forEach(x => text += `  ${x.l}: ${x.v}\n`);
+    text += '\n';
+  }
+  const kws = [...document.querySelectorAll('.tag.strong, .tag.med')].map(t=>t.textContent.trim()).filter(Boolean);
+  if (kws.length) text += `성향 키워드\n  ${kws.join(' / ')}\n\n`;
+
+  // ── Step 2 ──
+  text += `[ STEP 2 · 나를 움직이게 하는 것 ]\n\n`;
+  if (selected.length) text += `좋아하는 동사\n  ${selected.join(' / ')}\n\n`;
+  const related = Object.entries(relatedMap).flatMap(([,rs])=>rs.filter(Boolean));
+  if (related.length) text += `연관 동사\n  ${related.join(' / ')}\n\n`;
+  const wishes = [...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean);
+  if (wishes.length) {
+    text += `하고 싶은 것\n`;
+    wishes.forEach((w,i) => text += `  ${i+1}. ${w}\n`);
+    text += '\n';
+  }
+  const ikLabels = ['내가 좋아하는 것','내가 잘하는 것','세상이 필요로 하는 것','돈이 될 수 있는 것'];
+  ['ik-love','ik-good','ik-world','ik-money'].forEach((id,i)=>{
+    const v=g(id); if(v) text += `${ikLabels[i]}\n  ${v}\n\n`;
+  });
+
+  // ── Step 3 ──
+  text += `[ STEP 3 · 앞으로 나아갈 방향 ]\n\n`;
+  const step3Labels = ['어떤 사람으로','어떤 방식으로','10년 뒤 모습'];
+  ['dir-being','dir-how','dir-future'].forEach((id,i)=>{
+    const v=g(id); if(v) text += `${step3Labels[i]}\n  ${v}\n\n`;
+  });
+  const dir=g('direction-input');
+  if(dir) text += `나만의 방향\n  ${dir}\n\n`;
+  const actions=['action-1','action-2','action-3'].map(id=>g(id)).filter(Boolean);
+  if(actions.length) {
+    text += `앞으로 시도해볼 것\n`;
+    actions.forEach((a,i) => text += `  ${i+1}. ${a}\n`);
+    text += '\n';
   }
 
-  if (currentPage === 2) {
-    if (selected.length) text += `[ 좋아하는 동사 ]\n${selected.join(' / ')}\n\n`;
-    const related = Object.entries(relatedMap).flatMap(([v,rs]) => rs.filter(Boolean));
-    if (related.length) text += `[ 연관 동사 ]\n${related.join(' / ')}\n\n`;
-    const wishes = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
-    if (wishes.length) text += `[ 하고 싶은 것 ]\n${wishes.map((w,i)=>`${i+1}. ${w}`).join('\n')}\n\n`;
-    ['ik-love','ik-good','ik-world','ik-money'].forEach((id,i) => {
-      const el = document.getElementById(id);
-      const labels = ['내가 좋아하는 것','내가 잘하는 것','세상이 필요로 하는 것','돈이 될 수 있는 것'];
-      if (el && el.value.trim()) text += `[ ${labels[i]} ]\n${el.value.trim()}\n\n`;
-    });
-  }
+  text += `${'─'.repeat(40)}\n좋아하는 일을 찾아가는 여정 · @urim_log`;
 
-  if (currentPage === 3) {
-    ['dir-being','dir-how','dir-future'].forEach((id,i) => {
-      const el = document.getElementById(id);
-      const labels = ['어떤 사람으로','어떤 방식으로','10년 뒤 모습'];
-      if (el && el.value.trim()) text += `[ ${labels[i]} ]\n${el.value.trim()}\n\n`;
-    });
-    const dirEl = document.getElementById('direction-input');
-    if (dirEl && dirEl.value.trim()) text += `[ 나만의 방향 ]\n${dirEl.value.trim()}\n\n`;
-    ['action-1','action-2','action-3'].forEach((id,i) => {
-      const el = document.getElementById(id);
-      if (el && el.value.trim()) text += `${i+1}. ${el.value.trim()}\n`;
-    });
-  }
-
-  text += `\n${'─'.repeat(40)}\n좋아하는 일을 찾아가는 여정 · @urim_log`;
-
-  const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.txt`;
+  a.download = `진로탐색워크북_${dateStr}.txt`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(a.href), 3000);
   showSaveStatus('텍스트 저장됨');
@@ -2823,15 +2799,27 @@ async function generateSummaryCanvas() {
   const data = collectData();
   const wrap = document.getElementById('result-card');
   wrap.innerHTML = buildResultCardHTML(data);
-  wrap.style.cssText = 'position:absolute;left:0;top:0;z-index:-1;width:' + Math.min(document.body.offsetWidth, 720) + 'px;';
+  const w = Math.min(document.body.offsetWidth, 720);
+  wrap.style.cssText = `position:fixed;left:-9999px;top:0;z-index:-1;width:${w}px;`;
   await document.fonts.ready;
-  await new Promise(r => setTimeout(r, 400));
-  const canvas = await html2canvas(wrap.firstElementChild, {
-    scale: 3, useCORS: true, allowTaint: true,
-    backgroundColor: '#faf9f7', logging: false,
-    width: Math.min(document.body.offsetWidth, 720), windowWidth: Math.min(document.body.offsetWidth, 720),
+  await new Promise(r => setTimeout(r, 600));
+  const cardEl = wrap.firstElementChild;
+  const cardW = cardEl.offsetWidth || w;
+  const cardH = cardEl.scrollHeight || cardEl.offsetHeight;
+  const canvas = await html2canvas(cardEl, {
+    scale: 3,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: '#faf9f7',
+    logging: false,
+    width: cardW,
+    height: cardH,
+    windowWidth: cardW,
+    scrollX: 0,
+    scrollY: 0,
   });
-  wrap.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  wrap.innerHTML = '';
+  wrap.style.cssText = 'display:none;';
   return canvas;
 }
 
@@ -3015,7 +3003,11 @@ function showPage(n) {
     if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
     try { saveToLocal(); } catch(e) {}
     try { updateProgress(); } catch(e) {}
-    // export-bar 항상 표시
+    // Step별 버튼 전환
+    const btnText = document.getElementById('btn-text-save');
+    const btnImg  = document.getElementById('btn-img-save');
+    if (btnText) btnText.style.display = n === 3 ? 'none' : 'flex';
+    if (btnImg)  btnImg.style.display  = n === 3 ? 'flex' : 'none';
   } catch(e) {
     console.error('showPage error:', e);
   }
