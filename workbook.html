@@ -963,11 +963,11 @@ body {
 <!-- Export bar -->
 <div class="export-bar" id="export-bar" style="display:none;">
   <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;flex:1;"></span>
-  <button class="export-btn" id="btn-text-save" onclick="saveCurrentPageText()" style="font-size:15px;display:flex;">
+  <button class="export-btn" id="btn-text-save" onclick="saveCurrentPageText()" style="font-size:15px;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
     텍스트 저장
   </button>
-  <button class="export-btn primary" id="btn-img-save" onclick="saveCurrentPageImage()" style="font-size:15px;display:none;">
+  <button class="export-btn primary" id="btn-img-save" onclick="saveCurrentPageImage()" style="font-size:15px;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
     최종 정리 저장
   </button>
@@ -3007,11 +3007,13 @@ function showPage(n) {
     if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
     try { saveToLocal(); } catch(e) {}
     try { updateProgress(); } catch(e) {}
-    // Step별 버튼 전환
+    // Step 3에서만 저장 바 표시, 버튼 둘 다 보임
+    const exportBar = document.getElementById('export-bar');
     const btnText = document.getElementById('btn-text-save');
     const btnImg  = document.getElementById('btn-img-save');
-    if (btnText) btnText.style.display = n === 3 ? 'none' : 'flex';
-    if (btnImg)  btnImg.style.display  = n === 3 ? 'flex' : 'none';
+    if (exportBar) exportBar.style.display = n === 3 ? 'flex' : 'none';
+    if (btnText) btnText.style.display = 'flex';
+    if (btnImg)  btnImg.style.display  = 'flex';
   } catch(e) {
     console.error('showPage error:', e);
   }
