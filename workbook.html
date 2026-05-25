@@ -2640,17 +2640,28 @@ async function saveCurrentPageImage() {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
-      // 모바일: 새 탭으로 열기 (길게 누르거나 공유로 저장)
-      const win = window.open('', '_blank');
-      if (win) {
-        win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>진로탐색워크북_Step${currentPage}_${dateStr}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}img{max-width:100%;height:auto;}p{color:#fff;font-size:13px;text-align:center;padding:0 20px;line-height:1.6;}</style></head><body><p>이미지를 길게 눌러 사진에 저장하거나,<br>공유 버튼으로 저장하세요.</p><img src="${dataUrl}"/></body></html>`);
-        win.document.close();
-      } else {
-        // 팝업 차단된 경우 현재 탭에서 열기
-        window.location.href = dataUrl;
-      }
+      // 모바일: 현재 페이지를 이미지로 교체 → 길게 눌러 저장
+      // export-bar/prog 미리 복원
+      if (bar) bar.style.display = 'flex';
+      if (prog) prog.style.display = 'flex';
+
+      const overlay = document.createElement('div');
+      overlay.id = 'save-overlay';
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto;';
+      overlay.innerHTML = `
+        <div style="width:100%;max-width:480px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <p style="color:#fff;font-size:13px;line-height:1.6;">이미지를 <strong>길게 눌러</strong> 사진 앱에 저장하세요.</p>
+            <button id="close-overlay" style="background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;">닫기</button>
+          </div>
+          <img src="${dataUrl}" style="width:100%;height:auto;border-radius:12px;display:block;" />
+        </div>`;
+      document.body.appendChild(overlay);
+      document.getElementById('close-overlay').addEventListener('click', () => overlay.remove());
     } else {
       // PC: 직접 다운로드
+      if (bar) bar.style.display = 'flex';
+      if (prog) prog.style.display = 'flex';
       const a = document.createElement('a');
       a.href = dataUrl;
       a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
@@ -2661,6 +2672,7 @@ async function saveCurrentPageImage() {
   } catch(e) {
     console.error(e);
     alert('이미지 생성 중 오류가 발생했어요.');
+  } finally {
     const bar = document.querySelector('.export-bar');
     const prog = document.getElementById('progress-bar-wrap');
     if (bar) bar.style.display = 'flex';
