@@ -326,17 +326,16 @@ body {
 .export-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: rgba(250,249,247,0.92);
+  background: rgba(250,249,247,0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 0.5px solid var(--border-mid);
-  padding: 0.75rem 1.5rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  gap: 0.5rem;
   z-index: 100;
-  flex-wrap: wrap;
 }
 .export-label {
   font-size: 11px;
@@ -348,9 +347,11 @@ body {
 .export-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  padding: 0.55rem 1.1rem;
-  border-radius: 20px;
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
   font-size: 13px;
   font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', sans-serif;
   font-weight: 400;
@@ -961,7 +962,6 @@ body {
 
 <!-- Export bar -->
 <div class="export-bar" id="export-bar">
-  <span class="export-label">저장·공유</span>
   <span id="save-status" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity 0.4s;margin-right:0.25rem;"></span>
   <button class="export-btn" id="btn-text-save" data-action="text">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
@@ -1108,7 +1108,7 @@ function renderWishGrid() {
     const placeholder = verb ? `예) ${verb} → ` : `하고 싶은 것 ${i}`;
     const item = document.createElement('div');
     item.className = 'num-item';
-    item.innerHTML = `<span class="num-label">${i}.</span><input class="num-input" data-wish-idx="${i-1}" placeholder="${placeholder}" />`;
+    item.innerHTML = `<input class="num-input" data-wish-idx="${i-1}" placeholder="${placeholder}" />`;
     document.getElementById(i<=5?'col1':'col2').appendChild(item);
   }
 }
@@ -1925,12 +1925,12 @@ function updateProgress() {
   const parts = [
     { id: 'prog-1', check: () => Object.keys(answers).length >= 3 },
     { id: 'prog-2', check: () => ['tl-1','tl-2','tl-3','tl-4'].some(id => { const el=document.getElementById(id); return el&&el.value.trim(); }) },
-    { id: 'prog-3', check: () => Object.keys(answers).length >= 10 },
+    { id: 'prog-3', check: () => Object.keys(answers).length >= 7 },
     { id: 'prog-4', check: () => Object.keys(answers).length >= 10 },
     { id: 'prog-5', check: () => selected.length >= 5 },
     { id: 'prog-6', check: () => selected.length >= 10 || [...document.querySelectorAll('.num-input')].filter(e=>e.value.trim()).length >= 3 },
     { id: 'prog-7', check: () => ['ik-love','ik-good','ik-world','ik-money'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
-    { id: 'prog-8', check: () => { const fa=document.getElementById('final-area'); return fa&&fa.innerHTML.trim().length>0; } },
+    { id: 'prog-8', check: () => { const fa=document.getElementById('final-area'); return fa&&fa.querySelector('.recommend-card')!==null; } },
     { id: 'prog-9', check: () => { const d=document.getElementById('direction-input'); return d&&d.value.trim().length>0; } },
     { id: 'prog-10', check: () => ['action-1','action-2','action-3'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
   ];
@@ -2636,11 +2636,27 @@ async function saveCurrentPageImage() {
     if (bar) bar.style.display = 'flex';
     if (prog) prog.style.display = 'flex';
 
-    const a = document.createElement('a');
-    a.href = canvas.toDataURL('image/png');
-    a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    const dataUrl = canvas.toDataURL('image/png');
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // 모바일: 새 탭으로 열기 (길게 누르거나 공유로 저장)
+      const win = window.open('', '_blank');
+      if (win) {
+        win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>진로탐색워크북_Step${currentPage}_${dateStr}</title><style>body{margin:0;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}img{max-width:100%;height:auto;}p{color:#fff;font-size:13px;text-align:center;padding:0 20px;line-height:1.6;}</style></head><body><p>이미지를 길게 눌러 사진에 저장하거나,<br>공유 버튼으로 저장하세요.</p><img src="${dataUrl}"/></body></html>`);
+        win.document.close();
+      } else {
+        // 팝업 차단된 경우 현재 탭에서 열기
+        window.location.href = dataUrl;
+      }
+    } else {
+      // PC: 직접 다운로드
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    }
     showSaveStatus('이미지 저장됨');
   } catch(e) {
     console.error(e);
@@ -2978,11 +2994,13 @@ function restoreFromLocal() {
           if (el) { el.value = value; return; }
         }
       });
-      // num-input (번호 칸) 순서 복원
+      // num-input (번호 칸) 순서 복원 — 숫자만 있는 값은 제외
       const numInputs = document.querySelectorAll('.num-input');
       let ni = 0;
       data.inputs.forEach(({ id, value }) => {
         if (id || !value) return;
+        // 순수 숫자(1, 2, 3...)는 복원 안 함
+        if (/^\d+$/.test(value.trim())) { ni++; return; }
         if (numInputs[ni]) numInputs[ni].value = value;
         ni++;
       });
