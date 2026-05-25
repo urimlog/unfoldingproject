@@ -1193,7 +1193,7 @@ function renderSelectedList() {
       showVerbSuggest(inp);
     });
     inp.addEventListener('blur', () => {
-      setTimeout(() => hideVerbSuggest(), 200);
+      setTimeout(() => hideVerbSuggest(), 300);
     });
     inp.addEventListener('keydown', e => {
       const box = document.getElementById('verb-suggest-box');
@@ -1231,28 +1231,45 @@ function showVerbSuggest(inp) {
 
   const box = document.createElement('div');
   box.id = 'verb-suggest-box';
-  box.style.cssText = `position:absolute;z-index:9999;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);box-shadow:0 4px 16px rgba(0,0,0,0.12);overflow:hidden;min-width:140px;`;
+  // fixed 포지션으로 스크롤 무관하게 정확한 위치에 표시
+  box.style.cssText = `position:fixed;z-index:99999;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);box-shadow:0 4px 20px rgba(0,0,0,0.15);overflow:hidden;min-width:160px;`;
 
   matches.forEach(v => {
     const item = document.createElement('div');
     item.className = 'verb-suggest-item';
     item.textContent = v;
-    item.style.cssText = `padding:0.55rem 0.85rem;font-size:13px;color:var(--text-primary);cursor:pointer;transition:background 0.1s;`;
-    item.addEventListener('mouseenter', () => item.style.background = 'var(--accent-light)');
-    item.addEventListener('mouseleave', () => item.style.background = '');
-    item.addEventListener('mousedown', e => {
-      e.preventDefault();
+    item.style.cssText = `padding:0.7rem 1rem;font-size:14px;color:var(--text-primary);cursor:pointer;border-bottom:0.5px solid var(--border);`;
+
+    const select = () => {
       inp.value = v;
       inp.dispatchEvent(new Event('input'));
       hideVerbSuggest();
-    });
+      inp.focus();
+    };
+
+    // 마우스 + 터치 모두 처리
+    item.addEventListener('mousedown', e => { e.preventDefault(); select(); });
+    item.addEventListener('touchstart', e => { e.preventDefault(); select(); }, { passive: false });
+    item.addEventListener('mouseenter', () => item.style.background = 'var(--accent-light)');
+    item.addEventListener('mouseleave', () => item.style.background = '');
     box.appendChild(item);
   });
 
-  // input 위치 기준으로 배치
+  // fixed 기준 위치 계산
   const rect = inp.getBoundingClientRect();
-  box.style.top = (rect.bottom + window.scrollY + 4) + 'px';
-  box.style.left = (rect.left + window.scrollX) + 'px';
+  const boxTop = rect.bottom + 4;
+  const boxLeft = rect.left;
+  const boxWidth = Math.max(rect.width, 160);
+
+  box.style.top = boxTop + 'px';
+  box.style.left = boxLeft + 'px';
+  box.style.width = boxWidth + 'px';
+
+  // 화면 아래 넘치면 위로
+  if (boxTop + 200 > window.innerHeight) {
+    box.style.top = (rect.top - 200) + 'px';
+  }
+
   document.body.appendChild(box);
 }
 
