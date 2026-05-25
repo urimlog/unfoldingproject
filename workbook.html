@@ -2831,15 +2831,18 @@ function restoreFromLocal() {
     }
 
     // 동사 복원
-    if (data.selected && data.relatedMap) {
+    if (data.selected && data.selected.length) {
       data.selected.forEach(v => {
+        if (selected.includes(v)) return; // 중복 방지
         selected.push(v);
-        relatedMap[v] = data.relatedMap[v] || ['','',''];
-        const chip = [...document.querySelectorAll('.verb-chip')].find(c => c.textContent === v);
+        relatedMap[v] = (data.relatedMap && data.relatedMap[v]) || ['',''];
+        // data-verb 속성으로 정확히 매칭
+        const chip = document.querySelector(`.verb-chip[data-verb="${v}"]`);
         if (chip) chip.classList.add('selected');
       });
       updateCount();
       renderSelectedList();
+      updateWishPlaceholders();
       updateAutoSignal();
       updateFinal();
     }
@@ -2940,23 +2943,27 @@ window.downloadFull = downloadFull;
 
 // 초기화 — DOM 준비 상태에 따라 분기
 function _boot() {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPage);
-  } else {
+  const doInit = () => {
     initPage();
+    // initPage 완료 후 복원 (렌더링 완료 보장)
+    setTimeout(() => {
+      restoreFromLocal();
+      updateProgress();
+      // 혹시 비었으면 재시도
+      const vg = document.getElementById('verb-grid');
+      const tc = document.getElementById('test-container');
+      if (vg && !vg.children.length) renderVerbGrid();
+      if (tc && !tc.children.length) renderTestQuestions();
+    }, 150);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', doInit);
+  } else {
+    doInit();
   }
 }
 _boot();
-
-window.addEventListener('load', () => {
-  restoreFromLocal();
-  updateProgress();
-  // 혹시 비었으면 재시도
-  const vg = document.getElementById('verb-grid');
-  const tc = document.getElementById('test-container');
-  if (vg && !vg.children.length) renderVerbGrid();
-  if (tc && !tc.children.length) renderTestQuestions();
-});
 
 </script>
 </body>
