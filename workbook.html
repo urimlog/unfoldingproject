@@ -2637,37 +2637,18 @@ async function saveCurrentPageImage() {
     if (prog) prog.style.display = 'flex';
 
     const dataUrl = canvas.toDataURL('image/png');
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (isMobile) {
-      // 모바일: 현재 페이지를 이미지로 교체 → 길게 눌러 저장
-      // export-bar/prog 미리 복원
-      if (bar) bar.style.display = 'flex';
-      if (prog) prog.style.display = 'flex';
+    // 오버레이 제거 (이전 버전 잔재)
+    const oldOverlay = document.getElementById('save-overlay');
+    if (oldOverlay) oldOverlay.remove();
 
-      const overlay = document.createElement('div');
-      overlay.id = 'save-overlay';
-      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto;';
-      overlay.innerHTML = `
-        <div style="width:100%;max-width:480px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-            <p style="color:#fff;font-size:13px;line-height:1.6;">이미지를 <strong>길게 눌러</strong> 사진 앱에 저장하세요.</p>
-            <button id="close-overlay" style="background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;">닫기</button>
-          </div>
-          <img src="${dataUrl}" style="width:100%;height:auto;border-radius:12px;display:block;" />
-        </div>`;
-      document.body.appendChild(overlay);
-      document.getElementById('close-overlay').addEventListener('click', () => overlay.remove());
-    } else {
-      // PC: 직접 다운로드
-      if (bar) bar.style.display = 'flex';
-      if (prog) prog.style.display = 'flex';
-      const a = document.createElement('a');
-      a.href = dataUrl;
-      a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(a.href), 3000);
-    }
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `진로탐색워크북_Step${currentPage}_${dateStr}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
     showSaveStatus('이미지 저장됨');
   } catch(e) {
     console.error(e);
