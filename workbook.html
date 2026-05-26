@@ -2936,7 +2936,13 @@ function scheduleSave() {
 
 function restoreFromLocal() {
   try {
-    const raw = localStorage.getItem(SAVE_KEY);
+    // 여러 키 시도 (URL 변경으로 인한 데이터 유실 방지)
+    const FALLBACK_KEYS = [SAVE_KEY, 'workbook_save', 'unfolding_save'];
+    let raw = null;
+    for (const key of FALLBACK_KEYS) {
+      raw = localStorage.getItem(key);
+      if (raw) break;
+    }
     if (!raw) return;
     const data = JSON.parse(raw);
 
@@ -2944,6 +2950,7 @@ function restoreFromLocal() {
     if (data.answers) {
       Object.assign(answers, data.answers);
       Object.entries(data.answers).forEach(([qi, val]) => {
+        if (!val || !val.side) return;
         const opt = document.querySelector(`.test-opt[data-q="${qi}"][data-side="${val.side}"]`);
         if (opt) opt.classList.add('selected');
       });
