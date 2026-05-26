@@ -3071,7 +3071,7 @@ function initPage() {
 const COLLECT_URL = 'https://script.google.com/macros/s/AKfycbyjif3Gd8W3Bnn25dEoYzp54mmtb-uUPLLHsnMK0Ap8O7lfV9mEf_-x2YCPgW4rmIxS/exec';
 
 async function collectAndSend() {
-  if (!COLLECT_URL) return; // URL 없으면 스킵
+  if (!COLLECT_URL) return;
   try {
     const data = collectData();
     const payload = {
@@ -3089,14 +3089,35 @@ async function collectAndSend() {
       direction: (document.getElementById('direction-input') ? document.getElementById('direction-input').value.trim() : ''),
       wishes: [...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean),
     };
-    await fetch(COLLECT_URL, {
-      method: 'POST',
-      mode: 'no-cors', // CORS 우회
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+
+    // form submit 방식으로 CORS 우회
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = COLLECT_URL;
+    form.target = 'collect-iframe';
+    form.style.display = 'none';
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+
+    // iframe에 숨겨서 전송
+    let iframe = document.getElementById('collect-iframe');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'collect-iframe';
+      iframe.id = 'collect-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => form.remove(), 3000);
+
   } catch(e) {
-    // 수집 실패해도 저장은 정상 진행
     console.warn('데이터 수집 실패:', e);
   }
 }
