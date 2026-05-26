@@ -2628,12 +2628,22 @@ function buildResultCardHTML(data) {
 // ── 최종 정리 이미지 저장 (Step 3 전용) ──
 async function saveCurrentPageImage() {
   const btn = document.getElementById('btn-img-save');
+
+  // 최소 데이터 체크 — 동사 3개 이상 + 성향테스트 5개 이상
+  const hasData = selected.length >= 3 && Object.keys(answers).length >= 5;
+  if (!hasData) {
+    const missing = [];
+    if (selected.length < 3) missing.push(`동사 ${3 - selected.length}개 더`);
+    if (Object.keys(answers).length < 5) missing.push(`성향테스트 ${5 - Object.keys(answers).length}문항 더`);
+    showSaveStatus(`${missing.join(', ')} 채워주세요 ✦`);
+    return;
+  }
+
   if (btn) { btn.textContent = '저장 중...'; btn.disabled = true; }
   try {
     const dateStr = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}))
       .toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'');
 
-    // 결과 카드 이미지 생성
     const canvas = await generateSummaryCanvas();
 
     const dataUrl = canvas.toDataURL('image/png');
@@ -2654,7 +2664,7 @@ async function saveCurrentPageImage() {
     showSaveStatus('저장됨');
   } catch(e) {
     console.error(e);
-    alert('이미지 생성 중 오류가 발생했어요.');
+    showSaveStatus('저장 중 오류가 발생했어요');
   } finally {
     if (btn) {
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> 최종 정리 저장';
@@ -2665,6 +2675,14 @@ async function saveCurrentPageImage() {
 
 // ── 현재 스텝 텍스트 저장 ──
 function saveCurrentPageText() {
+  const hasData = selected.length >= 3 && Object.keys(answers).length >= 5;
+  if (!hasData) {
+    const missing = [];
+    if (selected.length < 3) missing.push(`동사 ${3 - selected.length}개 더`);
+    if (Object.keys(answers).length < 5) missing.push(`성향테스트 ${5 - Object.keys(answers).length}문항 더`);
+    showSaveStatus(`${missing.join(', ')} 채워주세요 ✦`);
+    return;
+  }
   const dateStr = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}))
     .toLocaleDateString('ko-KR').replace(/\.\s*/g,'-').replace(/-$/,'');
   const g = id => { const e=document.getElementById(id); return e?e.value.trim():''; };
@@ -2722,6 +2740,7 @@ function saveCurrentPageText() {
   a.download = `진로탐색워크북_${dateStr}.txt`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  collectAndSend(); // 익명 데이터 수집
   showSaveStatus('텍스트 저장됨');
 }
 
@@ -2905,7 +2924,9 @@ function showSaveStatus(msg) {
   if (!el) return;
   el.textContent = msg;
   el.style.opacity = '1';
-  setTimeout(() => { el.style.opacity = '0'; }, 2000);
+  // 안내/경고 메시지는 3초, 일반은 2초
+  const dur = msg.includes('채워') || msg.includes('오류') ? 3000 : 2000;
+  setTimeout(() => { el.style.opacity = '0'; }, dur);
 }
 
 function scheduleSave() {
@@ -3043,6 +3064,41 @@ function initPage() {
   updateProgress();
   showPage(1);
   window.scrollTo({top: 0, behavior: 'instant'});
+}
+
+
+// ── 익명 데이터 수집 ──
+const COLLECT_URL = 'https://script.google.com/macros/s/AKfycbyjif3Gd8W3Bnn25dEoYzp54mmtb-uUPLLHsnMK0Ap8O7lfV9mEf_-x2YCPgW4rmIxS/exec';
+
+async function collectAndSend() {
+  if (!COLLECT_URL) return; // URL 없으면 스킵
+  try {
+    const data = collectData();
+    const payload = {
+      date: data.date,
+      selected: data.selected,
+      related: Object.values(relatedMap).flat().filter(Boolean),
+      tendencyKws: data.tendencyKws,
+      ikLove:  (document.getElementById('ik-love')  ? document.getElementById('ik-love').value.trim()  : ''),
+      ikGood:  (document.getElementById('ik-good')  ? document.getElementById('ik-good').value.trim()  : ''),
+      ikWorld: (document.getElementById('ik-world') ? document.getElementById('ik-world').value.trim() : ''),
+      ikMoney: (document.getElementById('ik-money') ? document.getElementById('ik-money').value.trim() : ''),
+      rec1: data.recs[0] ? data.recs[0].label : '',
+      rec2: data.recs[1] ? data.recs[1].label : '',
+      rec3: data.recs[2] ? data.recs[2].label : '',
+      direction: (document.getElementById('direction-input') ? document.getElementById('direction-input').value.trim() : ''),
+      wishes: [...document.querySelectorAll('.num-input')].map(el=>el.value.trim()).filter(Boolean),
+    };
+    await fetch(COLLECT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // CORS 우회
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch(e) {
+    // 수집 실패해도 저장은 정상 진행
+    console.warn('데이터 수집 실패:', e);
+  }
 }
 
 // window에 명시적 등록 (사파리 onclick 인식용)
