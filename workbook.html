@@ -902,7 +902,7 @@ body {
     <p class="section-label">Part 08</p>
     <h2 class="section-title">5가지 신호 — 최종 정리 & 추천</h2>
     <p class="section-desc">파트 3~8을 완성하면 나에게 어울리는 일의 방향을 추천해드려요.</p>
-    <div id="final-area"><div class="final-empty">파트 3~8을 완성하면 최종 정리가 여기에 나타납니다</div></div>
+    <div id="final-area"><div class="final-empty">동사를 3개 이상 선택하고 성향 테스트를 채우면<br>맞춤 추천이 여기에 나타나요</div></div>
   </div>
 
   <hr class="divider">
@@ -1509,17 +1509,21 @@ function generateShineCards() {
 
   // 동사 조합 기반 카드 규칙
   const verbCards = [
-    { test: v => v.some(x=>x.includes('시각')||x.includes('촬영')||x.includes('사진')) && v.some(x=>x.includes('쓰')||x.includes('언어')||x.includes('묘사')||x.includes('기록')),
+    { test: v => v.some(x=>x.includes('시각')||x.includes('촬영')||x.includes('사진')||x.includes('찍')) && v.some(x=>x.includes('쓰')||x.includes('언어')||x.includes('묘사')||x.includes('기록')||x.includes('이야기')),
       text: '보이는 것과 언어가 만날 때', sub: '이미지와 글이 동시에 살아나는 순간, 가장 나다운 결과물이 나와요.' },
-    { test: v => v.some(x=>x.includes('탐험')||x.includes('여행')||x.includes('이동')||x.includes('경험')) && v.some(x=>x.includes('기록')||x.includes('담')||x.includes('촬영')||x.includes('남기')),
+    { test: v => v.some(x=>x.includes('탐험')||x.includes('여행')||x.includes('이동')||x.includes('경험')) && v.some(x=>x.includes('기록')||x.includes('담')||x.includes('촬영')||x.includes('찍')||x.includes('남기')),
       text: '직접 가서 경험하고 담아낼 때', sub: '몸으로 부딪히고 그 흔적을 남길 때 에너지가 살아나요.' },
+    { test: v => v.some(x=>x.includes('그리')||x.includes('디자인')||x.includes('꾸미')||x.includes('표현')||x.includes('만들')) && !v.some(x=>x.includes('쓰')||x.includes('이야기')),
+      text: '감각으로 형태를 만들어낼 때', sub: '미적 판단과 손끝의 감각이 결합될 때 가장 나다운 결과가 나와요.' },
+    { test: v => v.some(x=>x.includes('작곡')||x.includes('연주')||x.includes('노래')||x.includes('음악')),
+      text: '음악으로 감정을 표현할 때', sub: '소리로 세계를 만들어내는 과정에서 가장 몰입해요.' },
     { test: v => v.some(x=>x.includes('만들')||x.includes('창작')||x.includes('제작')||x.includes('편집')) && v.some(x=>x.includes('나누')||x.includes('전달')||x.includes('공유')),
       text: '만들어서 세상에 내놓을 때', sub: '결과물을 완성하고 누군가에게 닿는 순간이 원동력이에요.' },
     { test: v => v.some(x=>x.includes('분석')||x.includes('파악')||x.includes('이해')) && v.some(x=>x.includes('가르')||x.includes('설명')||x.includes('전달')),
       text: '이해한 것을 풀어서 전달할 때', sub: '복잡한 것을 쉽게 만드는 능력이 빛나는 순간이에요.' },
     { test: v => v.some(x=>x.includes('디자인')||x.includes('설계')||x.includes('기획')) && v.some(x=>x.includes('문제')||x.includes('개선')||x.includes('해결')),
       text: '구조를 짜고 문제를 풀어낼 때', sub: '혼돈에서 질서를 만드는 일에서 강점이 드러나요.' },
-    { test: v => v.some(x=>x.includes('글 쓰')||x.includes('쓰기')||x.includes('작성')||x.includes('서술')),
+    { test: v => v.some(x=>x.includes('글 쓰')||x.includes('쓰기')||x.includes('작성')||x.includes('서술')||x.includes('번역')||x.includes('편집')),
       text: '생각을 글로 정제할 때', sub: '언어로 세계를 재구성하는 과정에서 나만의 목소리가 나와요.' },
     { test: v => v.some(x=>x.includes('연결')||x.includes('협력')||x.includes('협업')) && v.some(x=>x.includes('만들')||x.includes('창작')||x.includes('기획')),
       text: '사람들과 함께 무언가를 만들어갈 때', sub: '연결이 결과물로 이어지는 과정에서 에너지를 얻어요.' },
@@ -1529,16 +1533,18 @@ function generateShineCards() {
   const tendCards = [
     { test: t => t.includes('내향') && (t.includes('집중')||t.includes('몰입')||t.includes('깊이')),
       text: '자기 페이스로 깊이 집중할 때', sub: '외부 방해 없이 한 가지에 몰두할 수 있을 때 최고의 결과가 나와요.' },
-    { test: t => t.includes('외향') && (t.includes('연결')||t.includes('소통')||t.includes('사람')),
+    { test: t => t.includes('외향') && (t.includes('연결')||t.includes('소통')||t.includes('공감')),
       text: '사람들과 교류하며 만들어갈 때', sub: '대화와 협력 속에서 아이디어가 폭발적으로 살아나요.' },
-    { test: t => t.includes('계획') && (t.includes('실행')||t.includes('완성')),
-      text: '계획을 세우고 끝까지 완수할 때', sub: '목표를 향해 단계를 밟아나가는 과정에서 보람을 느껴요.' },
-    { test: t => t.includes('감각') && (t.includes('심미')||t.includes('아름')||t.includes('미적')),
+    { test: t => t.includes('감각') && t.includes('심미'),
       text: '감각적으로 아름다운 것을 다룰 때', sub: '미적 판단이 필요한 순간, 섬세한 눈이 강점이 돼요.' },
-    { test: t => t.includes('자유') && (t.includes('유연')||t.includes('즉흥')||t.includes('변화')),
-      text: '자유롭게 방향을 바꾸며 탐색할 때', sub: '고정된 틀 없이 흐름에 따라 움직일 때 창의성이 빛나요.' },
-    { test: t => t.includes('독립') && (t.includes('자립')||t.includes('혼자')||t.includes('스스로')),
-      text: '혼자서 처음부터 끝을 완성할 때', sub: '처음부터 끝까지 스스로 책임지는 작업에서 강점이 드러나요.' },
+    { test: t => t.includes('탐구') && t.includes('깊이'),
+      text: '모르는 것을 끝까지 파고들 때', sub: '본질을 향해 멈추지 않고 파고드는 것이 나만의 무기예요.' },
+    { test: t => t.includes('직관') && t.includes('추진력'),
+      text: '직관을 믿고 바로 시도할 때', sub: '생각이 행동으로 바로 이어질 때 가장 큰 성과가 나와요.' },
+    { test: t => t.includes('자기주도') && t.includes('내적동기'),
+      text: '스스로 정한 방향으로 나아갈 때', sub: '내가 정한 목표를 향해 움직일 때 에너지가 가장 넘쳐요.' },
+    { test: t => t.includes('기여') && t.includes('실용'),
+      text: '내 것이 실제로 누군가에게 쓰일 때', sub: '만든 것이 세상에서 실제로 작동하는 순간이 가장 보람 있어요.' },
   ];
 
   const cards = [];
@@ -1654,17 +1660,17 @@ function getRecommendations() {
     { label:"비주얼 스토리텔러형",
       title:"포토그래퍼 / 필름 디렉터 / 다큐멘터리 감독 / 영화 PD / 콘텐츠 디렉터",
       desc:"보이는 것과 말하는 것을 동시에 잘 다루는 사람이에요. 이미지와 언어를 엮어 이야기를 만드는 일에서 강점이 드러나요.",
-      score: () => verbScore('촬영','편집','연출','사진') + verbScore('글 쓰','묘사','이야기') + ikScore('사진','영상','촬영','글','기록','영화') + intScore('사진','영상','다큐','영화') + wishScore('사진','영상','기록','영화') },
+      score: () => verbScore('촬영','편집','연출','사진','찍') + verbScore('글 쓰','묘사','이야기') + ikScore('사진','영상','촬영','글','기록','영화') + intScore('사진','영상','다큐','영화') + wishScore('사진','영상','기록','영화') },
 
     { label:"창작 집중형",
       title:"사진작가 / 영상 감독 / 아트디렉터 (AD) / 비주얼 디렉터 / 편집디자이너 / 북디자이너",
       desc:"혼자 깊이 파고드는 창작 작업에서 가장 큰 즐거움을 찾는 유형이에요. 결과물 자체의 완성도에 집착하며, 자신만의 세계관을 구축해요.",
-      score: () => verbScore('촬영','편집','그리','디자인','만들','표현') + ikScore('창작','만들','표현','디자인','미디어아트','미디어 아트') + tendScore('독립','창작','완성') + intScore('사진','영상','디자인','일러스트','미디어아트') },
+      score: () => verbScore('촬영','편집','그리','디자인','만들','표현','찍','관찰','포착') + ikScore('창작','만들','표현','디자인','미디어아트','미디어 아트') + tendScore('독립','창작','완성') + intScore('사진','영상','디자인','일러스트','미디어아트') },
 
     { label:"창작 + 연결형",
       title:"콘텐츠 디렉터 / 브랜드 디렉터 / AI 크리에이터 / 뉴미디어 크리에이터 / 커뮤니티 매니저",
       desc:"만들고 표현하는 것을 좋아하면서 사람과 연결되는 일에서 에너지를 얻어요. 자신만의 시각으로 만든 것이 누군가에게 닿는 것에서 보람을 느껴요.",
-      score: () => verbScore('만들','표현','연결','이야기') + verbScore('편집','촬영','기획') + ikScore('콘텐츠','브랜드','크리에이터','로컬','지역') + tendScore('교류','관계','창작') + wishScore('유튜브','콘텐츠','브랜드','로컬') },
+      score: () => verbScore('만들','표현','연결','이야기','유튜브','채널') + verbScore('편집','촬영','기획') + ikScore('콘텐츠','브랜드','크리에이터','로컬','지역','유튜브','채널') + tendScore('교류','관계','창작','외향') + wishScore('유튜브','콘텐츠','브랜드','로컬','채널') },
 
     { label:"영상·미디어 아트형",
       title:"영상 디자이너 / DI 컬러리스트 (색보정) / 모션 그래퍼 / VJ / 영화 미술감독 / 미디어 아티스트",
