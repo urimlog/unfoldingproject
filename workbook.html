@@ -510,11 +510,8 @@ body {
       <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:0.75rem;">Unfolding Project는<br>자기 자신에게 맞는 삶과 일을 탐색하는 사람들을 위한 프로젝트예요.</p>
       <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.25rem;">정답을 제시하기보다, 스스로의 감각과 방향을 발견할 수 있도록 질문과 기록의 형태를 통해 작은 계기들을 만들어가고 있어요.</p>
 
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.5rem;">워크북을 통해 하고 싶은 일이 무엇인지<br>조금은 선명해졌나요?</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.9;margin-bottom:0.75rem;">지난 시간을 돌아보고, 또 앞으로를 그려보며<br>꽤 많은 시간이 걸렸을 거예요.<br>그리고 그 사이 내 안에서 무언가 조금 달라졌을 거예요.</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.9;margin-bottom:0.75rem;">여전히 막막하고 확신이 없더라도 괜찮아요.<br>이미 우리는 많은 실마리를 찾아냈고,<br>그것만으로도 충분해요.</p>
-      <p style="font-size:14px;color:var(--text-primary);line-height:1.9;font-weight:500;margin-bottom:0.75rem;">아주 작은 것 하나에서 시작해볼까요?<br>그게 무엇이든, 앞으로 펼쳐질 여정의 시작이 될 거예요.</p>
-      <p style="font-size:13px;color:var(--accent-dark);font-weight:500;line-height:1.9;">당신의 펼쳐지는 삶을 응원해요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.95;margin-bottom:1.5rem;">누군가에게는 잠시 멈춰 자신을 들여다보는 시간이,<br>또 다른 누군가에게는 새로운 방향을 펼쳐가는 시작이 되기를 바라요.</p>
+      <p style="font-size:13px;color:var(--accent-dark);font-weight:500;line-height:1.9;">모든 사람의 펼쳐지는 삶을 응원해요.</p>
     </div>
 
     <!-- 소요 시간 안내 -->
@@ -601,14 +598,14 @@ body {
   <!-- Part 03 -->
   <div class="section">
     <p class="section-label">Part 03</p>
-    <h2 class="section-title">나의 성향 테스트</h2>
-    <p class="section-desc">일할 때 어떤 방식이 더 잘 맞는지 알아보는 테스트예요. 정답은 없어요.</p>
+    <h2 class="section-title">나의 성향과 강점 테스트</h2>
+    <p class="section-desc">일할 때 어떤 방식이 잘 맞는지, 무엇을 잘 하는지 함께 알아보는 테스트예요.</p>
     <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;">
-      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">즐거움의 원천</span>
+      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">에너지 원천</span>
       <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">일하는 방식</span>
-      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">에너지 방향</span>
-      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">동기 유형</span>
-      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">관계 성향</span>
+      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">사고 강점</span>
+      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">관계 역할</span>
+      <span style="font-size:11px;color:var(--text-tertiary);background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:3px 10px;">창조 방식</span>
     </div>
     <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:0.75rem;">각 질문에서 나에게 더 가까운 쪽 하나를 선택해주세요.</p>
     <div id="test-container"></div>
@@ -646,7 +643,7 @@ body {
     <p class="selected-count" id="verb-count" style="display:none;">0 / 10개 선택됨</p>
     <div id="verb-sticky-bar" class="verb-sticky-bar">
   <div class="verb-bar-chips" id="verb-bar-chips"></div>
-  <div class="verb-bar-count" id="verb-bar-count-text"><span id="verb-bar-num">0</span> / 10개 선택됨</div>
+  <div class="verb-bar-count"><span id="verb-bar-num">0</span> / 10개</div>
 </div>
 <div class="verb-grid" id="verb-grid">
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">창작·표현</span>
@@ -910,37 +907,27 @@ body {
 
   <hr class="divider">
 
-  <!-- Part 10 나만의 방향 -->
+  <!-- Part 09 나만의 방향 — 자동 분석 카드 -->
   <div class="section">
     <p class="section-label">Part 09</p>
-    <h2 class="section-title">나만의 방향</h2>
-    <p class="section-desc">지금까지 선택한 동사와 성향을 바탕으로, 어떨 때 빛나는지 보여드릴게요.</p>
+    <h2 class="section-title">당신이 빛나는 순간</h2>
+    <p class="section-desc">지금까지 선택한 동사와 성향을 바탕으로, 내가 가장 빛나는 순간이 자동으로 분석돼요.</p>
 
-    <!-- 자동 생성 카드 -->
-    <div id="direction-insight" style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;min-height:60px;">
-      <p style="font-size:11px;color:var(--text-tertiary);text-align:center;padding:1rem 0;">동사와 성향 테스트를 채울수록<br>당신이 언제 빛나는지 보여드려요</p>
+    <!-- 빈 상태 안내 -->
+    <div id="shine-empty" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;padding:2rem 1rem;text-align:center;">
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.8;">동사를 3개 이상 선택하거나<br>성향 테스트를 진행하면<br>카드가 자동으로 생성돼요.</p>
     </div>
 
-    <div style="background:linear-gradient(135deg,var(--accent-light),rgba(45,201,143,0.08));border:1.5px solid var(--accent);border-radius:var(--radius-lg);padding:1.25rem 1.25rem 1rem;">
-      <p style="font-size:11px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;font-weight:500;margin-bottom:0.5rem;">나만의 한 줄 방향</p>
-      <p style="font-size:11px;color:var(--text-secondary);margin-bottom:0.75rem;">위 내용을 참고해서, 지금 내가 가고 싶은 방향을 한 문장으로 담아보세요.</p>
-      <textarea class="direction-textarea" id="direction-input" placeholder="나는 ___ 하는 사람으로, ___ 방식으로 살고 싶다." style="font-size:15px;font-weight:500;color:var(--text-primary);border:none;background:transparent;padding:0;min-height:52px;resize:none;width:100%;outline:none;line-height:1.7;"></textarea>
+    <!-- 자동 생성 카드 영역 -->
+    <div id="shine-cards" style="display:none;flex-direction:column;gap:0.75rem;">
+      <!-- JS로 동적 생성 -->
     </div>
-  </div>
-<hr class="divider">
 
-  <!-- Part 09 마무리 문구 -->
-  <div class="section" style="padding-top:0;">
-    <div style="background:linear-gradient(135deg,rgba(45,201,143,0.06),transparent);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 1.25rem;text-align:center;">
-      <p style="font-size:15px;color:var(--text-primary);line-height:1.9;margin-bottom:0.75rem;">워크북을 통해 하고 싶은 일이 무엇인지<br>조금은 선명해졌나요?</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.85;margin-bottom:0.75rem;">지난 시간을 돌아보고, 또 앞으로를 그려보며<br>꽤 많은 시간이 걸렸을 거예요.<br>그리고 그 사이 내 안에서 무언가 조금 달라졌을 거예요.</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.85;margin-bottom:1rem;">여전히 막막하고 확신이 없더라도 괜찮아요.<br>이미 우리는 많은 실마리를 찾아냈고,<br>그것만으로도 충분해요.</p>
-      <p style="font-size:13px;color:var(--text-primary);line-height:1.85;font-weight:500;margin-bottom:1rem;">아주 작은 것 하나에서 시작해볼까요?<br>그게 무엇이든, 앞으로 펼쳐질 여정의 시작이 될 거예요.</p>
-      <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:0.75rem;">당신의 펼쳐지는 삶을 응원해요.</p>
-      <a href="https://www.instagram.com/explore/tags/unfolding/" target="_blank" rel="noopener"
-        style="display:inline-block;padding:0.4rem 0.9rem;border-radius:20px;background:var(--accent-light);color:var(--accent-dark);font-size:12px;text-decoration:none;font-weight:500;">#unfolding</a>
-      <p style="font-size:11px;color:var(--text-tertiary);margin-top:0.5rem;">을 태그해서 워크로그를 공유해주면 응원 갈게요!</p>
-    </div>
+    <!-- 숨겨진 호환성 필드 (저장/분석 로직용) -->
+    <input type="hidden" id="dir-being" value="">
+    <input type="hidden" id="dir-how" value="">
+    <input type="hidden" id="dir-future" value="">
+    <input type="hidden" id="direction-input" value="">
   </div>
 
   <hr class="divider">
@@ -975,7 +962,24 @@ body {
     </div>
   </div>
 
-  <div class="footer">
+  <hr class="divider">
+
+  <!-- 엔딩 멘트 -->
+  <div class="section" style="padding-bottom:0.5rem;">
+    <div style="background:linear-gradient(160deg,var(--surface) 0%,rgba(29,158,117,0.06) 100%);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem 1.5rem;text-align:center;">
+      <p style="font-size:15px;font-weight:600;color:var(--text-primary);line-height:1.9;margin-bottom:1.5rem;">워크북을 통해 하고 싶은 일이 무엇인지<br>조금은 선명해졌나요?</p>
+      <div style="width:2rem;height:1px;background:var(--border);margin:0 auto 1.5rem;"></div>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:2;margin-bottom:0.75rem;">지난 시간을 돌아보고, 또 앞으로를 그려보며<br>꽤 많은 시간이 걸렸을 거예요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:2;margin-bottom:0.75rem;">그리고 그 사이 내 안에서<br>무언가 조금 달라졌을 거예요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:2;margin-bottom:0.75rem;">여전히 막막하고 확신이 없더라도 괜찮아요.</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:2;margin-bottom:1.5rem;">이미 우리는 많은 실마리를 찾아냈고<br>그것만으로도 충분해요.</p>
+      <div style="width:2rem;height:1px;background:var(--border);margin:0 auto 1.5rem;"></div>
+      <p style="font-size:14px;color:var(--text-primary);font-weight:500;line-height:2;margin-bottom:0.5rem;">아주 작은 일부터 시작해 볼까요?</p>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:2;margin-bottom:1.5rem;">그게 무엇이든 앞으로 펼쳐질 여정의 시작이 될 거예요.</p>
+      <p style="font-size:14px;font-weight:600;color:var(--accent);line-height:1.8;margin-bottom:1.25rem;">당신의 펼쳐지는 삶을 응원해요.</p>
+      <p style="font-size:13px;color:var(--text-tertiary);line-height:1.8;">#unfolding 을 태그해서 워크 로그를 공유해주면<br>응원 갈게요!</p>
+    </div>
+  </div>
     <p>좋아하는 일을 찾아가는 여정 · 하고 싶은 일을 하며 사는 삶</p>
 
     <div style="margin-top:2rem;padding:1.5rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);text-align:center;">
@@ -1057,38 +1061,58 @@ body {
 
 const questions = [
   // ── 에너지 원천 ──
-  { category:"에너지", text:"작업이 끝난 뒤 에너지가 남아있다면, 그 작업은?", a:{label:"혼자 오래 몰입해서 완성한 것",keyword:"독립·내향"}, b:{label:"사람들과 부딪히며 만들어낸 것",keyword:"교류·외향"} },
-  { category:"에너지", text:"가장 '살아있다'는 느낌이 드는 순간은?", a:{label:"익숙한 것을 더 잘하게 됐을 때",keyword:"숙련·집중"}, b:{label:"해본 적 없는 걸 처음 시도할 때",keyword:"탐험·도전"} },
-  { category:"에너지", text:"같은 일을 오래 지속하게 만드는 것은?", a:{label:"빠르게 다음 단계로 넘어가는 속도감",keyword:"속도·멀티"}, b:{label:"한 가지를 끝까지 파고드는 깊이감",keyword:"집중·완성도"} },
+  { category:"에너지", text:"혼자 있는 시간이 길어지면 어떤가요?",
+    a:{label:"충전되고 더 집중이 잘 된다", keyword:"독립·내향"},
+    b:{label:"외롭고 무기력해진다, 사람이 있어야 한다", keyword:"교류·외향"} },
+  { category:"에너지", text:"새로운 일을 시작할 때 어떤 쪽이 더 자연스럽나요?",
+    a:{label:"익숙한 방식대로 안전하게 시작한다", keyword:"숙련·집중"},
+    b:{label:"방법을 모르더라도 일단 뛰어든다", keyword:"탐험·도전"} },
 
-  // ── 동기 구조 ──
-  { category:"동기", text:"가장 집중이 잘 되는 상황은?", a:{label:"내가 원하는 방향대로 자유롭게 할 수 있을 때",keyword:"자기주도·내적동기"}, b:{label:"함께 목표를 정하고 서로 의지하며 할 때",keyword:"관계·공동목표"} },
-  { category:"동기", text:"일이 잘 안 풀릴 때 나를 다시 움직이게 하는 것은?", a:{label:"결국 완성했을 때의 성취감",keyword:"결과·완성감"}, b:{label:"지금 이 과정이 쌓인다는 감각",keyword:"과정·몰입감"} },
-  { category:"동기", text:"내가 하는 일이 의미있다는 느낌이 드는 순간은?", a:{label:"내 이름이 들어간 결과물이 세상에 나왔을 때",keyword:"인정·창의"}, b:{label:"내가 한 것이 실제로 누군가에게 도움이 됐을 때",keyword:"기여·실용"} },
+  // ── 일하는 방식 ──
+  { category:"일하는 방식", text:"일이 잘 안 풀릴 때 나를 다시 움직이게 하는 것은?",
+    a:{label:"결국 완성했을 때의 뿌듯함을 상상한다", keyword:"결과·완성감"},
+    b:{label:"지금 이 과정 자체가 의미있다고 느낀다", keyword:"과정·몰입감"} },
+  { category:"일하는 방식", text:"마감이 다가올 때 나는?",
+    a:{label:"압박감이 오히려 집중력이 된다", keyword:"속도·멀티"},
+    b:{label:"미리 여유 있게 끝내야 편하다", keyword:"집중·완성도"} },
 
-  // ── 사고 방식 ──
-  { category:"사고", text:"새로운 정보를 접할 때 자연스러운 반응은?", a:{label:"'이걸 내 방식으로 어떻게 쓸 수 있을까' 응용",keyword:"다양성·확장"}, b:{label:"'이게 진짜 맞는 건지' 깊이 파고들기",keyword:"탐구·학습"} },
-  { category:"사고", text:"복잡한 문제를 만났을 때 내 접근은?", a:{label:"전체 구조를 먼저 그린다",keyword:"기획·리드"}, b:{label:"일단 작은 것부터 해본다",keyword:"실행·완성"} },
-  { category:"사고", text:"아이디어가 가장 잘 떠오르는 때는?", a:{label:"혼자 조용히 생각할 때",keyword:"독립·내향"}, b:{label:"누군가와 대화하거나 자극받을 때",keyword:"교류·외향"} },
+  // ── 사고 강점 ──
+  { category:"사고 강점", text:"새로운 정보를 접할 때 어떤 반응이 먼저 나오나요?",
+    a:{label:"이걸 어떻게 활용할 수 있을까 바로 떠오른다", keyword:"실행·기획"},
+    b:{label:"이게 왜 그런지, 어디서 왔는지 더 알고 싶다", keyword:"탐구·학습"} },
+  { category:"사고 강점", text:"복잡한 문제를 만났을 때 나는?",
+    a:{label:"전체 흐름을 먼저 파악하고 구조로 정리한다", keyword:"분석·구조화"},
+    b:{label:"직관적으로 핵심이 먼저 보이고 바로 움직인다", keyword:"직관·추진력"} },
+  { category:"사고 강점", text:"지식을 쌓을 때 어떤 방식이 더 잘 맞나요?",
+    a:{label:"하나를 끝까지 파고들어 깊이 있게", keyword:"전문성·깊이"},
+    b:{label:"여러 분야를 연결하며 넓게", keyword:"다양성·확장"} },
 
-  // ── 관계와 역할 ──
-  { category:"관계", text:"팀에서 가장 자연스럽게 맡게 되는 것은?", a:{label:"방향을 제시하거나 이끄는 역할",keyword:"기획·리드"}, b:{label:"필요한 것을 채우거나 완성하는 역할",keyword:"실행·완성"} },
-  { category:"관계", text:"내가 가장 보람을 느끼는 순간은?", a:{label:"내 작업이 누군가에게 영향을 줬을 때",keyword:"영향·연결"}, b:{label:"내가 만든 것이 완성도 높게 나왔을 때",keyword:"완성·제작"} },
-  { category:"관계", text:"나는 사람들과 어떻게 연결될 때 편한가요?", a:{label:"소수와 깊게, 오래",keyword:"독립·내향"}, b:{label:"다양한 사람들과 넓게, 자주",keyword:"교류·외향"} },
+  // ── 관계 역할 ──
+  { category:"관계 역할", text:"팀 안에서 자연스럽게 맡게 되는 역할은?",
+    a:{label:"방향을 제시하고 사람들을 이끈다", keyword:"기획·리드"},
+    b:{label:"맡은 것을 묵묵히 가장 잘 해낸다", keyword:"실행·완성"} },
+  { category:"관계 역할", text:"대화 중 자연스럽게 잘 하게 되는 것은?",
+    a:{label:"핵심을 뽑아 정리하고 방향을 제안한다", keyword:"조율·정리"},
+    b:{label:"말하지 않아도 상대가 뭘 원하는지 느껴진다", keyword:"공감·연결"} },
 
-  // ── 표현과 창조 ──
-  { category:"표현", text:"무언가를 만들 때 가장 즐거운 순간은?", a:{label:"처음 아이디어가 형태를 갖추기 시작할 때",keyword:"창작·표현"}, b:{label:"완성되고 나서 다듬고 개선할 때",keyword:"숙련·집중"} },
-  { category:"표현", text:"내 작업물이 세상에 나왔을 때 가장 바라는 것은?", a:{label:"'이게 나답다'는 것이 느껴지길",keyword:"인정·창의"}, b:{label:"보는 사람에게 실질적으로 도움이 되길",keyword:"기여·실용"} },
-  { category:"표현", text:"잘 만들었다는 느낌이 드는 순간은?", a:{label:"내 기준에서 마음에 들 때",keyword:"자기주도·내적동기"}, b:{label:"다른 사람이 좋다고 반응할 때",keyword:"영향·연결"} },
+  // ── 창조 방식 ──
+  { category:"창조 방식", text:"무언가를 만들 때 어떤 과정이 가장 즐거운가요?",
+    a:{label:"아무것도 없는 상태에서 처음을 만드는 것", keyword:"창작·표현"},
+    b:{label:"있는 것을 더 좋게, 더 명확하게 다듬는 것", keyword:"정제·완성도"} },
+  { category:"창조 방식", text:"작업 결과물에서 자연스럽게 신경 쓰이는 것은?",
+    a:{label:"보는 사람이 어떻게 느낄지, 경험과 감각", keyword:"감각·심미"},
+    b:{label:"내용이 얼마나 정확하고 탄탄한지, 본질", keyword:"탐구·깊이"} },
+  { category:"창조 방식", text:"어떤 피드백이 나를 가장 힘나게 하나요?",
+    a:{label:'"덕분에 정말 도움이 됐어요" — 실질적 기여', keyword:"기여·실용"},
+    b:{label:'"이걸 어떻게 생각해냈어요?" — 창의성 인정', keyword:"인정·창의"} },
 ];
 
 const catDesc = {
-  "경험":{ a:"새롭고 다양한 경험에서 자극을 받는 탐험형입니다.", b:"익숙한 것을 깊이 파고드는 몰입형입니다.", both:"새로운 탐험과 깊은 몰입 모두에서 에너지를 얻는 균형형입니다." },
-  "성취":{ a:"손에 잡히는 결과물을 완성할 때 가장 큰 보람을 느끼는 제작자형입니다.", b:"사람에게 영향을 미치고 변화를 만들 때 에너지를 얻는 연결자형입니다.", both:"결과물 완성과 타인에 대한 영향 모두에서 성취감을 느끼는 성향입니다." },
-  "즐거움":{ a:"만들고 표현하는 행위와 완성된 결과 모두에서 즐거움을 찾는 창작형입니다.", b:"찾고 배우고 과정 자체에 빠져드는 탐구형입니다.", both:"창작과 탐구, 결과와 과정 모두를 즐기는 복합적인 성향입니다." },
-  "편안함":{ a:"조용하고 독립적인 환경에서 집중력이 높아지는 내향형입니다.", b:"사람과 활기 속에서 에너지를 얻는 외향형입니다.", both:"혼자와 함께 모두에서 편안함을 찾는 양향형입니다." },
-  "동기":{ a:"스스로 정한 목표와 방향에서 가장 큰 동력을 얻는 자기주도형입니다.", b:"함께하는 관계와 공동의 목표에서 에너지를 얻는 공동체형입니다.", both:"내적 동기와 관계적 동기 모두에서 힘을 얻는 유연한 성향입니다." },
-  "작업 스타일":{ a:"방향을 잡고 아이디어를 내며 이끄는 기획형입니다.", b:"정해진 방향 안에서 깊이 파고드는 실행형입니다.", both:"기획과 실행 모두에서 강점을 발휘하는 유연한 스타일입니다." }
+  "에너지":{ a:"혼자만의 시간에서 에너지를 회복하는 내향형이에요.", b:"사람들과의 교류에서 에너지를 얻는 외향형이에요.", both:"혼자와 함께 모두에서 균형 있게 에너지를 얻어요." },
+  "일하는 방식":{ a:"결과와 완성을 향해 스스로를 밀어붙이는 실행형이에요.", b:"과정 자체에서 의미를 찾고 여유 있게 흐름을 만드는 스타일이에요.", both:"결과와 과정 모두를 중시하는 균형 잡힌 스타일이에요." },
+  "사고 강점":{ a:"빠르게 실행 아이디어로 전환하거나 구조화하는 사고가 강점이에요.", b:"깊이 탐구하거나 다양한 분야를 연결하는 사고가 강점이에요.", both:"분석과 직관, 깊이와 넓이 모두를 활용하는 유연한 사고형이에요." },
+  "관계 역할":{ a:"방향을 잡고 흐름을 만드는 리더·조율 역할이 자연스러워요.", b:"상대를 깊이 이해하고 연결하는 공감·실행 역할이 강점이에요.", both:"이끄는 것과 따르는 것 모두에서 자연스럽게 강점을 발휘해요." },
+  "창조 방식":{ a:"처음을 만들거나 감각적 경험을 설계하는 창조가 강점이에요.", b:"있는 것을 다듬고 본질을 깊이 파는 정제·탐구가 강점이에요.", both:"창조와 정제, 감각과 본질 모두에서 강점을 발휘하는 스타일이에요." },
 };
 
 const answers = {};
@@ -1110,7 +1134,7 @@ function renderTestQuestions() {
       container.querySelectorAll(`.test-opt[data-q="${qi}"]`).forEach(o => o.classList.remove('selected'));
       opt.classList.add('selected');
       answers[qi] = { side: opt.dataset.side, keyword: questions[qi][opt.dataset.side].keyword };
-      updateSummary(); updateFinal();
+      updateSummary(); updateFinal(); generateShineCards();
     });
   });
 }
@@ -1266,7 +1290,7 @@ function renderVerbGrid() {
         selected.push(v);
         relatedMap[v] = ['',''];
       }
-      updateCount(); renderSelectedList(); updateAutoSignal(); updateFinal(); updateDirectionInsight(); updateWishPlaceholders(); updateVerbStickyBar();
+      updateCount(); renderSelectedList(); updateAutoSignal(); updateFinal(); updateWishPlaceholders(); updateVerbStickyBar(); generateShineCards();
     });
   });
 }
@@ -1466,6 +1490,119 @@ function buildSignalData(allVerbs) {
   });
 
   return sigData;
+}
+
+// ── Part 09 : 당신이 빛나는 순간 카드 자동 생성 ──
+function generateShineCards() {
+  const cardsEl = document.getElementById('shine-cards');
+  const emptyEl = document.getElementById('shine-empty');
+  if (!cardsEl || !emptyEl) return;
+
+  const allVerbs = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
+  const tendencyKws = Object.values(answers).map(a => a ? a.keyword || '' : '').join(' ');
+
+  if (allVerbs.length < 1 && !tendencyKws.trim()) {
+    cardsEl.style.display = 'none';
+    emptyEl.style.display = 'flex';
+    return;
+  }
+
+  // 동사 조합 기반 카드 규칙
+  const verbCards = [
+    { test: v => v.some(x=>x.includes('시각')||x.includes('촬영')||x.includes('사진')) && v.some(x=>x.includes('쓰')||x.includes('언어')||x.includes('묘사')||x.includes('기록')),
+      text: '보이는 것과 언어가 만날 때', sub: '이미지와 글이 동시에 살아나는 순간, 가장 나다운 결과물이 나와요.' },
+    { test: v => v.some(x=>x.includes('탐험')||x.includes('여행')||x.includes('이동')||x.includes('경험')) && v.some(x=>x.includes('기록')||x.includes('담')||x.includes('촬영')||x.includes('남기')),
+      text: '직접 가서 경험하고 담아낼 때', sub: '몸으로 부딪히고 그 흔적을 남길 때 에너지가 살아나요.' },
+    { test: v => v.some(x=>x.includes('만들')||x.includes('창작')||x.includes('제작')||x.includes('편집')) && v.some(x=>x.includes('나누')||x.includes('전달')||x.includes('공유')),
+      text: '만들어서 세상에 내놓을 때', sub: '결과물을 완성하고 누군가에게 닿는 순간이 원동력이에요.' },
+    { test: v => v.some(x=>x.includes('분석')||x.includes('파악')||x.includes('이해')) && v.some(x=>x.includes('가르')||x.includes('설명')||x.includes('전달')),
+      text: '이해한 것을 풀어서 전달할 때', sub: '복잡한 것을 쉽게 만드는 능력이 빛나는 순간이에요.' },
+    { test: v => v.some(x=>x.includes('디자인')||x.includes('설계')||x.includes('기획')) && v.some(x=>x.includes('문제')||x.includes('개선')||x.includes('해결')),
+      text: '구조를 짜고 문제를 풀어낼 때', sub: '혼돈에서 질서를 만드는 일에서 강점이 드러나요.' },
+    { test: v => v.some(x=>x.includes('글 쓰')||x.includes('쓰기')||x.includes('작성')||x.includes('서술')),
+      text: '생각을 글로 정제할 때', sub: '언어로 세계를 재구성하는 과정에서 나만의 목소리가 나와요.' },
+    { test: v => v.some(x=>x.includes('연결')||x.includes('협력')||x.includes('협업')) && v.some(x=>x.includes('만들')||x.includes('창작')||x.includes('기획')),
+      text: '사람들과 함께 무언가를 만들어갈 때', sub: '연결이 결과물로 이어지는 과정에서 에너지를 얻어요.' },
+  ];
+
+  // 성향 기반 카드 규칙
+  const tendCards = [
+    { test: t => t.includes('내향') && (t.includes('집중')||t.includes('몰입')||t.includes('깊이')),
+      text: '자기 페이스로 깊이 집중할 때', sub: '외부 방해 없이 한 가지에 몰두할 수 있을 때 최고의 결과가 나와요.' },
+    { test: t => t.includes('외향') && (t.includes('연결')||t.includes('소통')||t.includes('사람')),
+      text: '사람들과 교류하며 만들어갈 때', sub: '대화와 협력 속에서 아이디어가 폭발적으로 살아나요.' },
+    { test: t => t.includes('계획') && (t.includes('실행')||t.includes('완성')),
+      text: '계획을 세우고 끝까지 완수할 때', sub: '목표를 향해 단계를 밟아나가는 과정에서 보람을 느껴요.' },
+    { test: t => t.includes('감각') && (t.includes('심미')||t.includes('아름')||t.includes('미적')),
+      text: '감각적으로 아름다운 것을 다룰 때', sub: '미적 판단이 필요한 순간, 섬세한 눈이 강점이 돼요.' },
+    { test: t => t.includes('자유') && (t.includes('유연')||t.includes('즉흥')||t.includes('변화')),
+      text: '자유롭게 방향을 바꾸며 탐색할 때', sub: '고정된 틀 없이 흐름에 따라 움직일 때 창의성이 빛나요.' },
+    { test: t => t.includes('독립') && (t.includes('자립')||t.includes('혼자')||t.includes('스스로')),
+      text: '혼자서 처음부터 끝을 완성할 때', sub: '처음부터 끝까지 스스로 책임지는 작업에서 강점이 드러나요.' },
+  ];
+
+  const cards = [];
+
+  // 동사 카드 수집 (최대 3개)
+  for (const rule of verbCards) {
+    if (cards.length >= 3) break;
+    if (rule.test(allVerbs)) cards.push({ text: rule.text, sub: rule.sub, type: 'verb' });
+  }
+
+  // 성향 카드 수집 (최대 2개, 동사 카드와 합쳐 최대 4개)
+  for (const rule of tendCards) {
+    if (cards.length >= 4) break;
+    if (rule.test(tendencyKws)) cards.push({ text: rule.text, sub: rule.sub, type: 'tend' });
+  }
+
+  // 기본 카드 — 동사가 있으면 동사 기반 기본 카드 추가
+  if (cards.length === 0 && allVerbs.length > 0) {
+    const top = allVerbs.slice(0,2).map(v=>v.replace('하다',''));
+    cards.push({
+      text: `${top.join('하고 ')}하는 것에 몰입할 때`,
+      sub: '선택한 동사들이 겹치는 지점에서 나만의 강점이 나타나요.',
+      type: 'verb'
+    });
+  }
+
+  // 성향 기본 카드
+  if (cards.length === 0 && tendencyKws.trim()) {
+    cards.push({
+      text: '나다운 방식으로 작업할 때',
+      sub: '성향 테스트 결과에서 드러나는 나만의 리듬이 강점이에요.',
+      type: 'tend'
+    });
+  }
+
+  if (cards.length === 0) {
+    cardsEl.style.display = 'none';
+    emptyEl.style.display = 'flex';
+    return;
+  }
+
+  // 카드 렌더링
+  cardsEl.innerHTML = cards.map((c, i) => `
+    <div style="background:${i===0?'linear-gradient(135deg,var(--accent-light),rgba(45,201,143,0.1))':'var(--surface)'};border:${i===0?'1.5px solid var(--accent)':'0.5px solid var(--border)'};border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+        <span style="font-size:18px;flex-shrink:0;margin-top:1px;">${c.type==='verb'?'✦':'◈'}</span>
+        <div>
+          <p style="font-size:14px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:0.35rem;">${c.text}</p>
+          <p style="font-size:12px;color:var(--text-secondary);line-height:1.65;">${c.sub}</p>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // 숨겨진 호환 필드 자동 업데이트
+  const topCard = cards[0];
+  const dBeing = document.getElementById('dir-being');
+  const dDir = document.getElementById('direction-input');
+  if (dBeing) dBeing.value = topCard.text;
+  if (dDir) dDir.value = cards.map(c=>c.text).join(' / ');
+
+  emptyEl.style.display = 'none';
+  cardsEl.style.display = 'flex';
+  updateProgress();
 }
 
 function getRecommendations() {
@@ -1875,7 +2012,7 @@ function analyzeVerbs(verbs) {
   // ── 재능 — 잘하는것(ik-good) + 동사 기반 ──
   let 재능 = '';
   if (ikGood) {
-    재능 = `${q(ikGood)} — `;
+    재능 = `${q(ikGood)} — 남들이 나에게 이걸 부탁하거나 "잘하네"라고 한다면, 이미 재능으로 발휘되고 있는 거예요. `;
     if (hasV('편집','구성','정리','큐레이션'))
       재능 += `복잡한 것을 의미있는 순서로 엮는 편집 감각은 콘텐츠·공간·기획 어디서든 핵심 능력이 돼요.`;
     else if (hasV('촬영','그리','디자인','배치','연출'))
@@ -1883,12 +2020,7 @@ function analyzeVerbs(verbs) {
     else if (hasV('글 쓰','묘사','이야기','표현'))
       재능 += `경험을 언어로 전환하는 능력은 글·영상·말하기 등 다양한 형태로 확장될 수 있어요.`;
     else
-      if (hasV('가르치','코칭','상담','강의'))
-        재능 += `사람을 이해하고 그에 맞는 언어로 전달하는 능력이에요. 가르치는 사람이 사실 가장 잘 알게 되는 법이에요.`;
-      else if (hasV('분석','연구','탐구','조사'))
-        재능 += `정보를 깊이 파고들고 패턴을 찾아내는 능력이에요. 남들이 놓치는 것을 먼저 보는 능력이에요.`;
-      else
-        재능 += `지금은 당연하게 느껴지는 것일수록 남들에게 없는 재능일 가능성이 높아요. 이 능력이 쌓일수록 대체 불가능해져요.`;
+      재능 += `이 능력이 쌓일수록 대체 불가능한 전문성이 돼요.`;
   } else {
     재능 = `${topVerbs} 같은 행위를 반복할수록 남들이 알아봐 주는 감각이 생겨요. `;
     재능 += `지금은 당연하게 느껴지는 것일수록 남들에게 없는 재능일 가능성이 높아요.`;
@@ -1897,18 +2029,7 @@ function analyzeVerbs(verbs) {
   // ── 강점 — 세상에 기여(ik-world) + ikMoney + direction 기반 ──
   let 강점 = '';
   if (ikWorld) {
-    강점 = `${q(ikWorld, 22)} — `;
-    if (hasV('연결','대화','공감','소개','나누'))
-      강점 += `사람과 아이디어를 연결하는 힘이에요. 눈에 보이지 않지만, 그 연결이 만들어내는 가치는 혼자서는 나올 수 없어요.`;
-    else if (hasV('표현','촬영','편집','글 쓰','이야기'))
-      강점 += `보이지 않는 것을 보이게 만드는 힘이에요. 감각과 경험을 콘텐츠로 전환하는 이 능력이 어떤 분야에서도 차별점이 돼요.`;
-    else if (hasV('기획','전략','구성','운영','조직'))
-      강점 += `큰 그림을 그리고 그것을 실제로 굴러가게 만드는 힘이에요. 구조를 설계하고 움직이게 하는 사람은 언제나 필요해요.`;
-    else if (hasV('가르치','강의','코칭','상담'))
-      강점 += `다른 사람이 성장하도록 옆에 있어주는 힘이에요. 그 영향이 남아서 계속 퍼져나가는 방식의 강점이에요.`;
-    else
-      강점 += `내가 잘하는 것과 세상이 필요로 하는 것이 겹치는 지점에서 강점이 발현돼요. 그 교차점을 더 선명하게 만들어가는 것이 지금 해야 할 일이에요.`;
-    강점 += ' ';
+    강점 = `${q(ikWorld, 22)} — 세상이 필요로 하는 것과 내가 할 수 있는 것이 만나는 지점에서 강점이 발현돼요. `;
     if (hasV('표현','이야기','글 쓰','촬영','편집'))
       강점 += `보이지 않는 것을 보이게 만드는 능력, 감각과 경험을 콘텐츠로 전환하는 힘이 어떤 분야에서도 차별점이 돼요.`;
     else if (hasV('연결','대화','공감','소개'))
@@ -2032,16 +2153,16 @@ function getTypeFit(label) {
 // ── 진행률 도트 업데이트 ──
 function updateProgress() {
   const parts = [
-    { id: 'prog-1',  check: () => Object.keys(answers).length >= 2 },                   // 성향 시작
-    { id: 'prog-2',  check: () => Object.keys(answers).length >= 5 },                   // 성향 절반
-    { id: 'prog-3',  check: () => Object.keys(answers).length >= 8 },                   // 성향 거의
-    { id: 'prog-4',  check: () => Object.keys(answers).length >= 10 },                  // 성향 완료
-    { id: 'prog-5',  check: () => selected.length >= 3 },                               // 동사 시작
-    { id: 'prog-6',  check: () => selected.length >= 7 },                               // 동사 많이
-    { id: 'prog-7',  check: () => ['ik-love','ik-good','ik-world','ik-money'].filter(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }).length >= 2 }, // 이키가이 절반
-    { id: 'prog-8',  check: () => { const fa=document.getElementById('final-area'); return fa&&fa.querySelector('.recommend-card')!==null; } }, // 추천 생성
-    { id: 'prog-9',  check: () => { const d=document.getElementById('direction-input'); return d&&d.value.trim().length>5; } }, // 방향 작성
-    { id: 'prog-10', check: () => ['action-1','action-2','action-3'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) }, // 시도할 것
+    { id: 'prog-1', check: () => Object.keys(answers).length >= 3 },
+    { id: 'prog-2', check: () => ['tl-1','tl-2','tl-3','tl-4'].some(id => { const el=document.getElementById(id); return el&&el.value.trim(); }) },
+    { id: 'prog-3', check: () => Object.keys(answers).length >= 6 },
+    { id: 'prog-4', check: () => Object.keys(answers).length >= 10 },
+    { id: 'prog-5', check: () => selected.length >= 5 },
+    { id: 'prog-6', check: () => selected.length >= 10 || [...document.querySelectorAll('.num-input')].filter(e=>e.value.trim()).length >= 3 },
+    { id: 'prog-7', check: () => ['ik-love','ik-good','ik-world','ik-money'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
+    { id: 'prog-8', check: () => { const fa=document.getElementById('final-area'); return fa&&fa.querySelector('.recommend-card')!==null; } },
+    { id: 'prog-9', check: () => { const c=document.getElementById('shine-cards'); return c&&c.children.length>0&&c.style.display!=='none'; } },
+    { id: 'prog-10', check: () => ['action-1','action-2','action-3'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
   ];
   let doneCount = 0;
   parts.forEach(p => {
@@ -2105,82 +2226,6 @@ function getNextSteps(label) {
 }
 
 
-
-
-// ── Part 09 방향 인사이트 자동 생성 ──
-function updateDirectionInsight() {
-  const box = document.getElementById('direction-insight');
-  if (!box) return;
-  if (selected.length < 3 && Object.keys(answers).length < 3) {
-    box.innerHTML = '<p style="font-size:11px;color:var(--text-tertiary);text-align:center;padding:1rem 0;">동사와 성향 테스트를 채울수록<br>당신이 언제 빛나는지 보여드려요</p>';
-    return;
-  }
-
-  const tendKws = Object.values(answers).map(a=>a?.keyword||'').filter(Boolean);
-
-  // 성향 분류
-  const isIntro    = tendKws.filter(k=>k.includes('독립')||k.includes('내향')).length >= 1;
-  const isExtro    = tendKws.filter(k=>k.includes('교류')||k.includes('외향')).length >= 1;
-  const isDeep     = tendKws.filter(k=>k.includes('집중')||k.includes('전문성')||k.includes('깊이')).length >= 1;
-  const isSpeed    = tendKws.filter(k=>k.includes('속도')||k.includes('멀티')).length >= 1;
-  const isCreate   = tendKws.filter(k=>k.includes('창작')||k.includes('표현')||k.includes('창의')).length >= 1;
-  const isProcess  = tendKws.filter(k=>k.includes('과정')||k.includes('몰입')).length >= 1;
-  const isResult   = tendKws.filter(k=>k.includes('결과')||k.includes('완성')).length >= 1;
-  const isHelp     = tendKws.filter(k=>k.includes('기여')||k.includes('실용')||k.includes('영향')||k.includes('연결')).length >= 1;
-  const isLead     = tendKws.filter(k=>k.includes('기획')||k.includes('리드')).length >= 1;
-
-  // 동사 클러스터
-  const allV = [...new Set([...selected, ...Object.values(relatedMap).flat().filter(Boolean)])];
-  const hasVerb = (...vs) => vs.some(v => allV.some(a => a.includes(v.replace('하다',''))));
-
-  const isVisual   = hasVerb('촬영','편집','그리','디자인','연출','전시','배치','스타일링');
-  const isLanguage = hasVerb('글 쓰','이야기','묘사','번역','인터뷰','기록','큐레이션');
-  const isConnect  = hasVerb('연결','나누','대화','소개','협력','네트워킹','돕','봉사');
-  const isAnalyze  = hasVerb('분석','연구','탐구','실험','관찰','검토','측정','시각화');
-  const isPlan     = hasVerb('기획','전략','조직','운영','실행','구성','추진','설계');
-  const isExplore  = hasVerb('탐험','여행','발견','도전','개척','모험','경험');
-  const isMake     = hasVerb('만들','빚','작곡','안무','연기','공연','믹싱');
-  const isCare     = hasVerb('돌보','치유','공감','위로','상담','간호','보살피','훈련');
-
-  // WHEN 문장 — 언제 빛나는가
-  let when = '';
-  if (isVisual && isLanguage) when = '보이는 것과 언어가 만날 때 — 사진·영상으로 담고 글로 풀어낼 때';
-  else if (isVisual && isExplore) when = '직접 가서 경험하고 그것을 시각으로 담아낼 때';
-  else if (isLanguage && isAnalyze) when = '깊이 파고들고 그것을 언어로 정리해낼 때';
-  else if (isPlan && isConnect) when = '사람과 아이디어를 연결하고 실제로 굴러가게 만들 때';
-  else if (isMake && isCreate) when = '머릿속에 있는 것을 실제로 만들어낼 때';
-  else if (isCare && isConnect) when = '누군가 곁에서 성장하도록 함께할 때';
-  else if (isAnalyze && isPlan) when = '복잡한 문제를 분석하고 구조를 설계할 때';
-  else if (isVisual) when = '무언가를 보기 좋게 담아내고 표현할 때';
-  else if (isLanguage) when = '생각과 경험을 언어로 정리하고 나눌 때';
-  else if (isExplore) when = '새로운 것을 탐험하고 그 경험을 쌓아갈 때';
-  else when = `${selected.slice(0,2).join(', ')} 같은 행위를 할 때`;
-
-  // HOW 문장 — 어떤 방식으로
-  let how = '';
-  if (isIntro && isDeep) how = '혼자 깊이 집중하며 자기 페이스로 만들어가는 방식이 맞아요.';
-  else if (isExtro && isConnect) how = '다양한 사람들과 교류하며 함께 만들어가는 방식에서 에너지를 얻어요.';
-  else if (isCreate && isProcess) how = '만들고 표현하는 과정 자체에서 에너지를 얻는 유형이에요.';
-  else if (isResult && isDeep) how = '완성된 결과물을 볼 때 가장 보람을 느끼는 유형이에요.';
-  else if (isHelp) how = '실질적으로 누군가에게 도움이 될 때 가장 큰 의미를 느껴요.';
-  else if (isLead) how = '방향을 잡고 실행하는 역할에서 자연스럽게 강점이 드러나요.';
-  else if (isSpeed) how = '빠르게 여러 가지를 시도하고 검증하는 방식이 잘 맞아요.';
-  else how = '자신만의 방식으로 꾸준히 쌓아가는 유형이에요.';
-
-  // 지속 가능성
-  const sustain = (isIntro || isDeep)
-    ? '자기 페이스로 탐험하며 만들어가는 방식 — 이게 지속 가능한 이유예요.'
-    : (isExtro || isConnect)
-    ? '사람들과 연결되며 만들어가는 방식 — 이게 오래 지속 가능한 이유예요.'
-    : '이 방향과 연결된 일을 할 때 오래 지속 가능해요.';
-
-  box.innerHTML = `
-    <p style="font-size:10px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;font-weight:500;margin-bottom:0.75rem;">당신이 빛나는 순간</p>
-    <p style="font-size:15px;color:var(--text-primary);line-height:1.85;font-weight:500;margin-bottom:0.6rem;">${when}</p>
-    <p style="font-size:13px;color:var(--text-secondary);line-height:1.8;margin-bottom:0.5rem;">${how}</p>
-    <p style="font-size:12px;color:var(--text-tertiary);line-height:1.7;">${sustain}</p>
-  `;
-}
 
 function updateFinal() {
   const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(Boolean)])];
@@ -2276,89 +2321,6 @@ function updateFinal() {
     </div>`;
   });
   html += '</div>';
-
-  // ── 종합 해석 (동사 클러스터 + 성향 조합) ──
-  if (selected.length >= 3) {
-    const topRec1 = recs[0] ? recs[0].label : '';
-    const topRec2 = recs[1] ? recs[1].label : '';
-
-    // 동사 클러스터 분류
-    const verbClusters = {
-      시각: ['촬영하다','편집하다','디자인하다','그리다','연출하다','전시하다','배치하다','스타일링하다'],
-      언어: ['글 쓰다','이야기하다','묘사하다','번역하다','인터뷰하다','기록하다','아카이빙하다','큐레이션하다'],
-      연결: ['연결하다','나누다','대화하다','소개하다','협력하다','네트워킹하다','돕다','봉사하다'],
-      탐구: ['분석하다','연구하다','탐구하다','실험하다','관찰하다','검토하다','측정하다','시각화하다'],
-      기획: ['기획하다','전략짜다','조직하다','운영하다','실행하다','구성하다','추진하다','설계하다'],
-      창작: ['만들다','빚다','작곡하다','안무하다','연기하다','공연하다','즉흥하다','믹싱하다'],
-      탐험: ['탐험하다','여행하다','발견하다','도전하다','개척하다','모험하다','경험하다'],
-      돌봄: ['돌보다','치유하다','공감하다','위로하다','상담하다','간호하다','보살피다','훈련하다'],
-    };
-
-    const myCluster = {};
-    selected.forEach(v => {
-      Object.entries(verbClusters).forEach(([cluster, verbs]) => {
-        if (verbs.some(cv => v.includes(cv.replace('하다','')))) {
-          myCluster[cluster] = (myCluster[cluster]||0) + 1;
-        }
-      });
-    });
-    const topClusters = Object.entries(myCluster).sort((a,b)=>b[1]-a[1]).slice(0,2).map(e=>e[0]);
-
-    // 성향 키워드
-    const tendKws = Object.values(answers).map(a=>a?.keyword||'').filter(Boolean);
-    const isIntro = tendKws.filter(k=>k.includes('독립')||k.includes('내향')).length >= 2;
-    const isExtro = tendKws.filter(k=>k.includes('교류')||k.includes('외향')||k.includes('관계')).length >= 2;
-    const isDeep = tendKws.filter(k=>k.includes('집중')||k.includes('전문성')||k.includes('깊이')).length >= 2;
-    const isMulti = tendKws.filter(k=>k.includes('다양성')||k.includes('속도')||k.includes('멀티')).length >= 2;
-    const isCreate = tendKws.filter(k=>k.includes('창작')||k.includes('표현')||k.includes('창의')).length >= 2;
-    const isHelp = tendKws.filter(k=>k.includes('기여')||k.includes('실용')||k.includes('영향')).length >= 2;
-
-    // 동사 조합으로 자연스러운 문장 생성
-    let who = '';
-    let how = '';
-    let rec = topRec1 ? `${topRec1.replace('형','')}으로서` : '';
-
-    // WHO 문장
-    if (topClusters.includes('시각') && topClusters.includes('언어')) {
-      who = `보이는 것과 언어를 함께 다루는 멀티 스토리텔러`;
-    } else if (topClusters.includes('시각') && topClusters.includes('탐험')) {
-      who = `직접 경험하고 그것을 시각으로 담아내는 사람`;
-    } else if (topClusters.includes('언어') && topClusters.includes('탐구')) {
-      who = `깊이 파고들고 그것을 언어로 풀어내는 사람`;
-    } else if (topClusters.includes('기획') && topClusters.includes('연결')) {
-      who = `사람과 아이디어를 연결하고 실제로 굴러가게 만드는 사람`;
-    } else if (topClusters.includes('창작') && topClusters.includes('표현')) {
-      who = `내면의 것을 형태로 만들어 세상에 내놓는 사람`;
-    } else if (topClusters.includes('돌봄') && topClusters.includes('연결')) {
-      who = `사람 곁에 있으면서 그 성장을 함께하는 사람`;
-    } else if (topClusters.includes('탐구') && topClusters.includes('기획')) {
-      who = `문제를 분석하고 구조를 설계하는 사람`;
-    } else if (topClusters[0]) {
-      const clusterDesc = {시각:'시각으로 표현하는',언어:'언어로 담아내는',연결:'연결을 만드는',탐구:'깊이 탐구하는',기획:'전략을 세우고 실행하는',창작:'무언가를 창조하는',탐험:'탐험하고 기록하는',돌봄:'곁에서 돌보는'};
-      who = `${clusterDesc[topClusters[0]]||''} 사람`;
-    } else {
-      who = `${selected.slice(0,2).join(', ')} 같은 행위에서 에너지를 얻는 사람`;
-    }
-
-    // HOW 문장
-    if (isIntro && isDeep) how = `자기 페이스로 깊이 파고드는 방식이 잘 맞아요.`;
-    else if (isExtro && isMulti) how = `다양한 사람들과 교류하며 빠르게 움직이는 방식이에요.`;
-    else if (isCreate) how = `만들고 표현하는 과정 자체에서 에너지를 얻는 유형이에요.`;
-    else if (isHelp) how = `실질적으로 누군가에게 도움이 될 때 가장 큰 보람을 느껴요.`;
-    else how = `자신만의 방식으로 꾸준히 쌓아가는 유형이에요.`;
-
-    // 지속 가능성
-    const sustain = (isIntro || isDeep) 
-      ? `자기 페이스로 탐험하며 만들어가는 방식 — 이게 지속 가능한 이유예요.`
-      : `이 방향과 연결된 일을 할 때 오래 지속 가능해요.`;
-
-    html += `
-    <div style="margin-top:1.5rem;background:linear-gradient(135deg,var(--surface),rgba(45,201,143,0.04));border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
-      <p style="font-size:10px;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;font-weight:500;margin-bottom:1rem;">종합 해석</p>
-      <p style="font-size:14px;color:var(--text-primary);line-height:1.9;font-weight:500;margin-bottom:0.6rem;">${who} — ${how}</p>
-      <p style="font-size:13px;color:var(--text-secondary);line-height:1.8;">${sustain}${topRec1 ? ` <strong style="color:var(--text-primary);">${topRec1}</strong>과 <strong style="color:var(--text-primary);">${topRec2||''}</strong>의 접점에서 일할 때 강점이 가장 잘 발휘돼요.` : ''}</p>
-    </div>`;
-  }
 
   finalArea.innerHTML = html;
 
@@ -3201,21 +3163,10 @@ function updateVerbStickyBar() {
   }
 
   if (num) num.textContent = selected.length;
-  const countText = document.getElementById('verb-bar-count-text');
-  if (countText) {
-    const remaining = 10 - selected.length;
-    if (selected.length === 0) {
-      countText.innerHTML = '<span id="verb-bar-num">0</span> / 10개 선택됨';
-    } else if (selected.length >= 10) {
-      countText.innerHTML = `<span id="verb-bar-num" style="color:var(--accent);">10</span> / 10개 선택됨 · <span style="color:var(--accent);">완료 ✓</span>`;
-    } else {
-      countText.innerHTML = `<span id="verb-bar-num">${selected.length}</span> / 10개 선택됨 · <span style="color:var(--text-tertiary);">${remaining}개 더 선택해요</span>`;
-    }
-  }
   if (chips) {
-    chips.innerHTML = selected.slice(0, 3).map(v =>
+    chips.innerHTML = selected.slice(0, 4).map(v =>
       `<span class="verb-bar-chip">${v}</span>`
-    ).join('') + (selected.length > 3 ? `<span class="verb-bar-chip">+${selected.length - 3}</span>` : '');
+    ).join('') + (selected.length > 4 ? `<span class="verb-bar-chip">+${selected.length - 4}</span>` : '');
   }
 }
 
@@ -3248,6 +3199,8 @@ function restoreFromLocal() {
       updateSummary();
     }
 
+
+
     // 동사 복원
     if (data.selected && data.selected.length) {
       data.selected.forEach(v => {
@@ -3263,6 +3216,7 @@ function restoreFromLocal() {
       updateWishPlaceholders();
       updateAutoSignal();
       updateFinal();
+      generateShineCards();
     }
 
     // textarea 복원
@@ -3486,6 +3440,7 @@ function _boot() {
       restoreFromLocal();
       initTimelineTags(); // 복원 후 태그 재렌더링
       updateProgress();
+      generateShineCards();
       // 혹시 비었으면 재시도
       const vg = document.getElementById('verb-grid');
       const tc = document.getElementById('test-container');
