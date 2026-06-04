@@ -1141,10 +1141,12 @@ function renderTestQuestions() {
 
 function updateSummary() {
   const area = document.getElementById('summary-area');
+  console.log('[updateSummary] area:', !!area, 'answers:', Object.keys(answers).length);
+  if (!area) return;
   const byCategory = {};
   questions.forEach((q, i) => {
     if (!answers[i]) return;
-    if (!byCategory[q.category]) byCategory[q.category] = { a:0, b:0, keywords:[], catAxis:q.cat_axis };
+    if (!byCategory[q.category]) byCategory[q.category] = { a:0, b:0, keywords:[], catAxis:(q.cat_axis||['A','B']) };
     byCategory[q.category][answers[i].side]++;
     byCategory[q.category].keywords.push(answers[i].keyword);
   });
@@ -1155,7 +1157,7 @@ function updateSummary() {
   const byCat2 = {};
   questions.forEach((q, i) => {
     if (!answers[i]) return;
-    if (!byCat2[q.category]) byCat2[q.category] = { a:0, b:0, aKws:[], bKws:[], catAxis:q.cat_axis };
+    if (!byCat2[q.category]) byCat2[q.category] = { a:0, b:0, aKws:[], bKws:[], catAxis:(q.cat_axis||['A','B']) };
     byCat2[q.category][answers[i].side]++;
     byCat2[q.category][answers[i].side+'Kws'].push(answers[i].keyword);
   });
@@ -1165,7 +1167,7 @@ function updateSummary() {
     const total = d.a + d.b;
     const aR = Math.round((d.a/total)*100); const bR = 100-aR;
     const dom = d.a > d.b ? 'a' : d.b > d.a ? 'b' : 'both';
-    const aLabel = d.catAxis[0]; const bLabel = d.catAxis[1];
+    const aLabel = (d.catAxis&&d.catAxis[0])||''; const bLabel = (d.catAxis&&d.catAxis[1])||'';
     html += `<div class="summary-row">
       <div class="summary-row-top">
         <span class="summary-cat">${cat}</span>
@@ -3439,6 +3441,7 @@ window.downloadFull = downloadFull;
 
 // 초기화 — DOM 준비 상태에 따라 분기
 function _boot() {
+  console.log('[workbook] v2.1 loaded, summary-area:', !!document.getElementById('summary-area'));
   const doInit = () => {
     initPage();
     // initPage 완료 후 복원 (렌더링 완료 보장)
