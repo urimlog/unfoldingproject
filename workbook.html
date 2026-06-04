@@ -1061,48 +1061,48 @@ body {
 
 const questions = [
   // ── 에너지 원천 ──
-  { category:"에너지", text:"혼자 있는 시간이 길어지면 어떤가요?",
+  { category:"에너지", cat_axis:["내향·독립","외향·교류"], text:"혼자 있는 시간이 길어지면 어떤가요?",
     a:{label:"충전되고 더 집중이 잘 된다", keyword:"독립·내향"},
     b:{label:"외롭고 무기력해진다, 사람이 있어야 한다", keyword:"교류·외향"} },
-  { category:"에너지", text:"새로운 일을 시작할 때 어떤 쪽이 더 자연스럽나요?",
+  { category:"에너지", cat_axis:["내향·독립","외향·교류"], text:"새로운 일을 시작할 때 어떤 쪽이 더 자연스럽나요?",
     a:{label:"익숙한 방식대로 안전하게 시작한다", keyword:"숙련·집중"},
     b:{label:"방법을 모르더라도 일단 뛰어든다", keyword:"탐험·도전"} },
 
   // ── 일하는 방식 ──
-  { category:"일하는 방식", text:"일이 잘 안 풀릴 때 나를 다시 움직이게 하는 것은?",
+  { category:"일하는 방식", cat_axis:["결과 중심","과정 중심"], text:"일이 잘 안 풀릴 때 나를 다시 움직이게 하는 것은?",
     a:{label:"결국 완성했을 때의 뿌듯함을 상상한다", keyword:"결과·완성감"},
     b:{label:"지금 이 과정 자체가 의미있다고 느낀다", keyword:"과정·몰입감"} },
-  { category:"일하는 방식", text:"마감이 다가올 때 나는?",
+  { category:"일하는 방식", cat_axis:["결과 중심","과정 중심"], text:"마감이 다가올 때 나는?",
     a:{label:"압박감이 오히려 집중력이 된다", keyword:"속도·멀티"},
     b:{label:"미리 여유 있게 끝내야 편하다", keyword:"집중·완성도"} },
 
   // ── 사고 강점 ──
-  { category:"사고 강점", text:"새로운 정보를 접할 때 어떤 반응이 먼저 나오나요?",
+  { category:"사고 강점", cat_axis:["실행·구조화","탐구·확장"], text:"새로운 정보를 접할 때 어떤 반응이 먼저 나오나요?",
     a:{label:"이걸 어떻게 활용할 수 있을까 바로 떠오른다", keyword:"실행·기획"},
     b:{label:"이게 왜 그런지, 어디서 왔는지 더 알고 싶다", keyword:"탐구·학습"} },
-  { category:"사고 강점", text:"복잡한 문제를 만났을 때 나는?",
+  { category:"사고 강점", cat_axis:["실행·구조화","탐구·확장"], text:"복잡한 문제를 만났을 때 나는?",
     a:{label:"전체 흐름을 먼저 파악하고 구조로 정리한다", keyword:"분석·구조화"},
     b:{label:"직관적으로 핵심이 먼저 보이고 바로 움직인다", keyword:"직관·추진력"} },
-  { category:"사고 강점", text:"지식을 쌓을 때 어떤 방식이 더 잘 맞나요?",
+  { category:"사고 강점", cat_axis:["실행·구조화","탐구·확장"], text:"지식을 쌓을 때 어떤 방식이 더 잘 맞나요?",
     a:{label:"하나를 끝까지 파고들어 깊이 있게", keyword:"전문성·깊이"},
     b:{label:"여러 분야를 연결하며 넓게", keyword:"다양성·확장"} },
 
   // ── 관계 역할 ──
-  { category:"관계 역할", text:"팀 안에서 자연스럽게 맡게 되는 역할은?",
+  { category:"관계 역할", cat_axis:["리드·조율","공감·실행"], text:"팀 안에서 자연스럽게 맡게 되는 역할은?",
     a:{label:"방향을 제시하고 사람들을 이끈다", keyword:"기획·리드"},
     b:{label:"맡은 것을 묵묵히 가장 잘 해낸다", keyword:"실행·완성"} },
-  { category:"관계 역할", text:"대화 중 자연스럽게 잘 하게 되는 것은?",
+  { category:"관계 역할", cat_axis:["리드·조율","공감·실행"], text:"대화 중 자연스럽게 잘 하게 되는 것은?",
     a:{label:"핵심을 뽑아 정리하고 방향을 제안한다", keyword:"조율·정리"},
     b:{label:"말하지 않아도 상대가 뭘 원하는지 느껴진다", keyword:"공감·연결"} },
 
   // ── 창조 방식 ──
-  { category:"창조 방식", text:"무언가를 만들 때 어떤 과정이 가장 즐거운가요?",
+  { category:"창조 방식", cat_axis:["창조·감각","정제·본질"], text:"무언가를 만들 때 어떤 과정이 가장 즐거운가요?",
     a:{label:"아무것도 없는 상태에서 처음을 만드는 것", keyword:"창작·표현"},
     b:{label:"있는 것을 더 좋게, 더 명확하게 다듬는 것", keyword:"정제·완성도"} },
-  { category:"창조 방식", text:"작업 결과물에서 자연스럽게 신경 쓰이는 것은?",
+  { category:"창조 방식", cat_axis:["창조·감각","정제·본질"], text:"작업 결과물에서 자연스럽게 신경 쓰이는 것은?",
     a:{label:"보는 사람이 어떻게 느낄지, 경험과 감각", keyword:"감각·심미"},
     b:{label:"내용이 얼마나 정확하고 탄탄한지, 본질", keyword:"탐구·깊이"} },
-  { category:"창조 방식", text:"어떤 피드백이 나를 가장 힘나게 하나요?",
+  { category:"창조 방식", cat_axis:["창조·감각","정제·본질"], text:"어떤 피드백이 나를 가장 힘나게 하나요?",
     a:{label:'"덕분에 정말 도움이 됐어요" — 실질적 기여', keyword:"기여·실용"},
     b:{label:'"이걸 어떻게 생각해냈어요?" — 창의성 인정', keyword:"인정·창의"} },
 ];
@@ -2159,10 +2159,10 @@ function getTypeFit(label) {
 // ── 진행률 도트 업데이트 ──
 function updateProgress() {
   const parts = [
-    { id: 'prog-1', check: () => Object.keys(answers).length >= 3 },
-    { id: 'prog-2', check: () => ['tl-1','tl-2','tl-3','tl-4'].some(id => { const el=document.getElementById(id); return el&&el.value.trim(); }) },
+    { id: 'prog-1', check: () => ['tl-1','tl-2','tl-3','tl-4'].some(id => { const el=document.getElementById(id); return el&&el.value.trim(); }) },
+    { id: 'prog-2', check: () => Object.keys(answers).length >= 3 },
     { id: 'prog-3', check: () => Object.keys(answers).length >= 6 },
-    { id: 'prog-4', check: () => Object.keys(answers).length >= 10 },
+    { id: 'prog-4', check: () => Object.keys(answers).length >= 12 },
     { id: 'prog-5', check: () => selected.length >= 5 },
     { id: 'prog-6', check: () => selected.length >= 10 || [...document.querySelectorAll('.num-input')].filter(e=>e.value.trim()).length >= 3 },
     { id: 'prog-7', check: () => ['ik-love','ik-good','ik-world','ik-money'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
