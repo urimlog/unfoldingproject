@@ -3551,9 +3551,14 @@ function showPage(n) {
     try { updateProgress(); } catch(e) {}
     if (n === 3) {
       setTimeout(() => {
+        const fa = document.getElementById('final-area');
+        if (!fa) {
+          document.body.insertAdjacentHTML('beforeend', '<div style="position:fixed;top:20px;left:50%;transform:translateX(-50%);background:red;color:white;padding:12px 20px;border-radius:8px;z-index:9999;font-size:14px;">final-area 없음</div>');
+          return;
+        }
+        fa.innerHTML = '<p style="color:green;padding:20px;">updateFinal 실행됨 ✓</p>';
         console.log('[Step3] selected:', selected.length, 'answers:', Object.keys(answers).length);
-        console.log('[Step3] final-area exists:', !!document.getElementById('final-area'));
-        try { updateFinal(); console.log('[Step3] updateFinal 완료'); } catch(e) { console.error('[Step3] updateFinal 에러:', e); }
+        try { updateFinal(); console.log('[Step3] updateFinal 완료'); } catch(e) { console.error('[Step3] updateFinal 에러:', e); fa.innerHTML = '<p style="color:red;padding:20px;">에러: ' + e.message + '</p>'; }
         try { generateShineCards(); } catch(e) { console.error('[Step3] generateShineCards 에러:', e); }
       }, 50);
     }
