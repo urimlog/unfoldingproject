@@ -1423,7 +1423,7 @@ function renderSelectedList() {
   selected.forEach((v,i) => {
     const item=document.createElement('div'); item.className='sv-item';
     const rel=relatedMap[v]||['',''];
-    item.innerHTML=`<div class="sv-main"><span class="sv-num">${i+1}</span><span class="sv-verb">${v}</span></div><div class="sv-related"><input class="sv-related-input" placeholder="연관 동사 1" style="font-size:16px;" value="${rel[0]}" data-verb="${v}" data-idx="0" /><input class="sv-related-input" placeholder="연관 동사 2" value="${rel[1]}" data-verb="${v}" data-idx="1" /></div>`;
+    item.innerHTML=`<div class="sv-main"><span class="sv-num">${i+1}</span><span class="sv-verb">${v}</span></div><div class="sv-related"><input class="sv-related-input" placeholder="연관 동사 1" style="font-size:16px;" value="${rel[0]}" data-verb="${v}" data-idx="0" /><input class="sv-related-input" placeholder="연관 동사 2" style="font-size:16px;" value="${rel[1]}" data-verb="${v}" data-idx="1" /></div>`;
     list.appendChild(item);
   });
   list.querySelectorAll('.sv-related-input').forEach(inp => {
