@@ -2270,32 +2270,48 @@ function getTypeFit(label) {
 // ── 진행률 도트 업데이트 ──
 function updateProgress() {
   const parts = [
-    { id: 'prog-1', check: () => userType > 0 }, // 타입 선택
-    { id: 'prog-2', check: () => Object.keys(answers).length >= 3 }, // 성향 시작
-    { id: 'prog-3', check: () => Object.keys(answers).length >= 6 },
-    { id: 'prog-4', check: () => Object.keys(answers).length >= 12 },
-    { id: 'prog-5', check: () => selected.length >= 5 },
-    { id: 'prog-6', check: () => selected.length >= 10 || [...document.querySelectorAll('.num-input')].filter(e=>e.value.trim()).length >= 3 },
-    { id: 'prog-7', check: () => ['ik-love','ik-good','ik-world','ik-money'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
-    { id: 'prog-8', check: () => { const fa=document.getElementById('final-area'); return fa&&fa.querySelector('.recommend-card')!==null; } },
-    { id: 'prog-9', check: () => { const c=document.getElementById('shine-cards'); return c&&c.children.length>0&&c.style.display!=='none'; } },
+    { id: 'prog-1',  check: () => userType > 0 },
+    { id: 'prog-2',  check: () => Object.keys(answers).length >= 3 },
+    { id: 'prog-3',  check: () => Object.keys(answers).length >= 6 },
+    { id: 'prog-4',  check: () => Object.keys(answers).length >= 12 },
+    { id: 'prog-5',  check: () => selected.length >= 3 },
+    { id: 'prog-6',  check: () => selected.length >= 7 },
+    { id: 'prog-7',  check: () => ['ik-love','ik-good','ik-world','ik-money'].filter(id => { const el=document.getElementById(id); return el&&el.value.trim(); }).length >= 2 },
+    { id: 'prog-8',  check: () => { const fa=document.getElementById('final-area'); return fa&&fa.querySelector('.recommend-card')!==null; } },
+    { id: 'prog-9',  check: () => { const c=document.getElementById('shine-cards'); return c&&c.children.length>0&&c.style.display!=='none'; } },
     { id: 'prog-10', check: () => ['action-1','action-2','action-3'].some(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }) },
   ];
+
+  // 순차적 체크 — 이전 단계가 완료돼야 다음 단계 켜짐
   let doneCount = 0;
+  let broken = false; // 한 번 실패하면 이후는 모두 끔
   parts.forEach(p => {
     const el = document.getElementById(p.id);
     if (!el) return;
-    const done = p.check();
-    el.style.background = done ? 'var(--accent)' : 'var(--border-mid)';
-    el.style.transform = done ? 'scale(1.2)' : 'scale(1)';
-    if (done) doneCount++;
+    let passed = false;
+    if (!broken) {
+      try { passed = p.check(); } catch(e) { passed = false; }
+    }
+    if (passed) {
+      el.style.background = 'var(--accent)';
+      el.style.width = '8px';
+      el.style.height = '8px';
+      doneCount++;
+    } else {
+      el.style.background = 'var(--border-mid)';
+      el.style.width = '6px';
+      el.style.height = '6px';
+      broken = true; // 이후 dots 모두 끔
+    }
   });
-  const pct = Math.round(doneCount / parts.length * 100);
-  const pctEl = document.getElementById('prog-pct');
-  if (pctEl) pctEl.textContent = pct + '%';
-  const fill = document.getElementById('prog-bar-fill');
-  if (fill) fill.style.width = pct + '%';
+
+  const pct = document.getElementById('prog-pct');
+  const bar = document.getElementById('prog-bar-fill');
+  const pctVal = Math.round((doneCount / parts.length) * 100);
+  if (pct) pct.textContent = pctVal + '%';
+  if (bar) bar.style.width = pctVal + '%';
 }
+
 
 function getNextSteps(label) {
   const map = {
