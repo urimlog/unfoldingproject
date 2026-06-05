@@ -478,16 +478,16 @@ body {
     <div id="prog-bar-fill" style="position:absolute;left:0;top:0;height:100%;width:0%;background:var(--accent);border-radius:2px;transition:width 0.4s ease;"></div>
   </div>
   <div style="display:flex;gap:4px;align-items:center;">
-    <div id="prog-1"  title="Part 01" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-2"  title="Part 02" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-3"  title="Part 03" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-4"  title="Part 04" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-5"  title="Part 05" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-6"  title="Part 06" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-7"  title="Part 07" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-8"  title="Part 08" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-9"  title="Part 09" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
-    <div id="prog-10" title="Part 10" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-1"  title="타입 선택"   style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-2"  title="성향 시작"   style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-3"  title="성향 절반"   style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-4"  title="성향 완료"   style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-5"  title="동사 5개"    style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-6"  title="동사 완료"   style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-7"  title="이키가이"    style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-8"  title="추천 생성"   style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-9"  title="빛나는 순간" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
+    <div id="prog-10" title="시도해볼 것" style="width:6px;height:6px;border-radius:50%;background:var(--border-mid);transition:all 0.3s;flex-shrink:0;"></div>
   </div>
   <span id="prog-pct" style="font-size:10px;color:var(--accent);font-weight:500;white-space:nowrap;min-width:2.5em;text-align:right;">0%</span>
 </div>
@@ -687,11 +687,8 @@ body {
     <p class="section-label">Part 05</p>
     <h2 class="section-title">좋아하는 동사 찾기</h2>
     <p class="section-desc">보기만 해도 무언가 떠오르고, 무언가 하고 싶어지는 동사 10개를 찾아보세요.</p>
-    <p class="selected-count" id="verb-count" style="display:none;">0 / 10개 선택됨</p>
-    <div id="verb-sticky-bar" class="verb-sticky-bar">
-  <div class="verb-bar-chips" id="verb-bar-chips"></div>
-  <div class="verb-bar-count"><span id="verb-bar-num">0</span> / 10개</div>
-</div>
+    <p class="selected-count" id="verb-count" style="display:none;font-size:12px;color:var(--text-tertiary);margin-bottom:0.5rem;">0 / 10개 선택됨</p>
+    
 <div class="verb-grid" id="verb-grid">
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">창작·표현</span>
       <div class="verb-chip" data-verb="만들다">만들다</div>
@@ -3416,24 +3413,7 @@ function showSaveStatus(msg) {
 window.addEventListener("scroll", updateVerbStickyBar, { passive: true });
 
 function updateVerbStickyBar() {
-  const bar = document.getElementById('verb-sticky-bar');
-  const chips = document.getElementById('verb-bar-chips');
-  const num = document.getElementById('verb-bar-num');
-  const verbSection = document.getElementById('verb-grid');
-  if (!bar || !verbSection) return;
-
-  // 동사 그리드 섹션이 화면에 보일 때만 표시
-  const rect = verbSection.getBoundingClientRect();
-  const inView = rect.top < window.innerHeight && rect.bottom > 0;
-  // sticky bar 비활성화 — 상단 겹침 이슈로 항상 숨김
-  bar.classList.remove('visible');
-
-  if (num) num.textContent = selected.length;
-  if (chips) {
-    chips.innerHTML = selected.slice(0, 4).map(v =>
-      `<span class="verb-bar-chip">${v}</span>`
-    ).join('') + (selected.length > 4 ? `<span class="verb-bar-chip">+${selected.length - 4}</span>` : '');
-  }
+  // verb-sticky-bar 제거됨 — 아무것도 안 함
 }
 
 function scheduleSave() {
