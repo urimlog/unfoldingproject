@@ -236,7 +236,7 @@ body {
 .num-input { flex: 1; background: transparent; border: none; outline: none; font-size: 13px; color: var(--text-primary); font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', sans-serif; font-weight: 300; }
 
 /* Verbs */
-.verb-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.verb-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; align-items: flex-start; align-content: flex-start; }
 .verb-chip {
   padding: 0.3rem 0.75rem;
   border: 0.5px solid var(--border-mid);
@@ -728,7 +728,7 @@ body {
       <div class="verb-chip" data-verb="정리하다">정리하다</div>
       <div class="verb-chip" data-verb="큐레이션하다">큐레이션하다</div>
       <div class="verb-chip" data-verb="번역하다">번역하다</div>
-      <div class="verb-chip" data-verb="스케치하다">스케치하다</div>
+      <div class="verb-chip" data-verb="제작하다">제작하다</div>
       <div class="verb-chip" data-verb="분류하다">분류하다</div>
       <div class="verb-chip" data-verb="발굴하다">발굴하다</div>
       <div class="verb-chip" data-verb="보존하다">보존하다</div>
@@ -775,7 +775,7 @@ body {
       <div class="verb-chip" data-verb="피드백하다">피드백하다</div>
       <div class="verb-chip" data-verb="동기부여하다">동기부여하다</div>
       <div class="verb-chip" data-verb="워크숍열다">워크숍열다</div>
-      <div class="verb-chip" data-verb="함께성장하다">함께성장하다</div>
+      <div class="verb-chip" data-verb="훈련시키다">훈련시키다</div>
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">돌봄·치유</span>
       <div class="verb-chip" data-verb="돌보다">돌보다</div>
       <div class="verb-chip" data-verb="치료하다">치료하다</div>
@@ -1356,7 +1356,7 @@ const verbs = [
   // ── 공연·음악
   "작곡하다","연주하다","노래하다","편곡하다","안무하다","연기하다","공연하다","녹음하다","무대에 서다","지휘하다",
   // ── 기록·아카이브
-  "기록하다","수집하다","관찰하다","정리하다","큐레이션하다","번역하다","스케치하다","분류하다","발굴하다","보존하다",
+  "기록하다","수집하다","관찰하다","정리하다","큐레이션하다","번역하다","제작하다","분류하다","발굴하다","보존하다",
   // ── 탐험·도전
   "탐험하다","여행하다","취재하다","도전하다","개척하다","모험하다","시도하다","경기하다","부딪히다","걷다",
   // ── 탐구·분석
@@ -1364,7 +1364,7 @@ const verbs = [
   // ── 기획·전략
   "기획하다","구성하다","실행하다","운영하다","방향잡다","제안하다","조율하다","설계하다","예산짜다","협상하다",
   // ── 가르침·코칭
-  "가르치다","강의하다","코칭하다","상담하다","이끌다","설명하다","피드백하다","동기부여하다","워크숍열다","함께성장하다",
+  "가르치다","강의하다","코칭하다","상담하다","이끌다","설명하다","피드백하다","동기부여하다","워크숍열다","훈련시키다",
   // ── 돌봄·치유
   "돌보다","치료하다","공감하다","위로하다","간호하다","치유하다","명상하다","재활하다","심리지원하다","회복돕다",
   // ── 연결·소통
