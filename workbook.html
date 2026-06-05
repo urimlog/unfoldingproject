@@ -2346,10 +2346,16 @@ function getNextSteps(label) {
 
 function updateFinal() {
   const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(v=>v&&!selected.includes(v))])];
-  if (Object.keys(answers).length < 3 && selected.length < 1) return;
-  const wishItems = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
-
   const finalArea = document.getElementById('final-area');
+  if (!finalArea) return;
+
+  // 데이터가 전혀 없으면 빈 상태 안내
+  if (Object.keys(answers).length === 0 && selected.length === 0) {
+    finalArea.innerHTML = '<div class="final-empty">동사를 3개 이상 선택하고 성향 테스트를 채우면<br>맞춤 추천이 여기에 나타나요</div>';
+    return;
+  }
+
+  const wishItems = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
   const analysis = analyzeVerbs(selected);
   const coreKeywords = extractCoreKeyword();
 
@@ -3536,8 +3542,10 @@ function showPage(n) {
     try { saveToLocal(); } catch(e) {}
     try { updateProgress(); } catch(e) {}
     if (n === 3) {
-      try { updateFinal(); } catch(e) {}
-      try { generateShineCards(); } catch(e) {}
+      setTimeout(() => {
+        try { updateFinal(); } catch(e) { console.error('updateFinal error:', e); }
+        try { generateShineCards(); } catch(e) { console.error('generateShineCards error:', e); }
+      }, 50);
     }
     // Step 3에서만 저장 바 표시, 버튼 둘 다 보임
     const exportBar = document.getElementById('export-bar');
