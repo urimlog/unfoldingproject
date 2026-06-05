@@ -2356,6 +2356,9 @@ function updateFinal() {
     return;
   }
 
+  // 일단 로딩 표시
+  finalArea.innerHTML = '<div class="final-empty">분석 중...</div>';
+
   const wishItems = [...document.querySelectorAll('.num-input')].map(el => el.value.trim()).filter(Boolean);
   const analysis = analyzeVerbs(selected);
   const coreKeywords = extractCoreKeyword();
