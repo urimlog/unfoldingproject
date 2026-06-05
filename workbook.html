@@ -316,12 +316,18 @@ body {
   padding-bottom: calc(10px + env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  z-index: 999;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 100;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transform: translateY(100%);
-  transition: transform 0.25s ease;
+  transition: opacity 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.verb-sticky-bar.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 .verb-sticky-bar.visible { transform: translateY(0); }
 .verb-bar-count { font-size: 13px; color: var(--text-secondary); font-weight: 500; white-space: nowrap; }
@@ -688,6 +694,9 @@ body {
     <h2 class="section-title">좋아하는 동사 찾기</h2>
     <p class="section-desc">보기만 해도 무언가 떠오르고, 무언가 하고 싶어지는 동사 10개를 찾아보세요.</p>
     <p class="selected-count" id="verb-count" style="display:none;font-size:12px;color:var(--text-tertiary);margin-bottom:0.5rem;">0 / 10개 선택됨</p>
+    <div id="verb-sticky-bar" class="verb-sticky-bar">
+      <span id="verb-bar-count-text" style="font-size:13px;font-weight:500;color:var(--text-primary);"></span>
+    </div>
     
 <div class="verb-grid" id="verb-grid">
       <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">창작·표현</span>
@@ -3429,7 +3438,15 @@ function showSaveStatus(msg) {
 window.addEventListener("scroll", updateVerbStickyBar, { passive: true });
 
 function updateVerbStickyBar() {
-  // verb-sticky-bar 제거됨 — 아무것도 안 함
+  const bar = document.getElementById('verb-sticky-bar');
+  const countText = document.getElementById('verb-bar-count-text');
+  if (!bar) return;
+  if (selected.length > 0) {
+    bar.classList.add('visible');
+    if (countText) countText.textContent = selected.length + ' / 10개 선택됨';
+  } else {
+    bar.classList.remove('visible');
+  }
 }
 
 function scheduleSave() {
