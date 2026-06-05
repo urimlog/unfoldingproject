@@ -854,6 +854,8 @@ body {
     </div>
   </div>
 
+  </div><!-- end Part 05 section -->
+
   <hr class="divider">
 
   <!-- Part 06 -->
@@ -3551,16 +3553,9 @@ function showPage(n) {
     try { updateProgress(); } catch(e) {}
     if (n === 3) {
       setTimeout(() => {
-        const fa = document.getElementById('final-area');
-        if (!fa) {
-          document.body.insertAdjacentHTML('beforeend', '<div style="position:fixed;top:20px;left:50%;transform:translateX(-50%);background:red;color:white;padding:12px 20px;border-radius:8px;z-index:9999;font-size:14px;">final-area 없음</div>');
-          return;
-        }
-        fa.innerHTML = '<p style="color:green;padding:20px;">updateFinal 실행됨 ✓</p>';
-        console.log('[Step3] selected:', selected.length, 'answers:', Object.keys(answers).length);
-        try { updateFinal(); console.log('[Step3] updateFinal 완료'); } catch(e) { console.error('[Step3] updateFinal 에러:', e); fa.innerHTML = '<p style="color:red;padding:20px;">에러: ' + e.message + '</p>'; }
-        try { generateShineCards(); } catch(e) { console.error('[Step3] generateShineCards 에러:', e); }
-      }, 50);
+        try { updateFinal(); } catch(e) { console.error('updateFinal:', e); }
+        try { generateShineCards(); } catch(e) {}
+      }, 100);
     }
     // Step 3에서만 저장 바 표시, 버튼 둘 다 보임
     const exportBar = document.getElementById('export-bar');
