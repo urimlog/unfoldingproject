@@ -3548,8 +3548,10 @@ function showPage(n) {
     try { updateProgress(); } catch(e) {}
     if (n === 3) {
       setTimeout(() => {
-        try { updateFinal(); } catch(e) { console.error('updateFinal error:', e); }
-        try { generateShineCards(); } catch(e) { console.error('generateShineCards error:', e); }
+        console.log('[Step3] selected:', selected.length, 'answers:', Object.keys(answers).length);
+        console.log('[Step3] final-area exists:', !!document.getElementById('final-area'));
+        try { updateFinal(); console.log('[Step3] updateFinal 완료'); } catch(e) { console.error('[Step3] updateFinal 에러:', e); }
+        try { generateShineCards(); } catch(e) { console.error('[Step3] generateShineCards 에러:', e); }
       }, 50);
     }
     // Step 3에서만 저장 바 표시, 버튼 둘 다 보임
