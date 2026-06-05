@@ -1030,7 +1030,7 @@ body {
       <div style="width:2rem;height:1px;background:var(--border);margin:0 auto 1.5rem;"></div>
       <p style="font-size:14px;color:var(--text-primary);font-weight:500;line-height:2;margin-bottom:0.5rem;">아주 작은 일부터 시작해 볼까요?</p>
       <p style="font-size:13px;color:var(--text-secondary);line-height:2;margin-bottom:1.5rem;">그게 무엇이든 앞으로 펼쳐질 여정의 시작이 될 거예요.</p>
-      <p style="font-size:14px;font-weight:600;color:var(--accent);line-height:1.8;margin-bottom:1.25rem;">당신의 펼쳐지는 삶을 응원해요.</p>
+      <p id="ending-message" style="font-size:14px;font-weight:600;color:var(--accent);line-height:1.8;margin-bottom:1.25rem;">당신의 펼쳐지는 삶을 응원해요.</p>
       <p style="font-size:13px;color:var(--text-tertiary);line-height:1.8;">#unfolding 을 태그해서 워크 로그를 공유해주면<br>응원 갈게요!</p>
     </div>
   </div>
@@ -3535,6 +3535,10 @@ function showPage(n) {
     if (tabs) window.scrollTo({top: tabs.offsetTop - 48, behavior:'smooth'});
     try { saveToLocal(); } catch(e) {}
     try { updateProgress(); } catch(e) {}
+    if (n === 3) {
+      try { updateFinal(); } catch(e) {}
+      try { generateShineCards(); } catch(e) {}
+    }
     // Step 3에서만 저장 바 표시, 버튼 둘 다 보임
     const exportBar = document.getElementById('export-bar');
     const btnText = document.getElementById('btn-text-save');
