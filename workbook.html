@@ -737,8 +737,8 @@ body {
       <div class="verb-chip" data-verb="훈련하다">훈련하다</div>
       <div class="verb-chip" data-verb="경기하다">경기하다</div>
       <div class="verb-chip" data-verb="뛰어들다">뛰어들다</div>
-      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">탐구·분析</span>
-      <div class="verb-chip" data-verb="분析하다">분析하다</div>
+      <span style="display:block;width:100%;font-size:10px;letter-spacing:0.12em;color:var(--text-tertiary);text-transform:uppercase;margin:0.85rem 0 0.35rem;padding-bottom:0.25rem;border-bottom:0.5px solid var(--border);">탐구·분석</span>
+      <div class="verb-chip" data-verb="분석하다">분석하다</div>
       <div class="verb-chip" data-verb="연구하다">연구하다</div>
       <div class="verb-chip" data-verb="탐구하다">탐구하다</div>
       <div class="verb-chip" data-verb="실험하다">실험하다</div>
@@ -1360,8 +1360,8 @@ const verbs = [
   "기록하다","수집하다","관찰하다","정리하다","큐레이션하다","번역하다","포착하다","아카이빙하다","발굴하다","보존하다",
   // ── 탐험·도전
   "탐험하다","여행하다","취재하다","도전하다","개척하다","직접 가다","몸으로 배우다","훈련하다","경기하다","뛰어들다",
-  // ── 탐구·분析
-  "분析하다","연구하다","탐구하다","실험하다","조사하다","파악하다","시각화하다","검증하다","비교하다","측정하다",
+  // ── 탐구·분석
+  "분석하다","연구하다","탐구하다","실험하다","조사하다","파악하다","시각화하다","검증하다","비교하다","측정하다",
   // ── 기획·전략
   "기획하다","구성하다","실행하다","운영하다","전략짜다","제안하다","조율하다","설계하다","우선순위잡다","예산짜다",
   // ── 가르침·코칭
@@ -1407,7 +1407,7 @@ function renderVerbGrid() {
   });
 }
 
-function updateCount() { document.getElementById('verb-count').textContent=selected.length+' / 10개 선택됨'; }
+function updateCount() { const el=document.getElementById('verb-count'); if(!el) return; el.textContent=selected.length+' / 10개 선택됨'; el.style.display=selected.length>0?'block':'none'; }
 
 function renderSelectedList() {
   const sec=document.getElementById('selected-verbs-section'); const list=document.getElementById('selected-verbs-list');
@@ -2345,9 +2345,10 @@ function getNextSteps(label) {
 
 
 function updateFinal() {
-  const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(v=>v&&!selected.includes(v))])];
   const finalArea = document.getElementById('final-area');
   if (!finalArea) return;
+  try {
+  const allVerbs=[...new Set([...selected,...Object.values(relatedMap).flat().filter(v=>v&&!selected.includes(v))])];
 
   // 데이터가 전혀 없으면 빈 상태 안내
   if (Object.keys(answers).length === 0 && selected.length === 0) {
@@ -2561,6 +2562,10 @@ function updateFinal() {
   }
   updateIkigai();
   updateProgress();
+  } catch(e) {
+    console.error('updateFinal 에러:', e);
+    if (finalArea) finalArea.innerHTML = '<div class="final-empty" style="color:var(--accent);">로딩 중 오류가 발생했어요: ' + e.message + '</div>';
+  }
 }
 
 function makeIkigaiSVG(vals, isGuide) {
