@@ -3104,6 +3104,7 @@ async function saveCurrentPageImage() {
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
     showSaveStatus('저장됨');
+    collectAndSend();
   } catch(e) {
     console.error(e);
     showSaveStatus('저장 중 오류가 발생했어요');
@@ -3609,6 +3610,15 @@ function initPage() {
 
 
 // ── 익명 데이터 수집 ──
+// 세션 ID — 같은 사람이 여러 번 저장해도 시트에서 묶어볼 수 있게
+const SESSION_ID = (function(){
+  try {
+    let s = sessionStorage.getItem('wb_sid');
+    if (!s) { s = Date.now().toString(36) + Math.random().toString(36).slice(2,7); sessionStorage.setItem('wb_sid', s); }
+    return s;
+  } catch(e) { return 'nosid'; }
+})();
+
 const COLLECT_URL = 'https://script.google.com/macros/s/AKfycbyjif3Gd8W3Bnn25dEoYzp54mmtb-uUPLLHsnMK0Ap8O7lfV9mEf_-x2YCPgW4rmIxS/exec';
 
 async function collectAndSend() {
@@ -3616,6 +3626,7 @@ async function collectAndSend() {
   try {
     const data = collectData();
     const payload = {
+      sid: SESSION_ID,
       date: data.date,
       selected: data.selected,
       related: Object.values(relatedMap).flat().filter(Boolean),
