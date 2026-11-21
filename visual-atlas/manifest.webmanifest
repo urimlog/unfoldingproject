@@ -1,0 +1,1 @@
+{"name":"Visual Atlas Pocket","short_name":"Visual Atlas","description":"Screenshot-based visual reference archive","start_url":"./index.html","scope":"./","display":"standalone","background_color":"#F7F6F2","theme_color":"#F7F6F2","icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
